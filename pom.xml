@@ -5,7 +5,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.zenjava.jfxflow</groupId>
+    <groupId>com.zenjava</groupId>
     <artifactId>jfxflow</artifactId>
     <name>JFX Flow</name>
     <version>1.0-SNAPSHOT</version>

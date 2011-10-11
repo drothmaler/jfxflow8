@@ -75,11 +75,9 @@ public class LoginController extends AbstractController
             {
                 protected String call() throws Exception
                 {
-                    try { Thread.sleep(2000); } catch (InterruptedException e) { }
 //                    String displayName = remoteLoginService.doLogin(userName, password);
                     String displayName = userName;
-//                    return displayName;
-                    throw new Exception("TEST");
+                    return displayName;
                 }
             };
         }
