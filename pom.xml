@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.zenjava.jfxflow</groupId>
+    <artifactId>jfxflow</artifactId>
+    <name>JFX Flow</name>
+    <version>1.0-SNAPSHOT</version>
+    
+    <properties>
+
+        <!--
+        Set this to be the location of your local JFX2 installation
+        -->
+        <jfx.home>C:/Apps/jfx/jfx2.0</jfx.home>
+
+    </properties>
+
+    <!--
+    MigLayoutFX2 is still currently only in SNAPSHOT build so we need this repository for now. Once it is
+    officially released we should be able to remove this.
+    -->
+    <repositories>
+        <repository>
+            <id>snapshot-repository.java.net</id>
+            <name>Java.net Snapshot Repository for Maven</name>
+            <url>https://maven.java.net/content/repositories/snapshots/</url>
+            <layout>default</layout>
+        </repository>
+    </repositories>
+
+
+    <dependencies>
+
+
+        <!-- JavaFX -->
+        <dependency>
+            <groupId>com.sun.javafx</groupId>
+            <artifactId>javafx</artifactId>
+            <version>2.0.beta</version>
+            <!--
+            Currently the Maven support for JFX2 is limited and we must resort to manually specifying the location
+            of the JFX2 runtime here. This will hopefully be addressed before long.
+            -->
+            <scope>system</scope>
+            <systemPath>${jfx.home}/rt/lib/jfxrt.jar</systemPath>
+        </dependency>
+
+
+        <!-- MigLayoutFX2 -->
+
+        <dependency>
+            <groupId>com.miglayout</groupId>
+            <artifactId>miglayout</artifactId>
+            <version>3.7.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.tbee</groupId>
+            <artifactId>MigLayoutFX2</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+
+        <!--Logging -->
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.16</version>
+        </dependency>
+
+
+    </dependencies>
+
+</project>

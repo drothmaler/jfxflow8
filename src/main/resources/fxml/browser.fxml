@@ -1,0 +1,41 @@
+<?fxml version="1.0" encoding="utf-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.tbee.javafx.scene.layout.MigPane?>
+<?import layouttests.migfxml.sample1.*?>
+
+<BorderPane fx:id="rootNode"
+            fx:controller="com.zenjava.demo.browser.BrowserController"
+            xmlns:fx="http://javafx.com/fxml">
+
+    <styleClass> <String fx:value="browser"/> </styleClass>
+
+    <top>
+        <StackPane>
+            <styleClass> <String fx:value="toolBar"/> </styleClass>
+
+            <children>
+                <Label id="mainTitle" text="%title"/>
+
+                <FlowPane fx:id="navButtonArea" hgap="10">
+                    <children>
+                        <Button fx:id="homeButton" id="homeButton" text="Home" onAction="#homeSelected"/>
+                        <Button fx:id="refreshButton" id="refreshButton" text="Refresh" onAction="#refreshSelected"/>
+                        <Button fx:id="backButton" id="backButton" text="Back" onAction="#backSelected"/>
+                        <Button fx:id="forwardButton" id="forwardButton" text="Forward" onAction="#forwardSelected"/>
+                    </children>
+                </FlowPane>
+
+            </children>
+
+        </StackPane>
+    </top>
+
+    <center>
+        <StackPane fx:id="contentArea"/>
+    </center>
+
+</BorderPane>

@@ -1,0 +1,39 @@
+.browser {
+}
+
+.browser .toolBar {
+    -fx-padding: 10;
+    -fx-background-color: #666666;
+}
+
+.browser .toolBar .button {
+    -fx-padding: 10;
+    -fx-content-display: graphic-only;
+}
+
+#mainTitle {
+    -fx-font: bold 24px "Verdana";
+    -fx-text-fill: white;
+}
+
+#homeButton {
+    -fx-graphic: url("../images/nav-home.png");
+}
+
+#refreshButton {
+    -fx-graphic: url("../images/nav-refresh.png");
+}
+
+#backButton {
+    -fx-graphic: url("../images/nav-back.png");
+}
+
+#forwardButton {
+    -fx-graphic: url("../images/nav-forward.png");
+}
+
+.home {
+}
+
+.login {
+}
