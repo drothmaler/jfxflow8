@@ -1,5 +1,7 @@
 <?fxml version="1.0" encoding="utf-8"?>
 
+<?language javascript?>
+
 <?import java.lang.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
@@ -7,35 +9,50 @@
 <?import org.tbee.javafx.scene.layout.MigPane?>
 <?import layouttests.migfxml.sample1.*?>
 
-<BorderPane fx:id="rootNode"
+<StackPane  fx:id="rootNode"
             fx:controller="com.zenjava.demo.browser.BrowserController"
             xmlns:fx="http://javafx.com/fxml">
 
-    <styleClass> <String fx:value="browser"/> </styleClass>
+    <styleClass>
+        <String fx:value="browser"/>
+    </styleClass>
 
-    <top>
-        <StackPane>
-            <styleClass> <String fx:value="toolBar"/> </styleClass>
+    <children>
 
-            <children>
-                <Label id="mainTitle" text="%title"/>
+        <BorderPane>
 
-                <FlowPane fx:id="navButtonArea" hgap="10">
+            <top>
+                <StackPane>
+                    <styleClass>
+                        <String fx:value="toolBar"/>
+                    </styleClass>
+
                     <children>
-                        <Button fx:id="homeButton" id="homeButton" text="Home" onAction="#homeSelected"/>
-                        <Button fx:id="refreshButton" id="refreshButton" text="Refresh" onAction="#refreshSelected"/>
-                        <Button fx:id="backButton" id="backButton" text="Back" onAction="#backSelected"/>
-                        <Button fx:id="forwardButton" id="forwardButton" text="Forward" onAction="#forwardSelected"/>
+                        <Label id="mainTitle" text="%title"/>
+
+                        <FlowPane fx:id="navButtonArea" hgap="10">
+                            <children>
+                                <Button fx:id="homeButton" id="homeButton" text="Home" onAction="#homeSelected"/>
+                                <Button fx:id="refreshButton" id="refreshButton" text="Refresh" onAction="#refreshSelected"/>
+                                <Button fx:id="backButton" id="backButton" text="Back" onAction="#backSelected"/>
+                                <Button fx:id="forwardButton" id="forwardButton" text="Forward" onAction="#forwardSelected"/>
+                            </children>
+                        </FlowPane>
+
                     </children>
-                </FlowPane>
 
-            </children>
+                </StackPane>
+            </top>
 
-        </StackPane>
-    </top>
+            <center>
+                <StackPane fx:id="contentArea"/>
+            </center>
 
-    <center>
-        <StackPane fx:id="contentArea"/>
-    </center>
+        </BorderPane>
 
-</BorderPane>
+        <!-- GlassPane -->
+        <BorderPane fx:id="glassPane" id="glassPane" visible="false"/>
+
+    </children>
+
+</StackPane>

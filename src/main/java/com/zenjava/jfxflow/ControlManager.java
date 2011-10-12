@@ -1,6 +1,7 @@
 package com.zenjava.jfxflow;
 
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.collections.ObservableList;
 
 public interface ControlManager
@@ -9,7 +10,9 @@ public interface ControlManager
 
     ObservableList<Location> getHistory();
 
-    IntegerProperty getCurrentPlaceInHistory();
+    IntegerProperty currentPlaceInHistoryProperty();
+
+    ObjectProperty<Controller> currentControllerProperty();
 
     void refresh();
 

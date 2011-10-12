@@ -1,5 +1,6 @@
 package com.zenjava.jfxflow;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.scene.Node;
 
 public interface Controller<DataType>
@@ -9,4 +10,6 @@ public interface Controller<DataType>
     void activate(DataType data);
 
     void deactivate();
+
+    BooleanProperty busyProperty();
 }

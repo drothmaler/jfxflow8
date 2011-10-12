@@ -1,7 +1,9 @@
 package com.zenjava.jfxflow;
 
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.StackPane;
@@ -18,14 +20,15 @@ public class DefaultControlManager implements ControlManager
     private StackPane contentPane;
     private ObservableList<Location> history;
     private IntegerProperty currentPlaceInHistory;
+    private SimpleObjectProperty<Controller> currentController;
     private Map<String, Controller<?>> controllers;
-    private Controller currentController;
 
     public DefaultControlManager(StackPane contentPane)
     {
         this.contentPane = contentPane;
         this.history = FXCollections.observableArrayList();
         this.currentPlaceInHistory = new SimpleIntegerProperty();
+        this.currentController = new SimpleObjectProperty<Controller>();
         this.controllers = new HashMap<String, Controller<?>>();
     }
 
@@ -34,9 +37,14 @@ public class DefaultControlManager implements ControlManager
         return history;
     }
 
-    public IntegerProperty getCurrentPlaceInHistory()
+    public IntegerProperty currentPlaceInHistoryProperty()
     {
         return currentPlaceInHistory;
+    }
+
+    public ObjectProperty<Controller> currentControllerProperty()
+    {
+        return currentController;
     }
 
     public void register(String locationId, Controller controller)
@@ -51,6 +59,7 @@ public class DefaultControlManager implements ControlManager
         Controller controller = controllers.get(location.getId());
         if (controller != null)
         {
+            Controller currentController = this.currentController.get();
             transition(currentController, controller, location.getData());
             int current = this.currentPlaceInHistory.get();
             if (current + 1 < history.size())
@@ -71,6 +80,7 @@ public class DefaultControlManager implements ControlManager
     @SuppressWarnings("unchecked")
     public void refresh()
     {
+        Controller currentController = this.currentController.get();
         if (currentController != null)
         {
             log.debug("Refreshing current controller");
@@ -87,6 +97,7 @@ public class DefaultControlManager implements ControlManager
             log.debug("Navigating back, current index = {}, history size = {}", current, history.size());
             Location prevLocation = history.get(current - 1);
             Controller prevController = controllers.get(prevLocation.getId());
+            Controller currentController = this.currentController.get();
             transition(currentController, prevController, prevLocation.getData());
             this.currentPlaceInHistory.set(current - 1);
             log.trace("Current index in history is now {}, size = {}", currentPlaceInHistory.get(), history.size());
@@ -101,6 +112,7 @@ public class DefaultControlManager implements ControlManager
             log.debug("Navigating forward, current index = {}, history size = {}", current, history.size());
             Location nextLocation = history.get(current + 1);
             Controller nextController = controllers.get(nextLocation.getId());
+            Controller currentController = this.currentController.get();
             transition(currentController, nextController, nextLocation.getData());
             this.currentPlaceInHistory.set(current + 1);
             log.trace("Current index in history is now {}, size = {}", currentPlaceInHistory.get(), history.size());
@@ -115,7 +127,7 @@ public class DefaultControlManager implements ControlManager
             contentPane.getChildren().remove(from.getRootNode());
             from.deactivate();
         }
-        this.currentController = to;
+        this.currentController.set(to);
         if (to != null)
         {
             to.activate(newData);

@@ -4,6 +4,7 @@ import com.zenjava.demo.home.HomeController;
 import com.zenjava.demo.login.LoginController;
 import com.zenjava.jfxflow.AbstractController;
 import com.zenjava.jfxflow.ControlManager;
+import com.zenjava.jfxflow.Controller;
 import com.zenjava.jfxflow.Location;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -16,9 +17,13 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 public class BrowserController extends AbstractController
 {
     @FXML private Node rootNode;
+    @FXML private Node glassPane;
     @FXML private StackPane contentArea;
     @FXML private Pane navButtonArea;
     @FXML private Button homeButton;
@@ -29,8 +34,9 @@ public class BrowserController extends AbstractController
     private ControlManager controlManager;
     private ListChangeListener<Location> historyListener;
     private ChangeListener<Number> currentPlaceInHistoryListener;
+    private ChangeListener<Controller> currentControllerListener;
 
-    public BrowserController()
+    public void initialize(URL url, ResourceBundle resourceBundle)
     {
         this.historyListener = new ListChangeListener<Location>()
         {
@@ -47,20 +53,44 @@ public class BrowserController extends AbstractController
                 updateButtonStates();
             }
         };
+
+        this.currentControllerListener = new ChangeListener<Controller>()
+        {
+            public void changed(ObservableValue<? extends Controller> source, Controller oldValue, Controller newValue)
+            {
+                busyProperty().unbind();
+                if (newValue != null)
+                {
+                    busyProperty().bind(newValue.busyProperty());
+                }
+            }
+        };
+
+        glassPane.visibleProperty().bind(busyProperty());
     }
 
     public void setControlManager(ControlManager controlManager)
     {
         if (this.controlManager != null)
         {
+            busyProperty().unbind();
             this.controlManager.getHistory().removeListener(historyListener);
-            this.controlManager.getCurrentPlaceInHistory().removeListener(currentPlaceInHistoryListener);
+            this.controlManager.currentPlaceInHistoryProperty().removeListener(currentPlaceInHistoryListener);
+            this.controlManager.currentControllerProperty().removeListener(currentControllerListener);
         }
+
         this.controlManager = controlManager;
+
         if (this.controlManager != null)
         {
             this.controlManager.getHistory().addListener(historyListener);
-            this.controlManager.getCurrentPlaceInHistory().addListener(currentPlaceInHistoryListener);
+            this.controlManager.currentPlaceInHistoryProperty().addListener(currentPlaceInHistoryListener);
+            this.controlManager.currentControllerProperty().addListener((currentControllerListener));
+            Controller currentController = this.controlManager.currentControllerProperty().get();
+            if (currentController != null)
+            {
+                busyProperty().bind(currentController.busyProperty());
+            }
         }
         updateButtonStates();
     }
@@ -98,7 +128,7 @@ public class BrowserController extends AbstractController
     protected void updateButtonStates()
     {
         ObservableList<Location> history = controlManager.getHistory();
-        int currentPlace = controlManager.getCurrentPlaceInHistory().get();
+        int currentPlace = controlManager.currentPlaceInHistoryProperty().get();
         backButton.setDisable(currentPlace == 0);
         forwardButton.setDisable(currentPlace >= history.size() - 1);
 

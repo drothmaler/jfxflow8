@@ -1,6 +1,7 @@
 package com.zenjava.demo.login;
 
 import com.zenjava.demo.home.HomeController;
+import com.zenjava.demo.service.DemoService;
 import com.zenjava.jfxflow.AbstractController;
 import com.zenjava.jfxflow.ControlManager;
 import com.zenjava.jfxflow.Location;
@@ -21,6 +22,7 @@ public class LoginController extends AbstractController
     @FXML private TextField userNameField;
     @FXML private TextField passwordField;
 
+    private DemoService remoteDemoService;
     private LoginService loginService;
     private ControlManager controlManager;
 
@@ -39,6 +41,11 @@ public class LoginController extends AbstractController
         this.controlManager = controlManager;
     }
 
+    public void setRemoteDemoService(DemoService remoteDemoService)
+    {
+        this.remoteDemoService = remoteDemoService;
+    }
+
     @FXML protected void doLogin(ActionEvent event)
     {
         this.loginService.cancel();
@@ -51,6 +58,8 @@ public class LoginController extends AbstractController
     {
         public LoginService()
         {
+            busyProperty().bind(runningProperty());
+
             stateProperty().addListener(new ChangeListener<State>()
             {
                 public void changed(ObservableValue<? extends State> source, State oldState, State newState)
@@ -75,8 +84,7 @@ public class LoginController extends AbstractController
             {
                 protected String call() throws Exception
                 {
-//                    String displayName = remoteLoginService.doLogin(userName, password);
-                    String displayName = userName;
+                    String displayName = remoteDemoService.login(userName, password);
                     return displayName;
                 }
             };

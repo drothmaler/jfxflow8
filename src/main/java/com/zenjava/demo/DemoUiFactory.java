@@ -3,6 +3,8 @@ package com.zenjava.demo;
 import com.zenjava.demo.browser.BrowserController;
 import com.zenjava.demo.home.HomeController;
 import com.zenjava.demo.login.LoginController;
+import com.zenjava.demo.service.DemoService;
+import com.zenjava.demo.service.DemoServiceImpl;
 import com.zenjava.jfxflow.ControlManager;
 import com.zenjava.jfxflow.DefaultControlManager;
 import com.zenjava.jfxflow.FxmlHelper;
@@ -11,6 +13,7 @@ import javafx.scene.layout.BorderPane;
 
 public class DemoUiFactory
 {
+    private DemoService demoService;
     private DefaultControlManager controlManager;
     private BrowserController mainBrowser;
     private LoginController loginController;
@@ -23,6 +26,15 @@ public class DemoUiFactory
         Scene scene = new Scene(contentArea, 800, 600);
         scene.getStylesheets().add("styles/demo-style.css");
         return scene;
+    }
+
+    public DemoService demoService()
+    {
+        if (demoService == null)
+        {
+            demoService = new DemoServiceImpl();
+        }
+        return demoService;
     }
 
     public ControlManager controlManager()
@@ -53,6 +65,7 @@ public class DemoUiFactory
         {
             loginController = FxmlHelper.loadController(LoginController.class, "/fxml/login.fxml", "messages/login");
             loginController.setControlManager(controlManager());
+            loginController.setRemoteDemoService(demoService());
         }
         return loginController;
     }
