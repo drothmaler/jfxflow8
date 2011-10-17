@@ -6,15 +6,13 @@
 <?import org.tbee.javafx.scene.layout.MigPane?>
 
 <MigPane fx:id="rootNode"
-         fx:controller="com.zenjava.demo.home.HomeController"
+         fx:controller="com.zenjava.demo.search.SearchController"
          layout="center"
          xmlns:fx="http://javafx.com/fxml">
 
     <styleClass> <String fx:value="home"/> </styleClass>
 
-    <Label text="Home View" MigPane.cc="gapbottom 20, wrap"/>
+    <Label text="Search View"/>
 
-    <Button text="%search" onAction="#search" MigPane.cc="growx, wrap"/>
-    <Button text="%add" onAction="#add" MigPane.cc="growx, wrap"/>
 
 </MigPane>

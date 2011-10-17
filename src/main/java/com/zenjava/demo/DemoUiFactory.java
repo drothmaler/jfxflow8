@@ -3,6 +3,7 @@ package com.zenjava.demo;
 import com.zenjava.demo.browser.BrowserController;
 import com.zenjava.demo.home.HomeController;
 import com.zenjava.demo.login.LoginController;
+import com.zenjava.demo.search.SearchController;
 import com.zenjava.demo.service.DemoService;
 import com.zenjava.demo.service.DemoServiceImpl;
 import com.zenjava.jfxflow.ControlManager;
@@ -18,6 +19,7 @@ public class DemoUiFactory
     private BrowserController mainBrowser;
     private LoginController loginController;
     private HomeController homeController;
+    private SearchController searchController;
 
     public Scene mainScene()
     {
@@ -45,6 +47,7 @@ public class DemoUiFactory
             controlManager = new DefaultControlManager(mainBrowser.getContentArea());
             controlManager.register(LoginController.LOCATION, loginController());
             controlManager.register(HomeController.LOCATION, homeController());
+            controlManager.register(SearchController.LOCATION, searchController());
             mainBrowser.setControlManager(controlManager);
         }
         return controlManager;
@@ -75,7 +78,17 @@ public class DemoUiFactory
         if (homeController == null)
         {
             homeController = FxmlHelper.loadController(HomeController.class, "/fxml/home.fxml", "messages/home");
+            homeController.setControlManager(controlManager());
         }
         return homeController;
+    }
+
+    public SearchController searchController()
+    {
+        if (searchController == null)
+        {
+            searchController = FxmlHelper.loadController(SearchController.class, "/fxml/search.fxml", "messages/search");
+        }
+        return searchController;
     }
 }
