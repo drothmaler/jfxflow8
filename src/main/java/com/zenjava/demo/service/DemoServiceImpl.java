@@ -2,7 +2,7 @@ package com.zenjava.demo.service;
 
 public class DemoServiceImpl implements DemoService
 {
-    public String login(String userName, String password)
+    public String login(String userName, String password) throws LoginException
     {
         try
         {
@@ -12,6 +12,14 @@ public class DemoServiceImpl implements DemoService
         {
             // ignore
         }
-        return userName;
+
+        if (userName.equals("guest"))
+        {
+            return "Guest User";
+        }
+        else
+        {
+            throw new LoginException("Invalid username or password");
+        }
     }
 }

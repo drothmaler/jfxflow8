@@ -2,38 +2,43 @@ package com.zenjava.demo.login;
 
 import com.zenjava.demo.home.HomeController;
 import com.zenjava.demo.service.DemoService;
+import com.zenjava.demo.service.LoginException;
 import com.zenjava.jfxflow.AbstractController;
+import com.zenjava.jfxflow.BackgroundWorker;
 import com.zenjava.jfxflow.ControlManager;
 import com.zenjava.jfxflow.Location;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class LoginController extends AbstractController
 {
     public static final String LOCATION = LoginController.class.getName();
 
     @FXML private Node rootNode;
+    @FXML private Label messageLabel;
     @FXML private TextField userNameField;
     @FXML private TextField passwordField;
 
+    private ResourceBundle resources;
     private DemoService remoteDemoService;
-    private LoginService loginService;
+    private BackgroundWorker<String> loginWorker;
     private ControlManager controlManager;
-
-    public LoginController()
-    {
-        this.loginService = new LoginService();
-    }
 
     public Node getRootNode()
     {
         return rootNode;
+    }
+
+    public void initialize(URL url, ResourceBundle resources)
+    {
+        this.resources = resources;
     }
 
     public void setControlManager(ControlManager controlManager)
@@ -48,46 +53,44 @@ public class LoginController extends AbstractController
 
     @FXML protected void doLogin(ActionEvent event)
     {
-        this.loginService.cancel();
-        this.loginService.restart();
-    }
-
-    //-------------------------------------------------------------------------
-
-    public class LoginService extends Service<String>
-    {
-        public LoginService()
+        if (loginWorker == null)
         {
-            busyProperty().bind(runningProperty());
-
-            stateProperty().addListener(new ChangeListener<State>()
+            loginWorker = new BackgroundWorker<String>(busyProperty())
             {
-                public void changed(ObservableValue<? extends State> source, State oldState, State newState)
+                protected Task createTask()
                 {
-                    if (newState.equals(State.SUCCEEDED))
+                    final String userName = userNameField.getText();
+                    final String password = passwordField.getText();
+                    return new Task<String>()
                     {
-                        controlManager.goTo(new Location(HomeController.LOCATION));
-                    }
-                    else if (newState.equals(State.FAILED))
-                    {
-                        // todo handle error
-                    }
+                        protected String call() throws Exception
+                        {
+                            return remoteDemoService.login(userName, password);
+                        }
+                    };
                 }
-            });
-        }
 
-        protected Task createTask()
-        {
-            final String userName = userNameField.getText();
-            final String password = passwordField.getText();
-            return new Task<String>()
-            {
-                protected String call() throws Exception
+                protected void onSuccess(String value)
                 {
-                    String displayName = remoteDemoService.login(userName, password);
-                    return displayName;
+                    controlManager.goTo(new Location(HomeController.LOCATION));
+                }
+
+                protected void onError(Throwable exception)
+                {
+                    if (exception instanceof LoginException)
+                    {
+                        messageLabel.setVisible(true);
+                        messageLabel.setText(resources.getString("invalidLogin"));
+                    }
+                    else
+                    {
+                        super.onError(exception);
+                    }
                 }
             };
         }
+        this.messageLabel.setVisible(false);
+        this.loginWorker.cancel();
+        this.loginWorker.restart();
     }
 }

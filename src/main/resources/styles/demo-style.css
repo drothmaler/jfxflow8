@@ -41,3 +41,11 @@
 
 .login {
 }
+
+.login .messageLabel {
+    -fx-background-color: #ffffdd;
+    -fx-background-radius: 6;
+    -fx-padding: 10 40 10 40;
+    -fx-border-color: #aaa;
+    -fx-border-radius: 10;
+}

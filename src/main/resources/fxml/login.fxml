@@ -13,15 +13,17 @@
 
     <styleClass> <String fx:value="login"/> </styleClass>
 
-    <Label fx:id="messageLabel" MigPane.cc="span, growx, wrap"/>
+    <Label fx:id="messageLabel" MigPane.cc="span, growx, wrap" visible="false">
+        <styleClass> <String fx:value="messageLabel"/> </styleClass>
+    </Label>
 
     <Label text="%title" MigPane.cc="span, center, wrap"/>
 
     <Label text="%userName"/>
-    <TextField fx:id="userNameField" prefColumnCount="12" MigPane.cc="growx, wrap"/>
+    <TextField fx:id="userNameField" onAction="#doLogin" prefColumnCount="14" MigPane.cc="growx, wrap"/>
 
     <Label text="%password"/>
-    <PasswordField fx:id="passwordField" MigPane.cc="growx, wrap"/>
+    <PasswordField fx:id="passwordField" onAction="#doLogin" MigPane.cc="growx, wrap"/>
 
     <Button text="%login" onAction="#doLogin" MigPane.cc="gaptop 20, span, center"/>
 
