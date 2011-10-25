@@ -1,16 +1,14 @@
 package com.zenjava.demo.login;
 
-import com.zenjava.demo.home.HomeController;
+import com.zenjava.demo.home.HomePlace;
 import com.zenjava.demo.service.DemoService;
 import com.zenjava.demo.service.LoginException;
-import com.zenjava.jfxflow.AbstractController;
-import com.zenjava.jfxflow.BackgroundWorker;
-import com.zenjava.jfxflow.ControlManager;
-import com.zenjava.jfxflow.Location;
+import com.zenjava.jfxflow.controller.AbstractController;
+import com.zenjava.jfxflow.navigation.NavigationManager;
+import com.zenjava.jfxflow.worker.BackgroundWorker;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
@@ -19,9 +17,6 @@ import java.util.ResourceBundle;
 
 public class LoginController extends AbstractController
 {
-    public static final String LOCATION = LoginController.class.getName();
-
-    @FXML private Node rootNode;
     @FXML private Label messageLabel;
     @FXML private TextField userNameField;
     @FXML private TextField passwordField;
@@ -29,21 +24,16 @@ public class LoginController extends AbstractController
     private ResourceBundle resources;
     private DemoService remoteDemoService;
     private BackgroundWorker<String> loginWorker;
-    private ControlManager controlManager;
-
-    public Node getRootNode()
-    {
-        return rootNode;
-    }
+    private NavigationManager navigationManager;
 
     public void initialize(URL url, ResourceBundle resources)
     {
         this.resources = resources;
     }
 
-    public void setControlManager(ControlManager controlManager)
+    public void setNavigationManager(NavigationManager navigationManager)
     {
-        this.controlManager = controlManager;
+        this.navigationManager = navigationManager;
     }
 
     public void setRemoteDemoService(DemoService remoteDemoService)
@@ -72,7 +62,7 @@ public class LoginController extends AbstractController
 
                 protected void onSuccess(String value)
                 {
-                    controlManager.goTo(new Location(HomeController.LOCATION));
+                    navigationManager.goTo(new HomePlace());
                 }
 
                 protected void onError(Throwable exception)

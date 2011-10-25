@@ -1,4 +1,4 @@
-package com.zenjava.jfxflow;
+package com.zenjava.jfxflow.worker;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;

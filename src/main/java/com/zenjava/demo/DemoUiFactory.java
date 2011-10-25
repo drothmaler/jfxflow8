@@ -1,22 +1,25 @@
 package com.zenjava.demo;
 
-import com.zenjava.demo.browser.BrowserController;
 import com.zenjava.demo.home.HomeController;
+import com.zenjava.demo.home.HomePlace;
 import com.zenjava.demo.login.LoginController;
+import com.zenjava.demo.login.LoginPlace;
 import com.zenjava.demo.search.SearchController;
+import com.zenjava.demo.search.SearchPlace;
 import com.zenjava.demo.service.DemoService;
 import com.zenjava.demo.service.DemoServiceImpl;
-import com.zenjava.jfxflow.ControlManager;
-import com.zenjava.jfxflow.DefaultControlManager;
-import com.zenjava.jfxflow.FxmlHelper;
+import com.zenjava.jfxflow.controller.Browser;
+import com.zenjava.jfxflow.controller.FxmlControllerLoader;
+import com.zenjava.jfxflow.navigation.DefaultNavigationManager;
+import com.zenjava.jfxflow.navigation.NavigationManager;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 
 public class DemoUiFactory
 {
     private DemoService demoService;
-    private DefaultControlManager controlManager;
-    private BrowserController mainBrowser;
+    private DefaultNavigationManager navigationManager;
+    private Browser mainBrowser;
     private LoginController loginController;
     private HomeController homeController;
     private SearchController searchController;
@@ -24,7 +27,7 @@ public class DemoUiFactory
     public Scene mainScene()
     {
         BorderPane contentArea = new BorderPane();
-        contentArea.setCenter(mainBrowser().getRootNode());
+        contentArea.setCenter(mainBrowser());
         Scene scene = new Scene(contentArea, 800, 600);
         scene.getStylesheets().add("styles/demo-style.css");
         return scene;
@@ -39,25 +42,23 @@ public class DemoUiFactory
         return demoService;
     }
 
-    public ControlManager controlManager()
+    public NavigationManager navigationManager()
     {
-        if (controlManager == null)
+        if (navigationManager == null)
         {
-            BrowserController mainBrowser = mainBrowser();
-            controlManager = new DefaultControlManager(mainBrowser.getContentArea());
-            controlManager.register(LoginController.LOCATION, loginController());
-            controlManager.register(HomeController.LOCATION, homeController());
-            controlManager.register(SearchController.LOCATION, searchController());
-            mainBrowser.setControlManager(controlManager);
+            navigationManager = new DefaultNavigationManager();
         }
-        return controlManager;
+        return navigationManager;
     }
 
-    public BrowserController mainBrowser()
+    public Browser mainBrowser()
     {
         if (mainBrowser == null)
         {
-            mainBrowser = FxmlHelper.loadController(BrowserController.class, "/fxml/browser.fxml", "messages/browser");
+            mainBrowser = new Browser("JFX Flow Demo", navigationManager(), new HomePlace());
+            mainBrowser.registerController(LoginPlace.class, loginController());
+            mainBrowser.registerController(HomePlace.class, homeController());
+            mainBrowser.registerController(SearchPlace.class, searchController());
         }
         return mainBrowser;
     }
@@ -66,8 +67,8 @@ public class DemoUiFactory
     {
         if (loginController == null)
         {
-            loginController = FxmlHelper.loadController(LoginController.class, "/fxml/login.fxml", "messages/login");
-            loginController.setControlManager(controlManager());
+            loginController = FxmlControllerLoader.loadController(LoginController.class, "/fxml/login.fxml", "messages/login");
+            loginController.setNavigationManager(navigationManager());
             loginController.setRemoteDemoService(demoService());
         }
         return loginController;
@@ -77,8 +78,8 @@ public class DemoUiFactory
     {
         if (homeController == null)
         {
-            homeController = FxmlHelper.loadController(HomeController.class, "/fxml/home.fxml", "messages/home");
-            homeController.setControlManager(controlManager());
+            homeController = FxmlControllerLoader.loadController(HomeController.class, "/fxml/home.fxml", "messages/home");
+            homeController.setNavigationManager(navigationManager());
         }
         return homeController;
     }
@@ -87,7 +88,7 @@ public class DemoUiFactory
     {
         if (searchController == null)
         {
-            searchController = FxmlHelper.loadController(SearchController.class, "/fxml/search.fxml", "messages/search");
+            searchController = FxmlControllerLoader.loadController(SearchController.class, "/fxml/search.fxml", "messages/search");
         }
         return searchController;
     }

@@ -1,7 +1,6 @@
 package com.zenjava.demo;
 
-import com.zenjava.demo.login.LoginController;
-import com.zenjava.jfxflow.Location;
+import com.zenjava.demo.login.LoginPlace;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -15,8 +14,8 @@ public class DemoApplication extends Application
     public void start(Stage stage) throws Exception
     {
         DemoUiFactory factory = new DemoUiFactory();
-        factory.controlManager().goTo(new Location(LoginController.LOCATION));
         stage.setScene(factory.mainScene());
+        factory.navigationManager().goTo(new LoginPlace());
         stage.show();
     }
 }

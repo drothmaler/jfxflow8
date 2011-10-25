@@ -1,38 +1,38 @@
 .browser {
 }
 
-.browser .toolBar {
+.browser-header {
     -fx-padding: 10;
     -fx-background-color: #666666;
 }
 
-.browser .toolBar .button {
-    -fx-padding: 10;
-    -fx-content-display: graphic-only;
-}
-
-#mainTitle {
+.browser-title {
     -fx-font: bold 24px "Verdana";
     -fx-text-fill: white;
 }
 
-#homeButton {
+.browser .navigation-toolbar .button {
+    -fx-padding: 10;
+    -fx-content-display: graphic-only;
+}
+
+.navigation-toolbar .home {
     -fx-graphic: url("../images/nav-home.png");
 }
 
-#refreshButton {
+.navigation-toolbar .refresh {
     -fx-graphic: url("../images/nav-refresh.png");
 }
 
-#backButton {
+.navigation-toolbar .back {
     -fx-graphic: url("../images/nav-back.png");
 }
 
-#forwardButton {
+.navigation-toolbar .forward {
     -fx-graphic: url("../images/nav-forward.png");
 }
 
-#glassPane {
+.glass-pane {
     -fx-cursor: wait;
 }
 
