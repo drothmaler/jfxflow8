@@ -3,15 +3,13 @@
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import org.tbee.javafx.scene.layout.MigPane?>
 
-<MigPane fx:controller="com.zenjava.demo.search.SearchController"
-         layout="center"
-         xmlns:fx="http://javafx.com/fxml">
+<BorderPane fx:controller="com.zenjava.demo.search.SearchController" xmlns:fx="http://javafx.com/fxml">
 
     <styleClass> <String fx:value="home"/> </styleClass>
 
-    <Label text="Search View"/>
+    <center>
+        <Label text="Search View"/>
+    </center>
 
-
-</MigPane>
+</BorderPane>

@@ -5,7 +5,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.zenjava</groupId>
+    <groupId>com.zenjava.jfxflow</groupId>
     <artifactId>jfxflow</artifactId>
     <name>JFX Flow</name>
     <version>1.0-SNAPSHOT</version>
@@ -18,20 +18,6 @@
         <jfx.home>C:/Apps/jfx/jfx2.0</jfx.home>
 
     </properties>
-
-    <!--
-    MigLayoutFX2 is still currently only in SNAPSHOT build so we need this repository for now. Once it is
-    officially released we should be able to remove this.
-    -->
-    <repositories>
-        <repository>
-            <id>snapshot-repository.java.net</id>
-            <name>Java.net Snapshot Repository for Maven</name>
-            <url>https://maven.java.net/content/repositories/snapshots/</url>
-            <layout>default</layout>
-        </repository>
-    </repositories>
-
 
     <dependencies>
 
@@ -47,21 +33,6 @@
             -->
             <scope>system</scope>
             <systemPath>${jfx.home}/rt/lib/jfxrt.jar</systemPath>
-        </dependency>
-
-
-        <!-- MigLayoutFX2 -->
-
-        <dependency>
-            <groupId>com.miglayout</groupId>
-            <artifactId>miglayout</artifactId>
-            <version>3.7.3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.tbee</groupId>
-            <artifactId>MigLayoutFX2</artifactId>
-            <version>1.0-SNAPSHOT</version>
         </dependency>
 
 

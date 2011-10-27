@@ -4,26 +4,33 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import org.tbee.javafx.scene.layout.MigPane?>
 
-<MigPane fx:controller="com.zenjava.demo.login.LoginController"
-         layout="center"
-         xmlns:fx="http://javafx.com/fxml">
+<BorderPane fx:controller="com.zenjava.demo.login.LoginController" xmlns:fx="http://javafx.com/fxml">
 
     <styleClass> <String fx:value="login"/> </styleClass>
 
-    <Label fx:id="messageLabel" MigPane.cc="span, growx, wrap" visible="false">
-        <styleClass> <String fx:value="messageLabel"/> </styleClass>
-    </Label>
+    <top>
+        <Label fx:id="messageLabel" visible="false">
+            <styleClass>
+                <String fx:value="messageLabel"/>
+            </styleClass>
+        </Label>
+    </top>
 
-    <Label text="%title" MigPane.cc="span, center, wrap"/>
+    <center>
+        <VBox>
+            <children>
+                <Label text="%title"/>
 
-    <Label text="%userName"/>
-    <TextField fx:id="userNameField" onAction="#doLogin" prefColumnCount="14" MigPane.cc="growx, wrap"/>
+                <Label text="%userName"/>
+                <TextField fx:id="userNameField" onAction="#doLogin" prefColumnCount="14"/>
 
-    <Label text="%password"/>
-    <PasswordField fx:id="passwordField" onAction="#doLogin" MigPane.cc="growx, wrap"/>
+                <Label text="%password"/>
+                <PasswordField fx:id="passwordField" onAction="#doLogin"/>
 
-    <Button text="%login" onAction="#doLogin" MigPane.cc="gaptop 20, span, center"/>
+                <Button text="%login" onAction="#doLogin"/>
+            </children>
+        </VBox>
+    </center>
 
-</MigPane>
+</BorderPane>

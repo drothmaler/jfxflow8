@@ -3,17 +3,22 @@
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import org.tbee.javafx.scene.layout.MigPane?>
 
-<MigPane fx:controller="com.zenjava.demo.home.HomeController"
-         layout="center"
-         xmlns:fx="http://javafx.com/fxml">
+<BorderPane fx:controller="com.zenjava.demo.home.HomeController" xmlns:fx="http://javafx.com/fxml">
 
     <styleClass> <String fx:value="home"/> </styleClass>
 
-    <Label text="Home View" MigPane.cc="gapbottom 20, wrap"/>
+    <top>
+        <Label text="Home View"/>
+    </top>
 
-    <Button text="%search" onAction="#search" MigPane.cc="growx, wrap"/>
-    <Button text="%add" onAction="#add" MigPane.cc="growx, wrap"/>
+    <center>
+        <VBox>
+            <children>
+                <Button text="%search" onAction="#search"/>
+                <Button text="%add" onAction="#add"/>
+            </children>
+        </VBox>
+    </center>
 
-</MigPane>
+</BorderPane>
