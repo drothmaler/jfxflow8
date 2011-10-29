@@ -15,18 +15,21 @@ public class FxmlControllerLoader
 
     @SuppressWarnings("unchecked")
     public <ControllerType extends Controller> ControllerType loadController(String fxmlFile)
+            throws FxmlLoadException
     {
         return (ControllerType)loadController(fxmlFile, (ResourceBundle)null);
     }
 
     @SuppressWarnings("unchecked")
     public <ControllerType extends Controller> ControllerType loadController(String fxmlFile, String resourceBundle)
+            throws FxmlLoadException
     {
         return (ControllerType)loadController(fxmlFile, ResourceBundle.getBundle(resourceBundle));
     }
 
     @SuppressWarnings("unchecked")
     public <ControllerType extends Controller> ControllerType loadController(String fxmlFile, ResourceBundle resources)
+            throws FxmlLoadException
     {
         log.debug("Loading controller from FXML '{}'", fxmlFile);
 
@@ -48,10 +51,10 @@ public class FxmlControllerLoader
             }
             return controller;
         }
-        catch (IOException e)
+        catch (Exception e)
         {
             // map checked exception to a runtime exception - this is a system failure, not a business logic failure
-            // so using a checked exceptions for this is not necessary.
+            // so using checked exceptions for this is not necessary.
             throw new FxmlLoadException(String.format(
                     "Unable to load FXML from '%s': %s", fxmlFile, e.getMessage()), e);
         }
