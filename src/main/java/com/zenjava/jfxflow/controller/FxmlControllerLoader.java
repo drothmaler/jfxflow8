@@ -5,43 +5,69 @@ import javafx.scene.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ResourceBundle;
 
 public class FxmlControllerLoader
 {
     private static final Logger log = LoggerFactory.getLogger(FxmlControllerLoader.class);
 
-    public static <ControllerType> ControllerType loadController(Class<ControllerType> controllerClass,
-                                                                 String fxmlFile,
-                                                                 String resourceBundle)
+    @SuppressWarnings("unchecked")
+    public <ControllerType extends Controller> ControllerType loadController(String fxmlFile)
     {
-        return loadController(controllerClass, fxmlFile, ResourceBundle.getBundle(resourceBundle));
+        return (ControllerType)loadController(fxmlFile, (ResourceBundle)null);
     }
 
     @SuppressWarnings("unchecked")
-    public static <ControllerType> ControllerType loadController(Class<ControllerType> controllerClass,
-                                                                 String fxmlFile,
-                                                                 ResourceBundle resourceBundle)
+    public <ControllerType extends Controller> ControllerType loadController(String fxmlFile, String resourceBundle)
     {
+        return (ControllerType)loadController(fxmlFile, ResourceBundle.getBundle(resourceBundle));
+    }
+
+    @SuppressWarnings("unchecked")
+    public <ControllerType extends Controller> ControllerType loadController(String fxmlFile, ResourceBundle resources)
+    {
+        log.debug("Loading controller from FXML '{}'", fxmlFile);
+
+        InputStream fxmlStream = null;
         try
         {
-            log.debug("Loading controller '{}' from FXML '{}'", controllerClass.getSimpleName(), fxmlFile);
+            fxmlStream = getClass().getResourceAsStream(fxmlFile);
             FXMLLoader loader = new FXMLLoader();
-            loader.setResources(resourceBundle);
-            Node view = (Node) loader.load(controllerClass.getResourceAsStream(fxmlFile));
+            Node view = (Node) loader.load(fxmlStream);
+            if (resources != null)
+            {
+                loader.setResources(resources);
+            }
+
             ControllerType controller = (ControllerType) loader.getController();
             if (controller instanceof HasFxmlLoadedView)
             {
-                ((HasFxmlLoadedView)controller).setView(view);
+                ((HasFxmlLoadedView) controller).setView(view);
             }
             return controller;
         }
-        catch (Exception e)
+        catch (IOException e)
         {
-            // map checked exception to a runtime exception - this is a system failure, not a business logic failure,
-            // using checked exceptions for this is old school.
-            throw new RuntimeException(String.format(
-                    "Unable to load '%s' from FXML '%s'", controllerClass.getSimpleName(), fxmlFile), e);
+            // map checked exception to a runtime exception - this is a system failure, not a business logic failure
+            // so using a checked exceptions for this is not necessary.
+            throw new FxmlLoadException(String.format(
+                    "Unable to load FXML from '%s': %s", fxmlFile, e.getMessage()), e);
+        }
+        finally
+        {
+            if (fxmlStream != null)
+            {
+                try
+                {
+                    fxmlStream.close();
+                }
+                catch (IOException e)
+                {
+                    log.warn("Error closing FXML stream", e);
+                }
+            }
         }
     }
 }
