@@ -18,117 +18,202 @@
  */
 package com.zenjava.jfxflow.navigation;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.control.Control;
 
 import java.util.List;
 
-public class NavigationToolbar extends HBox implements NavigationListener
+public class NavigationToolbar extends Control implements NavigationListener
 {
-    protected Button homeButton;
-    protected Button refreshButton;
-    protected Button backButton;
-    protected Button forwardButton;
-    protected NavigationManager navigationManager;
-    protected Place homePlace;
+    private BooleanProperty homeAllowed;
+    private BooleanProperty refreshAllowed;
+    private BooleanProperty backAllowed;
+    private BooleanProperty forwardAllowed;
+    private ObjectProperty<NavigationManager> navigationManager;
+    private ObjectProperty<Place> homePlace;
 
     public NavigationToolbar(NavigationManager navigationManager, Place homePlace)
     {
-        this.navigationManager = navigationManager;
-        this.homePlace = homePlace;
-        buildView();
+        this();
+        this.navigationManager.set(navigationManager);
+        this.homePlace.set(homePlace);
+    }
 
-        this.navigationManager.addNavigationListener(this);
-        updateButtonStates();
+    public NavigationToolbar()
+    {
+        getStyleClass().add("navigation-toolbar");
+
+        this.navigationManager = new SimpleObjectProperty<NavigationManager>();
+        this.homePlace = new SimpleObjectProperty<Place>();
+        this.homeAllowed = new SimpleBooleanProperty();
+        this.refreshAllowed = new SimpleBooleanProperty();
+        this.backAllowed = new SimpleBooleanProperty();
+        this.forwardAllowed = new SimpleBooleanProperty();
+
+        this.navigationManager.addListener(new ChangeListener<NavigationManager>()
+        {
+            public void changed(ObservableValue<? extends NavigationManager> source,
+                                NavigationManager oldNavigationManager,
+                                NavigationManager newNavigationManager)
+            {
+                if (oldNavigationManager != null)
+                {
+                    oldNavigationManager.removeNavigationListener(NavigationToolbar.this);
+                }
+                if (newNavigationManager != null)
+                {
+                    newNavigationManager.addNavigationListener(NavigationToolbar.this);
+                }
+            }
+        });
+        updateNavigationStates();
+    }
+
+
+    public ObjectProperty<NavigationManager> navigationManagerProperty()
+    {
+        return navigationManager;
+    }
+
+    public NavigationManager getNavigationManager()
+    {
+        return navigationManager.get();
+    }
+
+    public void setNavigationManager(NavigationManager navigationManager)
+    {
+        this.navigationManager.set(navigationManager);
+    }
+
+
+    public ObjectProperty<Place> homePlaceProperty()
+    {
+        return homePlace;
     }
 
     public void setHomePlace(Place homePlace)
     {
-        this.homePlace = homePlace;
+        this.homePlace.set(homePlace);
+    }
+
+    public Place getHomePlace()
+    {
+        return this.homePlace.get();
+    }
+
+    public BooleanProperty homeAllowedProperty()
+    {
+        return homeAllowed;
+    }
+
+    public boolean isHomeAllowed()
+    {
+        return homeAllowed.get();
+    }
+
+    public void setHomeAllowed(boolean homeAllowed)
+    {
+        this.homeAllowed.set(homeAllowed);
+    }
+
+    public BooleanProperty refreshAllowedProperty()
+    {
+        return refreshAllowed;
+    }
+
+    public boolean isRefreshAllowed()
+    {
+        return refreshAllowed.get();
+    }
+
+    public void setRefreshAllowed(boolean refreshAllowed)
+    {
+        this.refreshAllowed.set(refreshAllowed);
+    }
+
+    public BooleanProperty backAllowedProperty()
+    {
+        return backAllowed;
+    }
+
+    public boolean isBackAllowed()
+    {
+        return backAllowed.get();
+    }
+
+    public void setBackAllowed(boolean backAllowed)
+    {
+        this.backAllowed.set(backAllowed);
+    }
+
+    public BooleanProperty forwardAllowedProperty()
+    {
+        return forwardAllowed;
+    }
+
+    public boolean isForwardAllowed()
+    {
+        return forwardAllowed.get();
+    }
+
+    public void setForwardAllowed(boolean forwardAllowed)
+    {
+        this.forwardAllowed.set(forwardAllowed);
     }
 
     public void placeUpdated(NavigationEvent event)
     {
-        updateButtonStates();
+        updateNavigationStates();
     }
 
-    protected void homeSelected()
+    void homeSelected()
     {
-        navigationManager.goTo(homePlace);
+        getNavigationManager().goTo(getHomePlace());
     }
 
-    protected void refreshSelected()
+    void refreshSelected()
     {
-        navigationManager.refresh();
+        getNavigationManager().refresh();
     }
 
-    protected void backSelected()
+    void backSelected()
     {
-        navigationManager.goBack();
+        getNavigationManager().goBack();
     }
 
-    protected void forwardSelected()
+    void forwardSelected()
     {
-        navigationManager.goForward();
+        getNavigationManager().goForward();
     }
 
-    protected void buildView()
+    protected String getUserAgentStylesheet()
     {
-        setSpacing(4);
-        getStyleClass().add("navigation-toolbar");
+        return "styles/jfxflow-toolbar.css";
+    }
 
-        homeButton = new Button("Home");
-        homeButton.getStyleClass().add("home");
-        homeButton.setOnAction(new EventHandler<ActionEvent>()
+    protected void updateNavigationStates()
+    {
+        NavigationManager navigationManager = getNavigationManager();
+        if (navigationManager != null)
         {
-            public void handle(ActionEvent event)
-            {
-                homeSelected();
-            }
-        });
-        getChildren().add(homeButton);
-
-        refreshButton = new Button("Refresh");
-        refreshButton.getStyleClass().add("refresh");
-        refreshButton.setOnAction(new EventHandler<ActionEvent>()
+            List<Place> history = navigationManager.getHistory();
+            int currentPlaceInHistory = navigationManager.getCurrentPlaceInHistory();
+            homeAllowed.set(homePlace.get() != null);
+            refreshAllowed.set(currentPlaceInHistory >= 0);
+            backAllowed.set(currentPlaceInHistory > 0);
+            forwardAllowed.set(currentPlaceInHistory < history.size() - 1);
+        }
+        else
         {
-            public void handle(ActionEvent event)
-            {
-                refreshSelected();
-            }
-        });
-        getChildren().add(refreshButton);
-
-        backButton = new Button("Back");
-        backButton.getStyleClass().add("back");
-        backButton.setOnAction(new EventHandler<ActionEvent>()
-        {
-            public void handle(ActionEvent event)
-            {
-                backSelected();
-            }
-        });
-        getChildren().add(backButton);
-
-        forwardButton = new Button("Forward");
-        forwardButton.getStyleClass().add("forward");
-        forwardButton.setOnAction(new EventHandler<ActionEvent>()
-        {
-            public void handle(ActionEvent event)
-            {
-                forwardSelected();
-            }
-        });
-        getChildren().add(forwardButton);
-    }
-
-    protected void updateButtonStates()
-    {
-        List<Place> history = navigationManager.getHistory();
-        int currentPlaceInHistory = navigationManager.getCurrentPlaceInHistory();
-        backButton.setDisable(currentPlaceInHistory == 0);
-        forwardButton.setDisable(currentPlaceInHistory >= history.size() - 1);
+            homeAllowed.set(false);
+            refreshAllowed.set(false);
+            backAllowed.set(false);
+            forwardAllowed.set(false);
+        }
     }
 }

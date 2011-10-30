@@ -18,40 +18,158 @@
  */
 package com.zenjava.jfxflow.controller;
 
-import com.zenjava.jfxflow.navigation.*;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
+import com.zenjava.jfxflow.navigation.NavigationEvent;
+import com.zenjava.jfxflow.navigation.NavigationListener;
+import com.zenjava.jfxflow.navigation.NavigationManager;
+import com.zenjava.jfxflow.navigation.Place;
+import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableObjectValue;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
+import javafx.scene.control.Control;
 
-public class Browser extends StackPane implements NavigationListener
+public class Browser extends Control implements NavigationListener
 {
-    private NavigationManager navigationManager;
-    private BooleanProperty busyProperty;
-    private NavigationToolbar navigationToolbar;
-    private BorderPane contentPane;
+    private ObjectProperty<NavigationManager> navigationManager;
+    private ObservableMap<Class<? extends Place>, Controller> controllers;
+    private BooleanProperty busy;
+    private StringProperty title;
+    private ObjectProperty<Place> homePlace;
     private ControllerContainer controllerContainer;
-    private Node glassPane;
 
     public Browser(String title, NavigationManager navigationManager, Place homePlace)
     {
-        this.navigationManager = navigationManager;
-        buildView(title, homePlace);
-        this.navigationManager.addNavigationListener(this);
+        this();
+        this.title.set(title);
+        this.navigationManager.set(navigationManager);
+        this.homePlace.set(homePlace);
     }
 
-    public void registerController(Class<? extends Place> placeType, Controller controller)
+    public Browser()
     {
-        this.controllerContainer.registerController(placeType, controller);
+        getStyleClass().add("browser");
+        setStyle("-fx-skin: \"com.zenjava.jfxflow.controller.BrowserSkin\"");
+
+        this.navigationManager = new SimpleObjectProperty<NavigationManager>();
+        this.controllers = FXCollections.observableHashMap();
+        this.busy = new SimpleBooleanProperty(false);
+        this.title = new SimpleStringProperty();
+        this.homePlace = new SimpleObjectProperty<Place>();
+
+        // todo: this should probably be part of the skin
+        this.controllerContainer = new ControllerContainer();
+        this.controllerContainer.getStyleClass().add("content");
+        controllerContainer.currentControllerProperty().addListener(new ChangeListener<Controller>()
+        {
+            public void changed(ObservableValue<? extends Controller> observableValue,
+                                Controller oldController, Controller newController)
+            {
+                busy.unbind();
+                if (newController != null)
+                {
+                    busy.bind(newController.busyProperty());
+                }
+            }
+        });
+
+        this.navigationManager.addListener(new ChangeListener<NavigationManager>()
+        {
+            public void changed(ObservableValue<? extends NavigationManager> source,
+                                NavigationManager oldNavigationManager,
+                                NavigationManager newNavigationManager)
+            {
+                if (oldNavigationManager != null)
+                {
+                    oldNavigationManager.removeNavigationListener(Browser.this);
+                }
+                if (newNavigationManager != null)
+                {
+                    newNavigationManager.addNavigationListener(Browser.this);
+                }
+            }
+        });
+    }
+
+    public void registerController(Class<? extends Place> placeType, Controller<? extends Place> controller)
+    {
+        controllerContainer.registerController(placeType, controller);
+    }
+
+    public ControllerContainer getControllerContainer()
+    {
+        return controllerContainer;
+    }
+
+    public ObjectProperty<NavigationManager> navigationManagerProperty()
+    {
+        return navigationManager;
+    }
+
+    public NavigationManager getNavigationManager()
+    {
+        return navigationManager.get();
+    }
+
+    public void setNavigationManager(NavigationManager navigationManager)
+    {
+        this.navigationManager.set(navigationManager);
+    }
+
+    public ObservableMap<Class<? extends Place>, Controller> getControllers()
+    {
+        return controllers;
+    }
+
+    public void setControllers(ObservableMap<Class<? extends Place>, Controller> controllers)
+    {
+        this.controllers = controllers;
+    }
+
+    public BooleanProperty busyProperty()
+    {
+        return busy;
+    }
+
+    public void setBusy(boolean busy)
+    {
+        this.busy.set(busy);
+    }
+
+    public boolean getBusy()
+    {
+        return this.busy.get();
+    }
+
+    public StringProperty titleProperty()
+    {
+        return title;
+    }
+
+    public void setTitle(String title)
+    {
+        this.title.set(title);
+    }
+
+    public String getTitle()
+    {
+        return this.title.get();
+    }
+
+    public ObservableObjectValue<Place> homePlaceProperty()
+    {
+        return homePlace;
     }
 
     public void setHomePlace(Place homePlace)
     {
-        this.navigationToolbar.setHomePlace(homePlace);
+        this.homePlace.set(homePlace);
+    }
+
+    public Place getHomePlace()
+    {
+        return this.homePlace.get();
     }
 
     public void placeUpdated(NavigationEvent event)
@@ -59,52 +177,8 @@ public class Browser extends StackPane implements NavigationListener
         controllerContainer.showControllerForPlace(event.getCurrentPlace(), event.getTransitionType());
     }
 
-    protected void buildView(String title, Place homePlace)
+    protected String getUserAgentStylesheet()
     {
-        getStyleClass().add("browser");
-
-        contentPane = new BorderPane();
-        navigationToolbar = new NavigationToolbar(navigationManager, homePlace);
-        contentPane.setTop(buildHeader(title, navigationToolbar));
-        controllerContainer = new ControllerContainer();
-        contentPane.setCenter(controllerContainer);
-        getChildren().add(contentPane);
-
-        glassPane = buildGlassPane();
-        glassPane.setVisible(false);
-        getChildren().add(glassPane);
-
-        busyProperty = new SimpleBooleanProperty();
-        glassPane.visibleProperty().bind(busyProperty);
-        controllerContainer.currentControllerProperty().addListener(new ChangeListener<Controller>()
-        {
-            public void changed(ObservableValue<? extends Controller> observableValue,
-                                Controller oldController, Controller newController)
-            {
-                busyProperty.unbind();
-                if (newController != null)
-                {
-                    busyProperty.bind(newController.busyProperty());
-                }
-            }
-        });
-    }
-
-    protected Node buildGlassPane()
-    {
-        BorderPane glassPane = new BorderPane();
-        glassPane.getStyleClass().add("glass-pane");
-        return glassPane;
-    }
-
-    protected Node buildHeader(String title, NavigationToolbar navigationToolbar)
-    {
-        StackPane header = new StackPane();
-        header.getStyleClass().add("browser-header");
-        Label titleLabel = new Label(title);
-        titleLabel.getStyleClass().add("browser-title");
-        header.getChildren().add(titleLabel);
-        header.getChildren().add(navigationToolbar);
-        return header;
+        return "styles/jfxflow-browser.css";
     }
 }
