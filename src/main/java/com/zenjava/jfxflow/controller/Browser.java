@@ -39,6 +39,12 @@ public class Browser extends Control implements NavigationListener
     private ObjectProperty<Place> homePlace;
     private ControllerContainer controllerContainer;
 
+    public Browser(String title)
+    {
+        this();
+        this.title.set(title);
+    }
+
     public Browser(String title, NavigationManager navigationManager, Place homePlace)
     {
         this();
@@ -50,7 +56,6 @@ public class Browser extends Control implements NavigationListener
     public Browser()
     {
         getStyleClass().add("browser");
-        setStyle("-fx-skin: \"com.zenjava.jfxflow.controller.BrowserSkin\"");
 
         this.navigationManager = new SimpleObjectProperty<NavigationManager>();
         this.controllers = FXCollections.observableHashMap();

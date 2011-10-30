@@ -87,6 +87,7 @@ public class DefaultNavigationManager implements NavigationManager
             this.currentPlace = history.get(this.currentPlaceInHistory);
             firePlaceUpdated(TransitionType.back,
                     prevPlaceInHistory, prevPlace, currentPlaceInHistory, currentPlace);
+            log.debug("Current index is now {}", currentPlaceInHistory);
         }
     }
 
@@ -98,8 +99,10 @@ public class DefaultNavigationManager implements NavigationManager
             Place prevPlace = currentPlace;
             int prevPlaceInHistory = currentPlaceInHistory;
             this.currentPlaceInHistory++;
+            this.currentPlace = history.get(this.currentPlaceInHistory);
             firePlaceUpdated(TransitionType.forward,
                     prevPlaceInHistory, prevPlace, currentPlaceInHistory, currentPlace);
+            log.debug("Current index is now {}", currentPlaceInHistory);
         }
     }
 

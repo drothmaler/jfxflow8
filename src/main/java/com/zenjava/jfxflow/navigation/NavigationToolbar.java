@@ -69,6 +69,7 @@ public class NavigationToolbar extends Control implements NavigationListener
                 {
                     newNavigationManager.addNavigationListener(NavigationToolbar.this);
                 }
+                updateNavigationStates();
             }
         });
         updateNavigationStates();
