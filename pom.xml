@@ -26,12 +26,8 @@
     </scm>
 
     <properties>
-
-        <!--
-        Set this to be the location of your local JFX2 installation
-        -->
+        <!-- Set this to be the location of your local JFX2 installation -->
         <jfx.home>C:/Apps/jfx/jfx2.0</jfx.home>
-
     </properties>
 
     <dependencies>
@@ -42,10 +38,6 @@
             <groupId>com.sun.javafx</groupId>
             <artifactId>javafx</artifactId>
             <version>2.0.beta</version>
-            <!--
-            Currently the Maven support for JFX2 is limited and we must resort to manually specifying the location
-            of the JFX2 runtime here. This will hopefully be addressed before long.
-            -->
             <scope>system</scope>
             <systemPath>${jfx.home}/rt/lib/jfxrt.jar</systemPath>
         </dependency>
@@ -63,16 +55,16 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.6.1</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.16</version>
+            <scope>test</scope>
         </dependency>
 
-
     </dependencies>
-
 
 </project>

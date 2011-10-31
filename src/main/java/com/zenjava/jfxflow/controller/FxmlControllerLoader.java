@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class FxmlControllerLoader
@@ -35,18 +36,20 @@ public class FxmlControllerLoader
     public <ControllerType extends Controller> ControllerType loadController(String fxmlFile)
             throws FxmlLoadException
     {
-        return (ControllerType)loadController(fxmlFile, (ResourceBundle)null);
+        return (ControllerType)loadController(fxmlFile, null, null);
     }
 
     @SuppressWarnings("unchecked")
     public <ControllerType extends Controller> ControllerType loadController(String fxmlFile, String resourceBundle)
             throws FxmlLoadException
     {
-        return (ControllerType)loadController(fxmlFile, ResourceBundle.getBundle(resourceBundle));
+        return (ControllerType)loadController(fxmlFile, ResourceBundle.getBundle(resourceBundle), null);
     }
 
     @SuppressWarnings("unchecked")
-    public <ControllerType extends Controller> ControllerType loadController(String fxmlFile, ResourceBundle resources)
+    public <ControllerType extends Controller> ControllerType loadController(String fxmlFile,
+                                                                             ResourceBundle resources,
+                                                                             Map<String, Object> variables)
             throws FxmlLoadException
     {
         log.debug("Loading controller from FXML '{}'", fxmlFile);
@@ -56,11 +59,18 @@ public class FxmlControllerLoader
         {
             fxmlStream = getClass().getResourceAsStream(fxmlFile);
             FXMLLoader loader = new FXMLLoader();
-            Node view = (Node) loader.load(fxmlStream);
+
             if (resources != null)
             {
                 loader.setResources(resources);
             }
+
+            if (variables != null)
+            {
+                loader.getNamespace().putAll(variables);
+            }
+
+            Node view = (Node) loader.load(fxmlStream);
 
             ControllerType controller = (ControllerType) loader.getController();
             if (controller instanceof HasFxmlLoadedView)

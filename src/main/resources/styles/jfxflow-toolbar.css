@@ -8,6 +8,7 @@
     -fx-border-insets: 0;
     -fx-background-color: transparent;
     -fx-cursor: hand;
+    -fx-padding: 4;
 }
 
 .navigation-toolbar .button:hover {
