@@ -19,6 +19,7 @@
 package com.zenjava.jfxflow.controller;
 
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,6 +60,7 @@ public class FxmlControllerLoader
         {
             fxmlStream = getClass().getResourceAsStream(fxmlFile);
             FXMLLoader loader = new FXMLLoader();
+            loader.setBuilderFactory(new JavaFXBuilderFactory());
 
             if (resources != null)
             {
