@@ -27,7 +27,9 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableObjectValue;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
+import javafx.scene.Node;
 import javafx.scene.control.Control;
 
 public class Browser extends Control implements NavigationListener
@@ -38,6 +40,7 @@ public class Browser extends Control implements NavigationListener
     private StringProperty title;
     private ObjectProperty<Place> homePlace;
     private ControllerContainer controllerContainer;
+    private ObservableList<Node> dockBarItems;
 
     public Browser(String title)
     {
@@ -62,6 +65,7 @@ public class Browser extends Control implements NavigationListener
         this.busy = new SimpleBooleanProperty(false);
         this.title = new SimpleStringProperty();
         this.homePlace = new SimpleObjectProperty<Place>();
+        this.dockBarItems = FXCollections.observableArrayList();
 
         // todo: this should probably be part of the skin
         this.controllerContainer = new ControllerContainer();
@@ -100,6 +104,11 @@ public class Browser extends Control implements NavigationListener
     public void registerController(Class<? extends Place> placeType, Controller<? extends Place> controller)
     {
         controllerContainer.registerController(placeType, controller);
+    }
+
+    public ObservableList<Node> getDockBarItems()
+    {
+        return dockBarItems;
     }
 
     public ControllerContainer getControllerContainer()
