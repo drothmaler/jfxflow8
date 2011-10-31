@@ -1,6 +1,7 @@
 package com.zenjava.jfxflow.controller;
 
 import com.zenjava.jfxflow.navigation.NavigationToolbar;
+import javafx.collections.ListChangeListener;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.Skin;
@@ -57,14 +58,15 @@ public class BrowserSkin implements Skin
 
         glassPane.visibleProperty().bind(browser.busyProperty());
 
-//        browser.getDockBarItems().addListener(new ListChangeListener<Node>()
-//        {
-//            public void onChanged(Change<? extends Node> change)
-//            {
-//                dockBar.getChildren().removeAll(change.getRemoved());
-//                dockBar.getChildren().addAll(change.getRemoved());
-//            }
-//        });
+        dockBar.getChildren().addAll(browser.getDockBarItems());
+        browser.getDockBarItems().addListener(new ListChangeListener<Node>()
+        {
+            public void onChanged(Change<? extends Node> change)
+            {
+                dockBar.getChildren().removeAll(change.getRemoved());
+                dockBar.getChildren().addAll(browser.getDockBarItems());
+            }
+        });
     }
 
     protected Node buildHeader()
@@ -81,7 +83,7 @@ public class BrowserSkin implements Skin
         dockPane.getChildren().add(navigationToolbar);
 
         dockBar = new HBox();
-        AnchorPane.setRightAnchor(dockPane, 0.0);
+        AnchorPane.setRightAnchor(dockBar, 0.0);
         dockPane.getChildren().add(dockBar);
 
         header.getChildren().add(dockPane);
