@@ -48,6 +48,7 @@ public class BrowserSkin implements Skin
         root.getStyleClass().add("browser");
 
         BorderPane rootPane = new BorderPane();
+        rootPane.getStyleClass().add("browser-root");
         rootPane.setTop(buildHeader());
         rootPane.setCenter(browser.getControllerContainer());
         root.getChildren().add(rootPane);

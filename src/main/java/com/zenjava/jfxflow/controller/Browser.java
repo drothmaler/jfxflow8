@@ -72,7 +72,7 @@ public class Browser extends Control implements NavigationListener
 
         // todo: this should probably be part of the skin
         this.controllerContainer = new ControllerContainer();
-        this.controllerContainer.getStyleClass().add("content");
+        this.controllerContainer.getStyleClass().add("browser-content");
         controllerContainer.currentControllerProperty().addListener(new ChangeListener<Controller>()
         {
             public void changed(ObservableValue<? extends Controller> observableValue,
