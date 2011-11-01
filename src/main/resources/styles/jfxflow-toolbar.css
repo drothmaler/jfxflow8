@@ -24,19 +24,19 @@
     -fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #c6c6c6 0%, #d6d6d6 100%);
 }
 
-.home {
+.navigation-toolbar .home {
     -fx-graphic: url("../images/nav-home.png");
 }
 
-.refresh {
+.navigation-toolbar .refresh {
     -fx-graphic: url("../images/nav-refresh.png");
 }
 
-.back {
+.navigation-toolbar .back {
     -fx-graphic: url("../images/nav-back.png");
 }
 
-.forward {
+.navigation-toolbar .forward {
     -fx-graphic: url("../images/nav-forward.png");
 }
 
