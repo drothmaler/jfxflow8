@@ -26,7 +26,7 @@ import javafx.scene.Node;
  * class (as in AbstractController), FXML does not detect it. This interface allows us to brute-force inject the view
  * after it has been loaded in hte FxmlControllerLoader. Use of this interface for any other reason is a bad move.
  */
-public interface HasFxmlLoadedView
+public interface HasFxmlLoadedView<ViewType extends Node>
 {
-    public void setView(Node view);
+    public void setView(ViewType view);
 }

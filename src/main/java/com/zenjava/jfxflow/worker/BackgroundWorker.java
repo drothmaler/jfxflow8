@@ -23,19 +23,23 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class BackgroundWorker<DataType> extends Service<DataType>
 {
+    private static final Logger log = LoggerFactory.getLogger(BackgroundWorker.class);
+
     private SimpleObjectProperty<Handler<DataType>> onSuccess;
     private SimpleObjectProperty<ErrorHandler> onError;
 
     protected BackgroundWorker()
     {
-        this(null);
+        this(null, null);
     }
 
     @SuppressWarnings({"ThrowableResultOfMethodCallIgnored"})
-    protected BackgroundWorker(BooleanProperty bindToRunningProperty)
+    protected BackgroundWorker(BooleanProperty bindToRunningProperty, ErrorHandler errorHandler)
     {
         onSuccess = new SimpleObjectProperty<Handler<DataType>>();
         onError = new SimpleObjectProperty<ErrorHandler>();
@@ -59,6 +63,8 @@ public abstract class BackgroundWorker<DataType> extends Service<DataType>
         {
             bindToRunningProperty.bind(runningProperty());
         }
+
+        setOnError(errorHandler);
     }
 
     public Handler<DataType> getOnSuccess()
@@ -96,6 +102,10 @@ public abstract class BackgroundWorker<DataType> extends Service<DataType>
         if (errorHandler != null)
         {
             errorHandler.handleError(exception);
+        }
+        else
+        {
+            log.error("Unhandled error in background worker", exception);
         }
     }
 }

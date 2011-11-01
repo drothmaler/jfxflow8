@@ -22,9 +22,9 @@ import com.zenjava.jfxflow.navigation.Place;
 import javafx.beans.property.BooleanProperty;
 import javafx.scene.Node;
 
-public interface Controller<PlaceType extends Place>
+public interface Controller<ViewType extends Node, PlaceType extends Place>
 {
-    Node getView();
+    ViewType getView();
 
     void activate(PlaceType place);
 

@@ -23,6 +23,7 @@ import com.zenjava.jfxflow.navigation.TransitionType;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,26 +35,26 @@ public class ControllerContainer extends StackPane
 {
     private static final Logger log = LoggerFactory.getLogger(ControllerContainer.class);
 
-    private ObjectProperty<Controller> currentController;
-    private Map<Class, Controller> controllers;
+    private ObjectProperty<Controller<? extends Node, ? extends Place>> currentController;
+    private Map<Class, Controller<? extends Node, ? extends Place>> controllers;
 
     public ControllerContainer()
     {
-        this.currentController = new SimpleObjectProperty<Controller>();
-        this.controllers = new HashMap<Class, Controller>();
+        this.currentController = new SimpleObjectProperty<Controller<? extends Node, ? extends Place>>();
+        this.controllers = new HashMap<Class, Controller<? extends Node, ? extends Place>>();
     }
 
-    public void registerController(Class<? extends Place> placeType, Controller<? extends Place> controller)
+    public void registerController(Class<? extends Place> placeType, Controller<? extends Node, ? extends Place> controller)
     {
         this.controllers.put(placeType, controller);
     }
 
-    public ReadOnlyObjectProperty<Controller> currentControllerProperty()
+    public ReadOnlyObjectProperty<Controller<? extends Node, ? extends Place>> currentControllerProperty()
     {
         return currentController;
     }
 
-    public Controller<?> getCurrentController()
+    public Controller<? extends Node, ? extends Place> getCurrentController()
     {
         return currentController.get();
     }
@@ -61,7 +62,7 @@ public class ControllerContainer extends StackPane
     @SuppressWarnings("unchecked")
     public void showControllerForPlace(Place place, TransitionType transitionType)
     {
-        Controller<? extends Place> newController = null;
+        Controller<? extends Node, ? extends Place> newController = null;
         if (place != null)
         {
             newController = controllers.get(place.getClass());

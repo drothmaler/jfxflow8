@@ -27,10 +27,10 @@ import javafx.scene.Node;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public abstract class AbstractController<PlaceType extends Place>
-        implements Controller<PlaceType>, Initializable, HasFxmlLoadedView
+public abstract class AbstractController<ViewType extends Node, PlaceType extends Place>
+        implements Controller<ViewType, PlaceType>, Initializable, HasFxmlLoadedView<ViewType>
 {
-    private Node view;
+    private ViewType view;
     private BooleanProperty busy;
 
     protected AbstractController()
@@ -38,12 +38,12 @@ public abstract class AbstractController<PlaceType extends Place>
         busy = new SimpleBooleanProperty();
     }
 
-    public void setView(Node view)
+    public void setView(ViewType view)
     {
         this.view = view;
     }
 
-    public Node getView()
+    public ViewType getView()
     {
         return view;
     }

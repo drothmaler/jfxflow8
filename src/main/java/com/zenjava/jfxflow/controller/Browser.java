@@ -22,6 +22,8 @@ import com.zenjava.jfxflow.navigation.NavigationEvent;
 import com.zenjava.jfxflow.navigation.NavigationListener;
 import com.zenjava.jfxflow.navigation.NavigationManager;
 import com.zenjava.jfxflow.navigation.Place;
+import com.zenjava.jfxflow.worker.DefaultErrorController;
+import com.zenjava.jfxflow.worker.ErrorPlace;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableObjectValue;
@@ -54,6 +56,7 @@ public class Browser extends Control implements NavigationListener
         this.title.set(title);
         this.navigationManager.set(navigationManager);
         this.homePlace.set(homePlace);
+        registerController(ErrorPlace.class, new DefaultErrorController());
     }
 
     public Browser()
@@ -76,6 +79,7 @@ public class Browser extends Control implements NavigationListener
                                 Controller oldController, Controller newController)
             {
                 busy.unbind();
+                busy.set(false);
                 if (newController != null)
                 {
                     busy.bind(newController.busyProperty());
@@ -101,7 +105,7 @@ public class Browser extends Control implements NavigationListener
         });
     }
 
-    public void registerController(Class<? extends Place> placeType, Controller<? extends Place> controller)
+    public void registerController(Class<? extends Place> placeType, Controller<? extends Node, ? extends Place> controller)
     {
         controllerContainer.registerController(placeType, controller);
     }
