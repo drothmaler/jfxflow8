@@ -18,7 +18,15 @@
     -fx-cursor: wait;
 }
 
+/*
 .browser .content {
     -fx-padding: 20px;
+}
+*/
+
+.browser .scroll-pane {
+    -fx-background-color: white;
+    -fx-background-insets: 0;
+    -fx-border-width: 0;
 }
 
