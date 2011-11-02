@@ -65,7 +65,7 @@ public class ControllerContainer extends StackPane
         Controller<? extends Node, ? extends Place> newController = null;
         if (place != null)
         {
-            newController = controllers.get(place.getClass());
+            newController = lookupController(place.getClass());
         }
         transition(currentController.get(), newController, place, transitionType);
     }
@@ -88,5 +88,16 @@ public class ControllerContainer extends StackPane
             newController.activate(newPlace);
             getChildren().add(newController.getView());
         }
+    }
+
+    protected Controller<? extends Node, ? extends Place> lookupController(Class placeType)
+    {
+        Controller<? extends Node, ? extends Place> controller = controllers.get(placeType);
+        while (controller == null && placeType.getSuperclass() != null)
+        {
+            placeType = placeType.getSuperclass();
+            controller = controllers.get(placeType);
+        }
+        return controller;
     }
 }

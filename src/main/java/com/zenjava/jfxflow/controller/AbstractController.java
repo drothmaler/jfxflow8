@@ -19,8 +19,7 @@
 package com.zenjava.jfxflow.controller;
 
 import com.zenjava.jfxflow.navigation.Place;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.*;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 
@@ -31,10 +30,14 @@ public abstract class AbstractController<ViewType extends Node, PlaceType extend
         implements Controller<ViewType, PlaceType>, Initializable, HasFxmlLoadedView<ViewType>
 {
     private ViewType view;
+    private ObjectProperty<PlaceType> currentPlace;
+    private BooleanProperty active;
     private BooleanProperty busy;
 
     protected AbstractController()
     {
+        currentPlace = new SimpleObjectProperty<PlaceType>();
+        active = new SimpleBooleanProperty();
         busy = new SimpleBooleanProperty();
     }
 
@@ -54,10 +57,44 @@ public abstract class AbstractController<ViewType extends Node, PlaceType extend
 
     public void activate(PlaceType place)
     {
+        currentPlace.set(place);
+        active.set(true);
     }
 
     public void deactivate()
     {
+        currentPlace.set(null);
+        active.set(false);
+    }
+
+    public PlaceType getCurrentPlace()
+    {
+        return currentPlace.get();
+    }
+
+    public ReadOnlyObjectProperty<PlaceType> currentPlaceProperty()
+    {
+        return currentPlace;
+    }
+
+    public boolean isActive()
+    {
+        return active.get();
+    }
+
+    public BooleanProperty activeProperty()
+    {
+        return active;
+    }
+
+    public boolean isBusy()
+    {
+        return busy.get();
+    }
+
+    public void setBusy(boolean busy)
+    {
+        this.busy.set(busy);
     }
 
     public BooleanProperty busyProperty()
