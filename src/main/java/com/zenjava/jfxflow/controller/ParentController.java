@@ -1,5 +1,7 @@
 package com.zenjava.jfxflow.controller;
 
+import com.zenjava.jfxflow.navigation.NavigationEvent;
+import com.zenjava.jfxflow.navigation.NavigationListener;
 import com.zenjava.jfxflow.navigation.Place;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
@@ -15,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ParentController<ViewType extends Node, PlaceType extends Place>
-        extends AbstractController<ViewType, PlaceType>
+        extends AbstractController<ViewType, PlaceType> implements NavigationListener
 {
     private static final Logger log = LoggerFactory.getLogger(ParentController.class);
 
@@ -91,6 +93,11 @@ public class ParentController<ViewType extends Node, PlaceType extends Place>
     public Controller<? extends Node, ? extends Place> getCurrentController()
     {
         return currentController.get();
+    }
+
+    public void placeUpdated(NavigationEvent event)
+    {
+        showPlace(event.getCurrentPlace());
     }
 
     @SuppressWarnings("unchecked")
