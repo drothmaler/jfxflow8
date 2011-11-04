@@ -123,11 +123,26 @@ public class ParentController<ViewType extends Node, PlaceType extends Place>
 
     protected Controller<? extends Node, ? extends Place> lookupController(Class placeType)
     {
+        log.debug("Finding controller for {}", placeType.getName());
+
         Controller<? extends Node, ? extends Place> controller = controllers.get(placeType);
-        while (controller == null && placeType.getSuperclass() != null)
+        if (controller == null)
         {
-            placeType = placeType.getSuperclass();
-            controller = controllers.get(placeType);
+            placeType.getInterfaces();
+            for (Class interfaceType : placeType.getInterfaces())
+            {
+                log.trace("Checking if interface for controller is registered {}", interfaceType.getName());
+                controller = controllers.get(interfaceType);
+                if (controller != null)
+                {
+                    return controller;
+                }
+            }
+
+            if (placeType.getSuperclass() != null)
+            {
+                return lookupController(placeType.getSuperclass());
+            }
         }
         return controller;
     }
