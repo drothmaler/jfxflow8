@@ -56,14 +56,29 @@ public class DefaultNavigationManager implements NavigationManager
 
     public void goTo(Place place)
     {
+        goTo(place, false);
+    }
+
+    public void goTo(Place place, boolean overwriteCurrent)
+    {
         log.debug("Navigating to place '{}'", place);
         Place prevPlace = currentPlace;
         int prevPlaceInHistory = currentPlaceInHistory;
+
         if (currentPlaceInHistory + 1 < history.size())
         {
             history.subList(currentPlaceInHistory + 1, history.size()).clear();
         }
-        this.history.add(place);
+
+        if (prevPlaceInHistory >= 0 && overwriteCurrent)
+        {
+            this.history.set(prevPlaceInHistory, place);
+        }
+        else
+        {
+            this.history.add(place);
+        }
+
         this.currentPlaceInHistory = this.history.size() - 1;
         this.currentPlace = place;
         firePlaceUpdated(TransitionType.normal,

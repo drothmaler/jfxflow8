@@ -25,7 +25,7 @@ public class ParentController<ViewType extends Node, PlaceType extends Place>
     private ObjectProperty<Controller<? extends Node, ? extends Place>> currentController;
     private Map<Class, Controller<? extends Node, ? extends Place>> controllers;
 
-    protected ParentController()
+    public ParentController()
     {
         this(null);
     }
@@ -132,7 +132,7 @@ public class ParentController<ViewType extends Node, PlaceType extends Place>
             for (Class interfaceType : placeType.getInterfaces())
             {
                 log.trace("Checking if interface for controller is registered {}", interfaceType.getName());
-                controller = controllers.get(interfaceType);
+                controller = lookupController(interfaceType);
                 if (controller != null)
                 {
                     return controller;

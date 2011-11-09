@@ -18,10 +18,7 @@
  */
 package com.zenjava.jfxflow.navigation;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Control;
@@ -36,6 +33,7 @@ public class NavigationToolbar extends Control implements NavigationListener
     private BooleanProperty forwardAllowed;
     private ObjectProperty<NavigationManager> navigationManager;
     private ObjectProperty<Place> homePlace;
+    private IntegerProperty spacing;
 
     public NavigationToolbar(NavigationManager navigationManager, Place homePlace)
     {
@@ -54,6 +52,7 @@ public class NavigationToolbar extends Control implements NavigationListener
         this.refreshAllowed = new SimpleBooleanProperty();
         this.backAllowed = new SimpleBooleanProperty();
         this.forwardAllowed = new SimpleBooleanProperty();
+        this.spacing = new SimpleIntegerProperty(4);
 
         this.navigationManager.addListener(new ChangeListener<NavigationManager>()
         {
@@ -165,6 +164,21 @@ public class NavigationToolbar extends Control implements NavigationListener
     public void setForwardAllowed(boolean forwardAllowed)
     {
         this.forwardAllowed.set(forwardAllowed);
+    }
+
+    public IntegerProperty spacingProperty()
+    {
+        return spacing;
+    }
+
+    public int getSpacing()
+    {
+        return spacing.get();
+    }
+
+    public void setSpacing(int spacing)
+    {
+        this.spacing.set(spacing);
     }
 
     public void placeUpdated(NavigationEvent event)
