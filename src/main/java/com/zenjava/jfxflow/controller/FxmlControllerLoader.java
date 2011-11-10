@@ -24,6 +24,7 @@ import javafx.scene.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
@@ -61,6 +62,9 @@ public class FxmlControllerLoader
             fxmlStream = getClass().getResourceAsStream(fxmlFile);
             FXMLLoader loader = new FXMLLoader();
             loader.setBuilderFactory(new JavaFXBuilderFactory());
+
+            File file = new File(fxmlFile);
+            loader.setLocation(file.toURI().toURL());
 
             if (resources != null)
             {
