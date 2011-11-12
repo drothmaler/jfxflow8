@@ -21,6 +21,7 @@ public class DefaultErrorView extends BorderPane
 
         detailArea = new TextArea();
         detailArea.setEditable(false);
+        detailArea.setMaxHeight(Integer.MAX_VALUE);
         BorderPane.setMargin(detailArea, new Insets(10, 10, 10, 10));
         setCenter(detailArea);
     }
