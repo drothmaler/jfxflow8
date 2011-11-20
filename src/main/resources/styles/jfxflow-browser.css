@@ -1,32 +1,14 @@
 .browser {
-    -fx-skin: "com.zenjava.jfxflow.controller.BrowserSkin";
+    -fx-skin: "com.zenjava.jfxflow.control.BrowserSkin";
 }
 
-.browser-header {
+.browser .toolbar {
     -fx-padding: 10;
     -fx-background-color: linear-gradient(from 0% 0% to 0% 100%, white 0%, #e6e6e6 100%);
     -fx-border-width: 0 0 1 0;
     -fx-border-color: #b6b6b6;
 }
 
-.browser-title {
-    -fx-font: bold 24px "Verdana";
-    -fx-text-fill: black;
-}
-
-.glass-pane {
-    -fx-cursor: wait;
-}
-
-/*
 .browser .content {
-    -fx-padding: 20px;
+    -fx-padding: 10;
 }
-*/
-
-.browser .scroll-pane {
-    -fx-background-color: white;
-    -fx-background-insets: 0;
-    -fx-border-width: 0;
-}
-

@@ -67,7 +67,7 @@ public class BrowserSkin implements Skin<Browser>
         rootPane.getChildren().add(rootPaneLayout);
 
         this.glassPane = new BorderPane();
-        this.glassPane.setStyle("-fx-cursor: wait");
+        this.glassPane.getStyleClass().add("-fx-cursor: wait");
         this.glassPane.setVisible(false);
 //        this.glassPane.visibleProperty().bind(animating.or(busy));
         rootPane.getChildren().add(this.glassPane);
