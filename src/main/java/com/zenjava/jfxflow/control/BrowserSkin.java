@@ -1,5 +1,8 @@
 package com.zenjava.jfxflow.control;
 
+import javafx.animation.Animation;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
@@ -16,6 +19,8 @@ public class BrowserSkin implements Skin<Browser>
     private StackPane contentArea;
     private BackButton backButton;
     private ForwardButton forwardButton;
+    private BooleanProperty animationInProgress;
+    private BooleanProperty workInProgress;
 
     public BrowserSkin(Browser browser)
     {
@@ -67,12 +72,13 @@ public class BrowserSkin implements Skin<Browser>
         rootPane.getChildren().add(rootPaneLayout);
 
         this.glassPane = new BorderPane();
-        this.glassPane.getStyleClass().add("-fx-cursor: wait");
+        this.glassPane.getStyleClass().add("glasspane");
         this.glassPane.setVisible(false);
-//        this.glassPane.visibleProperty().bind(animating.or(busy));
         rootPane.getChildren().add(this.glassPane);
 
         browser.contentBoundsProperty().bind(contentArea.boundsInParentProperty());
+
+        // watch current content and update content area accordingly
 
         Node currentContent = browser.contentProperty().get();
         if (currentContent != null)
@@ -91,6 +97,30 @@ public class BrowserSkin implements Skin<Browser>
                 if (newNode != null)
                 {
                     contentArea.getChildren().add(newNode);
+                }
+            }
+        });
+
+        // watch busy state and update glasspane accordingly
+
+        animationInProgress = new SimpleBooleanProperty();
+        workInProgress = new SimpleBooleanProperty();
+        glassPane.visibleProperty().bind(animationInProgress.or(workInProgress));
+
+        Animation currentAnimation = browser.currentAnimationProperty().get();
+        if (currentAnimation != null)
+        {
+            animationInProgress.bind(currentAnimation.statusProperty().isEqualTo(Animation.Status.RUNNING));
+        }
+
+        browser.currentAnimationProperty().addListener(new ChangeListener<Animation>()
+        {
+            public void changed(ObservableValue<? extends Animation> source, Animation oldValue, Animation newValue)
+            {
+                animationInProgress.unbind();
+                if (newValue != null)
+                {
+                    animationInProgress.bind(newValue.statusProperty().isEqualTo(Animation.Status.RUNNING));
                 }
             }
         });

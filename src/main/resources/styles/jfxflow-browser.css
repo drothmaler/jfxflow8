@@ -12,3 +12,7 @@
 .browser .content {
     -fx-padding: 10;
 }
+
+.browser .glasspane {
+    -fx-cursor: wait;
+}

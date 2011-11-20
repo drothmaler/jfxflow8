@@ -26,7 +26,7 @@ import javafx.scene.control.Control;
 
 import java.lang.reflect.Field;
 
-public class Browser extends Control
+public class Browser extends Control implements HasNode, HasWorkers
 {
     // work around for bug: http://javafx-jira.kenai.com/browse/RT-16647
     static
@@ -144,6 +144,11 @@ public class Browser extends Control
         setNavigationManager(navigationManager);
     }
 
+    public Node getNode()
+    {
+        return this;
+    }
+
     public NavigationManager getNavigationManager()
     {
         return navigationManager.get();
@@ -164,12 +169,22 @@ public class Browser extends Control
         return placeResolvers;
     }
 
-    public ObjectProperty<Node> contentProperty()
+    public ObservableList<Worker> getWorkers()
+    {
+        return workers;
+    }
+
+    ObjectProperty<Animation> currentAnimationProperty()
+    {
+        return currentAnimation;
+    }
+
+    ObjectProperty<Node> contentProperty()
     {
         return content;
     }
 
-    public ObjectProperty<Bounds> contentBoundsProperty()
+    ObjectProperty<Bounds> contentBoundsProperty()
     {
         return contentBounds;
     }
