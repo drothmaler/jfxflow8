@@ -41,6 +41,8 @@ public class Browser extends Control implements HasNode, HasWorkers
     private ObservableList<Worker> workers;
     private ObjectProperty<Node> content;
     private ObjectProperty<Bounds> contentBounds;
+    private ObjectProperty<Node> header;
+    private ObjectProperty<Node> footer;
 
     public Browser()
     {
@@ -58,6 +60,10 @@ public class Browser extends Control implements HasNode, HasWorkers
         this.workers = FXCollections.observableArrayList();
         this.content = new SimpleObjectProperty<Node>();
         this.contentBounds = new SimpleObjectProperty<Bounds>();
+        this.header = new SimpleObjectProperty<Node>();
+        this.footer = new SimpleObjectProperty<Node>();
+
+        this.header.set(new BrowserHeader(this));
 
         // manage current place
 
@@ -172,6 +178,36 @@ public class Browser extends Control implements HasNode, HasWorkers
     public ObservableList<Worker> getWorkers()
     {
         return workers;
+    }
+
+    public ObjectProperty<Node> headerProperty()
+    {
+        return header;
+    }
+
+    public Node getHeader()
+    {
+        return header.get();
+    }
+
+    public void setHeader(Node header)
+    {
+        this.header.set(header);
+    }
+
+    public ObjectProperty<Node> footerProperty()
+    {
+        return footer;
+    }
+
+    public Node getFooter()
+    {
+        return footer.get();
+    }
+
+    public void setFooter(Node footer)
+    {
+        this.footer.set(footer);
     }
 
     ObjectProperty<Animation> currentAnimationProperty()

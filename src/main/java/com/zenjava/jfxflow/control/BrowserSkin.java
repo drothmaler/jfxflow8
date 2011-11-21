@@ -8,7 +8,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.Skin;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 
 public class BrowserSkin implements Skin<Browser>
@@ -17,8 +16,6 @@ public class BrowserSkin implements Skin<Browser>
     private StackPane rootPane;
     private Node glassPane;
     private StackPane contentArea;
-    private BackButton backButton;
-    private ForwardButton forwardButton;
     private BooleanProperty animationInProgress;
     private BooleanProperty workInProgress;
 
@@ -40,8 +37,6 @@ public class BrowserSkin implements Skin<Browser>
 
     public void dispose()
     {
-        backButton.navigationManagerProperty().unbind();
-        forwardButton.navigationManagerProperty().unbind();
         browser.contentBoundsProperty().unbind();
     }
 
@@ -52,18 +47,8 @@ public class BrowserSkin implements Skin<Browser>
 
         BorderPane rootPaneLayout = new BorderPane();
 
-        HBox navBar = new HBox(4);
-        navBar.getStyleClass().add("toolbar");
-
-        backButton = new BackButton("<");
-        backButton.navigationManagerProperty().bind(browser.navigationManagerProperty());
-        navBar.getChildren().add(backButton);
-
-        forwardButton = new ForwardButton(">");
-        forwardButton.navigationManagerProperty().bind(browser.navigationManagerProperty());
-        navBar.getChildren().add(forwardButton);
-
-        rootPaneLayout.setTop(navBar);
+        rootPaneLayout.topProperty().bind(browser.headerProperty());
+        rootPaneLayout.bottomProperty().bind(browser.footerProperty());
 
         this.contentArea = new StackPane();
         this.contentArea.getStyleClass().add("content");
