@@ -2,6 +2,8 @@ package com.zenjava.jfxflow.control;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -106,6 +108,13 @@ public class DefaultBrowserHeader extends StackPane
     {
         Button refreshButton = new Button("Refresh");
         refreshButton.getStyleClass().add("refresh-button");
+        refreshButton.setOnAction(new EventHandler<ActionEvent>()
+        {
+            public void handle(ActionEvent event)
+            {
+                browser.refresh();
+            }
+        });
         return refreshButton;
     }
 

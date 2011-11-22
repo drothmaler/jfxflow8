@@ -26,7 +26,7 @@ import javafx.scene.control.Control;
 
 import java.lang.reflect.Field;
 
-public class Browser extends Control implements HasNode, HasWorkers
+public class Browser extends Control implements HasNode, HasWorkers, IsRefreshable
 {
     // work around for bug: http://javafx-jira.kenai.com/browse/RT-16647
     static
@@ -208,6 +208,15 @@ public class Browser extends Control implements HasNode, HasWorkers
     public void setFooter(Node footer)
     {
         this.footer.set(footer);
+    }
+
+    public void refresh()
+    {
+        HasNode currentPage = this.currentPage.get();
+        if (currentPage instanceof IsRefreshable)
+        {
+            ((IsRefreshable)currentPage).refresh();
+        }
     }
 
     ObjectProperty<Animation> currentAnimationProperty()
