@@ -13,8 +13,12 @@
     -fx-padding: 10;
 }
 
-.browser .glasspane {
+.browser .busy-glasspane {
     -fx-cursor: wait;
+}
+
+.browser .dialog-glasspane {
+    -fx-background-color: rgba(100, 100, 100, 0.2);
 }
 
 .browser .header .title {

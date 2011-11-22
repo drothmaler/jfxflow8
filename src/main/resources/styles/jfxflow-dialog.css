@@ -1,0 +1,36 @@
+.dialog {
+    -fx-border-color: black;
+    -fx-border-radius: 6;
+    -fx-effect: dropshadow(one-pass-box , #243648 , 2 , 0.5 , 1, 1 );
+}
+
+.dialog .header {
+    -fx-padding: 10 14 10 10;
+    -fx-background-color: linear-gradient(from 0% 0% to 0% 100%, white 0%, #e6e6e6 100%);
+    -fx-background-radius: 6 6 0 0;
+}
+
+.dialog .content {
+    -fx-padding: 10 20 10 20;
+    -fx-background-color: white;
+    -fx-background-radius: 0 0 6 6;
+}
+
+.dialog .close-button {
+    -fx-content-display: graphic-only;
+    -fx-border-insets: 0;
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+    -fx-padding: 0;
+}
+
+.dialog .close-button .close-icon {
+    -fx-background-color: -fx-mid-text-color;
+    -fx-shape: "M 0,0 H1 L 4,3 7,0 H8 V1 L 5,4 8,7 V8 H7 L 4,5 1,8 H0 V7 L 3,4 0,1 Z";
+    -fx-scale-shape: false;
+    -fx-effect: dropshadow(two-pass-box , rgba(255, 255, 255, 0.4), 1, 0.0 , 0, 1);
+}
+
+.dialog .close-button:hover .close-icon {
+    -fx-background-color:  -fx-dark-text-color;
+}

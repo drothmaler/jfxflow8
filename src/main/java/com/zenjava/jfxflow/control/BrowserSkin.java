@@ -2,6 +2,7 @@ package com.zenjava.jfxflow.control;
 
 import com.zenjava.jfxflow.util.BooleanListBinding;
 import com.zenjava.jfxflow.util.BooleanOperator;
+import com.zenjava.jfxflow.util.ListSizeBinding;
 import javafx.animation.Animation;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -18,7 +19,8 @@ public class BrowserSkin implements Skin<Browser>
 {
     private Browser browser;
     private StackPane rootPane;
-    private Node glassPane;
+    private Node busyGlassPane;
+    private Node dialogGlassPane;
     private StackPane contentArea;
     private BooleanProperty animationInProgress;
     private BooleanProperty workInProgress;
@@ -62,12 +64,22 @@ public class BrowserSkin implements Skin<Browser>
 
         rootPane.getChildren().add(rootPaneLayout);
 
-        this.glassPane = new BorderPane();
-        this.glassPane.getStyleClass().add("glasspane");
-        this.glassPane.setVisible(false);
-        rootPane.getChildren().add(this.glassPane);
+        this.dialogGlassPane = new BorderPane();
+        this.dialogGlassPane.getStyleClass().add("dialog-glasspane");
+        this.dialogGlassPane.setVisible(false);
+        rootPane.getChildren().add(this.dialogGlassPane);
+
+        this.busyGlassPane = new BorderPane();
+        this.busyGlassPane.getStyleClass().add("busy-glasspane");
+        this.busyGlassPane.setVisible(false);
+        rootPane.getChildren().add(this.busyGlassPane);
 
         browser.contentBoundsProperty().bind(contentArea.boundsInParentProperty());
+
+        // watch dialogs and show dialog glass pane accordingly
+
+        dialogGlassPane.visibleProperty().bind(new ListSizeBinding(browser.getDialogs(), 0).not());
+
 
         // watch current content and update content area accordingly
 
@@ -96,7 +108,7 @@ public class BrowserSkin implements Skin<Browser>
 
         animationInProgress = new SimpleBooleanProperty();
         workInProgress = new SimpleBooleanProperty();
-        glassPane.visibleProperty().bind(animationInProgress.or(workInProgress));
+        busyGlassPane.visibleProperty().bind(animationInProgress.or(workInProgress));
 
         Animation currentAnimation = browser.currentAnimationProperty().get();
         if (currentAnimation != null)

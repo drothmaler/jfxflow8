@@ -2,6 +2,8 @@ package com.zenjava.jfxflow.control;
 
 import com.sun.javafx.css.StyleManager;
 import com.zenjava.jfxflow.actvity.*;
+import com.zenjava.jfxflow.dialog.Dialog;
+import com.zenjava.jfxflow.dialog.DialogOwner;
 import com.zenjava.jfxflow.navigation.*;
 import com.zenjava.jfxflow.transition.*;
 import com.zenjava.jfxflow.worker.DefaultErrorHandler;
@@ -24,7 +26,7 @@ import javafx.scene.control.Control;
 
 import java.lang.reflect.Field;
 
-public class Browser extends Control implements HasNode, HasWorkers, Refreshable
+public class Browser extends Control implements HasNode, HasWorkers, Refreshable, DialogOwner
 {
     // work around for bug: http://javafx-jira.kenai.com/browse/RT-16647
     static
@@ -41,6 +43,7 @@ public class Browser extends Control implements HasNode, HasWorkers, Refreshable
     private ObjectProperty<Bounds> contentBounds;
     private ObjectProperty<Node> header;
     private ObjectProperty<Node> footer;
+    private ObservableList<Dialog> dialogs;
 
     public Browser()
     {
@@ -60,6 +63,7 @@ public class Browser extends Control implements HasNode, HasWorkers, Refreshable
         this.contentBounds = new SimpleObjectProperty<Bounds>();
         this.header = new SimpleObjectProperty<Node>();
         this.footer = new SimpleObjectProperty<Node>();
+        this.dialogs = FXCollections.observableArrayList();
 
         this.header.set(new DefaultBrowserHeader(this));
         this.placeResolvers.add(new RegexPlaceResolver(DefaultErrorHandler.ERROR_PLACE_NAME, new ErrorPage()));
@@ -217,6 +221,21 @@ public class Browser extends Control implements HasNode, HasWorkers, Refreshable
         {
             ((Refreshable)currentPage).refresh();
         }
+    }
+
+    public void addDialog(Dialog dialog)
+    {
+        dialogs.add(dialog);
+    }
+
+    public void removeDialog(Dialog dialog)
+    {
+        dialogs.remove(dialog);
+    }
+
+    ObservableList<Dialog> getDialogs()
+    {
+        return dialogs;
     }
 
     ObjectProperty<Animation> currentAnimationProperty()

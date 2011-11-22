@@ -12,20 +12,25 @@
 }
 
 .error-detail {
-    -fx-border-color: #ffa;
+    -fx-border-color: #ddd;
     -fx-border-radius: 10;
     -fx-background-color: #ffe;
     -fx-background-radius: 10;
     -fx-padding: 10;
 }
 
-.error-message {
+.error-message,
+.error-message:focused {
     -fx-font-weight: bold;
     -fx-background-color: #ffe;
+    -fx-background-insets: 0;
 }
 
-.error-stack-trace {
+.error-stack-trace,
+.error-stack-trace:focused {
     -fx-text-fill: #ddd;
     -fx-background-color: #ffe;
+    -fx-background-insets: 0;
 }
+
 
