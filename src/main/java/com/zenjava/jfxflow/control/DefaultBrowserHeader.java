@@ -90,21 +90,23 @@ public class DefaultBrowserHeader extends StackPane
 
     protected BackButton buildBackButton()
     {
-        BackButton backButton = new BackButton();
+        BackButton backButton = new BackButton("Back");
         backButton.navigationManagerProperty().bind(browser.navigationManagerProperty());
         return backButton;
     }
 
     protected ForwardButton buildForwardButton()
     {
-        ForwardButton forwardButton = new ForwardButton();
+        ForwardButton forwardButton = new ForwardButton("Forward");
         forwardButton.navigationManagerProperty().bind(browser.navigationManagerProperty());
         return forwardButton;
     }
 
     protected Button buildRefreshButton()
     {
-        return new Button("Refresh");
+        Button refreshButton = new Button("Refresh");
+        refreshButton.getStyleClass().add("refresh-button");
+        return refreshButton;
     }
 
     protected Pane buildLeftDockBar()
@@ -118,6 +120,7 @@ public class DefaultBrowserHeader extends StackPane
     {
         BorderPane titleBar = new BorderPane();
         Label titleLabel = new Label();
+        titleLabel.getStyleClass().add("title");
         titleLabel.textProperty().bind(titleProperty());
         titleBar.setCenter(titleLabel);
         return titleBar;

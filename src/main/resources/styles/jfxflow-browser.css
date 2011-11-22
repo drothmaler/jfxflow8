@@ -17,10 +17,44 @@
     -fx-cursor: wait;
 }
 
-.browser .back-button {
-    -fx-shape: "M 0 0 L 4 -3 L 4 3 z";
+.browser .header .title {
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
 }
 
-.browser .forward-button {
-    -fx-shape: "M 4 0 L 0 -3 L 0 3 z";
+.browser .header .button {
+    -fx-border-width: 1;
+    -fx-border-insets: 0;
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+    -fx-padding: 4;
+}
+
+.browser .header .button:hover {
+    -fx-border-width: 1;
+    -fx-border-radius: 4;
+    -fx-border-color: #b6b6b6;
+}
+
+.browser .header .button:armed {
+    -fx-border-width: 1;
+    -fx-border-radius: 4;
+    -fx-border-color: #b6b6b6;
+    -fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #c6c6c6 0%, #d6d6d6 100%);
+}
+
+
+.browser .header .back-button {
+    -fx-content-display: graphic-only;
+    -fx-graphic: url("../images/nav-back.png");
+}
+
+.browser .header .forward-button {
+    -fx-content-display: graphic-only;
+    -fx-graphic: url("../images/nav-forward.png");
+}
+
+.browser .header .refresh-button {
+    -fx-content-display: graphic-only;
+    -fx-graphic: url("../images/nav-refresh.png");
 }
