@@ -52,6 +52,7 @@ public abstract class NavigationButton extends Button
     public NavigationButton(String label, Node graphic, final NavigationManager navigationManager)
     {
         super(label, graphic);
+        getStyleClass().add("navigation-button");
 
         this.navigationManager = new SimpleObjectProperty<NavigationManager>();
         this.navigationManager.addListener(new ChangeListener<NavigationManager>()

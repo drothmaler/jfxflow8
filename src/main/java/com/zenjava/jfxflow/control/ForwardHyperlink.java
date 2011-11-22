@@ -45,6 +45,7 @@ public class ForwardHyperlink extends NavigationHyperlink
     public ForwardHyperlink(String label, Node graphic, final NavigationManager navigationManager)
     {
         super(label, graphic, navigationManager);
+        getStyleClass().add("forward-hyperlink");
     }
 
     protected void navigationManagerUpdated(NavigationManager oldNavigationManager, NavigationManager newNavigationManager)

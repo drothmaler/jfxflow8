@@ -52,6 +52,7 @@ public abstract class NavigationHyperlink extends Hyperlink
     public NavigationHyperlink(String label, Node graphic, final NavigationManager navigationManager)
     {
         super(label, graphic);
+        getStyleClass().add("navigation-hyperlink");
 
         this.navigationManager = new SimpleObjectProperty<NavigationManager>();
         this.navigationManager.addListener(new ChangeListener<NavigationManager>()

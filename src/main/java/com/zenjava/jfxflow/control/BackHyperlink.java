@@ -49,6 +49,7 @@ public class BackHyperlink extends NavigationHyperlink
     public BackHyperlink(String label, Node graphic, final NavigationManager navigationManager)
     {
         super(label, graphic, navigationManager);
+        getStyleClass().add("back-hyperlink");
     }
 
     protected void navigationManagerUpdated(NavigationManager oldNavigationManager, NavigationManager newNavigationManager)
