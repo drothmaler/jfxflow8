@@ -2,7 +2,7 @@
     -fx-skin: "com.zenjava.jfxflow.control.BrowserSkin";
 }
 
-.browser .toolbar {
+.browser .header {
     -fx-padding: 10;
     -fx-background-color: linear-gradient(from 0% 0% to 0% 100%, white 0%, #e6e6e6 100%);
     -fx-border-width: 0 0 1 0;
@@ -15,4 +15,12 @@
 
 .browser .glasspane {
     -fx-cursor: wait;
+}
+
+.browser .back-button {
+    -fx-shape: "M 0 0 L 4 -3 L 4 3 z";
+}
+
+.browser .forward-button {
+    -fx-shape: "M 4 0 L 0 -3 L 0 3 z";
 }

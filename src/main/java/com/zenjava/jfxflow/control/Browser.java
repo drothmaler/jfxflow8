@@ -63,7 +63,7 @@ public class Browser extends Control implements HasNode, HasWorkers
         this.header = new SimpleObjectProperty<Node>();
         this.footer = new SimpleObjectProperty<Node>();
 
-        this.header.set(new BrowserHeader(this));
+        this.header.set(new DefaultBrowserHeader(this));
 
         // manage current place
 

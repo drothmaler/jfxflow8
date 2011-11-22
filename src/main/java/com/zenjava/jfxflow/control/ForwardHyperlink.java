@@ -1,6 +1,7 @@
 package com.zenjava.jfxflow.control;
 
 import com.zenjava.jfxflow.navigation.NavigationManager;
+import com.zenjava.jfxflow.util.ListSizeBinding;
 import javafx.scene.Node;
 
 // todo use Control + skin

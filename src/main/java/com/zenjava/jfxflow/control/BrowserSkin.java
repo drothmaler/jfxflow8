@@ -1,10 +1,14 @@
 package com.zenjava.jfxflow.control;
 
+import com.zenjava.jfxflow.util.BooleanListBinding;
+import com.zenjava.jfxflow.util.BooleanOperator;
 import javafx.animation.Animation;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
+import javafx.concurrent.Worker;
 import javafx.scene.Node;
 import javafx.scene.control.Skin;
 import javafx.scene.layout.BorderPane;
@@ -18,6 +22,7 @@ public class BrowserSkin implements Skin<Browser>
     private StackPane contentArea;
     private BooleanProperty animationInProgress;
     private BooleanProperty workInProgress;
+    private WorkerListener workerListener;
 
     public BrowserSkin(Browser browser)
     {
@@ -38,6 +43,7 @@ public class BrowserSkin implements Skin<Browser>
     public void dispose()
     {
         browser.contentBoundsProperty().unbind();
+        browser.getWorkers().removeListener(workerListener);
     }
 
     protected void buildSkin()
@@ -109,5 +115,39 @@ public class BrowserSkin implements Skin<Browser>
                 }
             }
         });
+
+        workerListener = new WorkerListener();
+        browser.getWorkers().addListener(workerListener);
+    }
+
+    //-------------------------------------------------------------------------
+
+    private class WorkerListener implements ListChangeListener<Worker>
+    {
+        private BooleanListBinding binding;
+
+        private WorkerListener()
+        {
+            this.binding = new BooleanListBinding(BooleanOperator.or);
+            workInProgress.bind(binding);
+        }
+
+        public void onChanged(Change<? extends Worker> change)
+        {
+            while (change.next())
+            {
+                if (!change.wasPermutated())
+                {
+                    for (Worker worker : change.getRemoved())
+                    {
+                        binding.getBooleanValues().remove(worker.runningProperty());
+                    }
+                    for (Worker worker : change.getAddedSubList())
+                    {
+                        binding.getBooleanValues().add(worker.runningProperty());
+                    }
+                }
+            }
+        }
     }
 }

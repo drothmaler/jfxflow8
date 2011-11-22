@@ -1,6 +1,7 @@
 package com.zenjava.jfxflow.control;
 
 import com.zenjava.jfxflow.navigation.NavigationManager;
+import com.zenjava.jfxflow.util.ListSizeBinding;
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.Node;
 
@@ -48,6 +49,7 @@ public class BackButton extends NavigationButton
     public BackButton(String label, Node graphic, final NavigationManager navigationManager)
     {
         super(label, graphic, navigationManager);
+        getStyleClass().add("back-button");
     }
 
     protected void navigationManagerUpdated(NavigationManager oldNavigationManager, NavigationManager newNavigationManager)

@@ -1,4 +1,4 @@
-package com.zenjava.jfxflow.control;
+package com.zenjava.jfxflow.util;
 
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.ObservableList;
