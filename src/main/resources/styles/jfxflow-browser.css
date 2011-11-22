@@ -2,15 +2,15 @@
     -fx-skin: "com.zenjava.jfxflow.control.BrowserSkin";
 }
 
-.browser .header {
+.browser .browser-header {
     -fx-padding: 10;
     -fx-background-color: linear-gradient(from 0% 0% to 0% 100%, white 0%, #e6e6e6 100%);
     -fx-border-width: 0 0 1 0;
     -fx-border-color: #b6b6b6;
 }
 
-.browser .content {
-    -fx-padding: 10;
+.browser .browser-content {
+    -fx-padding: 20;
 }
 
 .browser .busy-glasspane {
@@ -21,12 +21,12 @@
     -fx-background-color: rgba(100, 100, 100, 0.2);
 }
 
-.browser .header .title {
+.browser .browser-header .title {
     -fx-font-size: 20;
     -fx-font-weight: bold;
 }
 
-.browser .header .button {
+.browser .browser-header .button {
     -fx-border-width: 1;
     -fx-border-insets: 0;
     -fx-background-color: transparent;
@@ -34,13 +34,13 @@
     -fx-padding: 4;
 }
 
-.browser .header .button:hover {
+.browser .browser-header .button:hover {
     -fx-border-width: 1;
     -fx-border-radius: 4;
     -fx-border-color: #b6b6b6;
 }
 
-.browser .header .button:armed {
+.browser .browser-header .button:armed {
     -fx-border-width: 1;
     -fx-border-radius: 4;
     -fx-border-color: #b6b6b6;
@@ -48,17 +48,26 @@
 }
 
 
-.browser .header .back-button {
+.browser .browser-header .back-button {
     -fx-content-display: graphic-only;
     -fx-graphic: url("../images/nav-back.png");
 }
 
-.browser .header .forward-button {
+.browser .browser-header .forward-button {
     -fx-content-display: graphic-only;
     -fx-graphic: url("../images/nav-forward.png");
 }
 
-.browser .header .refresh-button {
+.browser .browser-header .refresh-button {
     -fx-content-display: graphic-only;
     -fx-graphic: url("../images/nav-refresh.png");
+}
+
+.browser .invalid-place-page {
+    -fx-background-color: white;
+}
+
+.browser .invalid-place-page .invalid-place-header {
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
 }

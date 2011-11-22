@@ -1,5 +1,6 @@
 package com.zenjava.jfxflow.control;
 
+import com.zenjava.jfxflow.navigation.Place;
 import com.zenjava.jfxflow.util.BooleanListBinding;
 import com.zenjava.jfxflow.util.BooleanOperator;
 import com.zenjava.jfxflow.util.ListSizeBinding;
@@ -11,9 +12,11 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.concurrent.Worker;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.Skin;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 public class BrowserSkin implements Skin<Browser>
 {
@@ -21,6 +24,7 @@ public class BrowserSkin implements Skin<Browser>
     private StackPane rootPane;
     private Node busyGlassPane;
     private Node dialogGlassPane;
+    private Node invalidPlaceView;
     private StackPane contentArea;
     private BooleanProperty animationInProgress;
     private BooleanProperty workInProgress;
@@ -55,12 +59,12 @@ public class BrowserSkin implements Skin<Browser>
 
         BorderPane rootPaneLayout = new BorderPane();
 
+        this.contentArea = new StackPane();
+        this.contentArea.getStyleClass().add("browser-content");
+        rootPaneLayout.setCenter(contentArea);
+
         rootPaneLayout.topProperty().bind(browser.headerProperty());
         rootPaneLayout.bottomProperty().bind(browser.footerProperty());
-
-        this.contentArea = new StackPane();
-        this.contentArea.getStyleClass().add("content");
-        rootPaneLayout.setCenter(contentArea);
 
         rootPane.getChildren().add(rootPaneLayout);
 
@@ -74,6 +78,8 @@ public class BrowserSkin implements Skin<Browser>
         this.busyGlassPane.setVisible(false);
         rootPane.getChildren().add(this.busyGlassPane);
 
+        this.invalidPlaceView = buildInvalidPlacePage();
+
         browser.contentBoundsProperty().bind(contentArea.boundsInParentProperty());
 
         // watch dialogs and show dialog glass pane accordingly
@@ -81,25 +87,49 @@ public class BrowserSkin implements Skin<Browser>
         dialogGlassPane.visibleProperty().bind(new ListSizeBinding(browser.getDialogs(), 0).not());
 
 
-        // watch current content and update content area accordingly
+        // watch active pages and update content area accordingly
 
-        Node currentContent = browser.contentProperty().get();
-        if (currentContent != null)
-        {
-            contentArea.getChildren().add(currentContent);
-        }
+        contentArea.getChildren().addAll(browser.getActivePages());
 
-        browser.contentProperty().addListener(new ChangeListener<Node>()
+        browser.getActivePages().addListener(new ListChangeListener<Node>()
         {
-            public void changed(ObservableValue<? extends Node> source, Node oldNode, Node newNode)
+            public void onChanged(Change<? extends Node> change)
             {
-                if (oldNode != null)
+                while (change.next())
                 {
-                    contentArea.getChildren().remove(oldNode);
+                    if (change.wasPermutated())
+                    {
+                         for (int i = change.getFrom(); i < change.getTo(); ++i)
+                         {
+                            contentArea.getChildren().set(i, change.getList().get(i));
+                         }
+                    }
+                    else
+                    {
+                        for (Node removed : change.getRemoved())
+                        {
+                            contentArea.getChildren().remove(removed);
+                        }
+                        for (Node added : change.getAddedSubList())
+                        {
+                            contentArea.getChildren().add(added);
+                        }
+                    }
                 }
-                if (newNode != null)
+            }
+        });
+
+        browser.supportedPlaceProperty().addListener(new ChangeListener<Boolean>()
+        {
+            public void changed(ObservableValue<? extends Boolean> source, Boolean oldValue, Boolean newValue)
+            {
+                if (newValue)
                 {
-                    contentArea.getChildren().add(newNode);
+                    contentArea.getChildren().remove(invalidPlaceView);
+                }
+                else
+                {
+                    contentArea.getChildren().add(invalidPlaceView);
                 }
             }
         });
@@ -130,6 +160,39 @@ public class BrowserSkin implements Skin<Browser>
 
         workerListener = new WorkerListener();
         browser.getWorkers().addListener(workerListener);
+    }
+
+    private Node buildInvalidPlacePage()
+    {
+        final VBox box = new VBox(20);
+        box.getStyleClass().add("invalid-place-page");
+
+        final Label header = new Label("Sorry, that page does not exist");
+        header.getStyleClass().add("invalid-place-header");
+        box.getChildren().add(header);
+
+        final Label message = new Label();
+        browser.supportedPlaceProperty().addListener(new ChangeListener<Boolean>()
+        {
+            public void changed(ObservableValue<? extends Boolean> source, Boolean oldValue, Boolean newValue)
+            {
+                if (!newValue)
+                {
+                    Place place = null;
+                    if (browser.getNavigationManager() != null)
+                    {
+                        place = browser.getNavigationManager().getCurrentPlace();
+                    }
+                    message.setText(place != null
+                            ?  String.format("No page for '%s' could not be found", place.getName())
+                            : "The page you are looking for could not be found.");
+                }
+            }
+        });
+        header.getStyleClass().add("invalid-place-message");
+        box.getChildren().add(message);
+
+        return box;
     }
 
     //-------------------------------------------------------------------------

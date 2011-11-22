@@ -4,6 +4,7 @@ import com.zenjava.jfxflow.actvity.AbstractActivity;
 import com.zenjava.jfxflow.control.PlaceHyperlink;
 import com.zenjava.jfxflow.navigation.NavigationManager;
 import com.zenjava.jfxflow.navigation.Place;
+import com.zenjava.jfxflow.transition.*;
 import com.zenjava.jfxflow.worker.BackgroundTask;
 import com.zenjava.jfxflow.worker.ErrorHandler;
 import javafx.event.ActionEvent;
@@ -12,8 +13,10 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 public class Page2Activity extends AbstractActivity<VBox>
+        implements HasEntryTransition, HasExitTransition
 {
     private Label messageLabel;
     private ErrorHandler errorHandler;
@@ -70,5 +73,15 @@ public class Page2Activity extends AbstractActivity<VBox>
                 throw new RuntimeException("A test error");
             }
         });
+    }
+
+    public ViewTransition getEntryTransition()
+    {
+        return FlyTransition.createFlyIn(getNode(), Duration.millis(1000), VerticalPosition.top);
+    }
+
+    public ViewTransition getExitTransition()
+    {
+        return FlyTransition.createFlyOut(getNode(), Duration.millis(1000), VerticalPosition.top);
     }
 }

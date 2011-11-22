@@ -29,7 +29,7 @@ public class DefaultBrowserHeader extends StackPane
     public DefaultBrowserHeader(Browser browser, String title)
     {
         this.browser = browser;
-        getStyleClass().add("header");
+        getStyleClass().add("browser-header");
         this.title = new SimpleStringProperty(title);
         this.backButton = buildBackButton();
         this.forwardButton = buildForwardButton();

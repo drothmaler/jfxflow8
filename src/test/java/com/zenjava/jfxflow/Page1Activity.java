@@ -22,6 +22,9 @@ public class Page1Activity extends AbstractActivity<VBox>
         rootPane.getChildren().add(new PlaceButton(
                 "Go to page 2", navigationManager, new Place("page2")));
 
+        rootPane.getChildren().add(new PlaceButton(
+                "Go to a bad place", navigationManager, new Place("badplace")));
+
         final Button showDialogButton = new Button("Show Dialog");
         showDialogButton.setOnAction(new EventHandler<ActionEvent>()
         {

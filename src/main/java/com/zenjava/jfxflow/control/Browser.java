@@ -9,7 +9,9 @@ import com.zenjava.jfxflow.transition.*;
 import com.zenjava.jfxflow.worker.DefaultErrorHandler;
 import javafx.animation.Animation;
 import javafx.animation.SequentialTransition;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -39,11 +41,12 @@ public class Browser extends Control implements HasNode, HasWorkers, Refreshable
     private ObservableList<PlaceResolver> placeResolvers;
     private ObjectProperty<Animation> currentAnimation;
     private ObservableList<Worker> workers;
-    private ObjectProperty<Node> content;
+    private ObservableList<Node> activePages;
     private ObjectProperty<Bounds> contentBounds;
     private ObjectProperty<Node> header;
     private ObjectProperty<Node> footer;
     private ObservableList<Dialog> dialogs;
+    private BooleanProperty supportedPlace;
 
     public Browser()
     {
@@ -59,11 +62,12 @@ public class Browser extends Control implements HasNode, HasWorkers, Refreshable
         this.placeResolvers = FXCollections.observableArrayList();
         this.currentAnimation = new SimpleObjectProperty<Animation>();
         this.workers = FXCollections.observableArrayList();
-        this.content = new SimpleObjectProperty<Node>();
+        this.activePages = FXCollections.observableArrayList();
         this.contentBounds = new SimpleObjectProperty<Bounds>();
         this.header = new SimpleObjectProperty<Node>();
         this.footer = new SimpleObjectProperty<Node>();
         this.dialogs = FXCollections.observableArrayList();
+        this.supportedPlace = new SimpleBooleanProperty();
 
         this.header.set(new DefaultBrowserHeader(this));
         this.placeResolvers.add(new RegexPlaceResolver(DefaultErrorHandler.ERROR_PLACE_NAME, new ErrorPage()));
@@ -74,13 +78,12 @@ public class Browser extends Control implements HasNode, HasWorkers, Refreshable
         {
             public void changed(ObservableValue<? extends Place> source, Place oldPlace, Place newPlace)
             {
-                HasNode newPage = null;
                 if (newPlace != null)
                 {
                     for (int i = placeResolvers.size() - 1; i >= 0; i--)
                     {
                         PlaceResolver resolver = placeResolvers.get(i);
-                        newPage = resolver.resolvePlace(newPlace);
+                        HasNode newPage = resolver.resolvePlace(newPlace);
                         if (newPage != null)
                         {
                             HasNode oldPage = currentPage.get();
@@ -94,14 +97,19 @@ public class Browser extends Control implements HasNode, HasWorkers, Refreshable
                                 setParameters(newPage, newPlace);
                                 ((Activatable) newPage).setActive(true);
                             }
+                            supportedPlace.set(true);
                             currentPage.set(newPage);
                             return;
                         }
                     }
                 }
-                currentPage.set(newPage);
+
+                // no matching place
+                currentPage.set(null);
+                supportedPlace.set(false);
             }
         };
+
         this.navigationManager.addListener(new ChangeListener<NavigationManager>()
         {
             public void changed(ObservableValue<? extends NavigationManager> source,
@@ -118,7 +126,6 @@ public class Browser extends Control implements HasNode, HasWorkers, Refreshable
                 }
             }
         });
-
 
         // manage current page
 
@@ -243,14 +250,19 @@ public class Browser extends Control implements HasNode, HasWorkers, Refreshable
         return currentAnimation;
     }
 
-    ObjectProperty<Node> contentProperty()
+    public ObservableList<Node> getActivePages()
     {
-        return content;
+        return activePages;
     }
 
     ObjectProperty<Bounds> contentBoundsProperty()
     {
         return contentBounds;
+    }
+
+    public BooleanProperty supportedPlaceProperty()
+    {
+        return supportedPlace;
     }
 
     protected String getUserAgentStylesheet()
@@ -328,7 +340,7 @@ public class Browser extends Control implements HasNode, HasWorkers, Refreshable
             }
             entry.setupBeforeAnimation(contentBounds.get());
             transition.getChildren().add(entry.getAnimation());
-            content.set(newPage.getNode());
+            activePages.add(newPage.getNode());
         }
 
         final ViewTransition finalExit = exit;
@@ -337,6 +349,11 @@ public class Browser extends Control implements HasNode, HasWorkers, Refreshable
         {
             public void handle(ActionEvent event)
             {
+                if (oldPage != null)
+                {
+                    activePages.remove(oldPage.getNode());
+                }
+
                 if (finalEntry != null)
                 {
                     finalEntry.cleanupAfterAnimation();
