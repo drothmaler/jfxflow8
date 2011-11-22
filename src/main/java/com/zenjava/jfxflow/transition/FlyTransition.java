@@ -103,9 +103,14 @@ public class FlyTransition extends AbstractViewTransition
         return translation;
     }
 
+    public void cleanupAfterAnimation()
+    {
+        targetNode.setTranslateX(0);
+        targetNode.setTranslateY(0);
+    }
+
     protected double getX(Bounds bounds, HorizontalPosition position)
     {
-        // todo these aren't quite right
         switch (position)
         {
             case left:
@@ -119,7 +124,6 @@ public class FlyTransition extends AbstractViewTransition
 
     protected double getY(Bounds bounds, VerticalPosition position)
     {
-        // todo these aren't quite right
         switch (position)
         {
             case top:
@@ -130,4 +134,5 @@ public class FlyTransition extends AbstractViewTransition
                 return 0;
         }
     }
+
 }

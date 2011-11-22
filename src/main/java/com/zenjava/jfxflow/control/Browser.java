@@ -25,6 +25,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.control.Control;
+import javafx.util.Duration;
 
 import java.lang.reflect.Field;
 
@@ -321,7 +322,7 @@ public class Browser extends Control implements HasNode, HasWorkers, Refreshable
             }
             else
             {
-                exit = new FadeOutTransition(oldPage.getNode());
+                exit = new FadeOutTransition(oldPage.getNode(), Duration.millis(300));
             }
             exit.setupBeforeAnimation(contentBounds.get());
             transition.getChildren().add(exit.getAnimation());
@@ -336,7 +337,7 @@ public class Browser extends Control implements HasNode, HasWorkers, Refreshable
             }
             else
             {
-                entry = new FadeInTransition(newPage.getNode());
+                entry = new FadeInTransition(newPage.getNode(), Duration.millis(300));
             }
             entry.setupBeforeAnimation(contentBounds.get());
             transition.getChildren().add(entry.getAnimation());

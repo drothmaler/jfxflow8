@@ -9,10 +9,12 @@ import javafx.util.Duration;
 public class FadeInTransition extends AbstractViewTransition
 {
     private Node targetNode;
+    private Duration duration;
 
-    public FadeInTransition(Node targetNode)
+    public FadeInTransition(Node targetNode, Duration duration)
     {
         this.targetNode = targetNode;
+        this.duration = duration;
     }
 
     public void setupBeforeAnimation(Bounds bounds)
@@ -22,7 +24,7 @@ public class FadeInTransition extends AbstractViewTransition
 
     public Animation getAnimation()
     {
-        FadeTransition fadeIn = new FadeTransition(Duration.millis(300), targetNode);
+        FadeTransition fadeIn = new FadeTransition(duration, targetNode);
         fadeIn.setFromValue(0);
         fadeIn.setToValue(1);
         return fadeIn;

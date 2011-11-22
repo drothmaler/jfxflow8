@@ -8,15 +8,17 @@ import javafx.util.Duration;
 public class FadeOutTransition extends AbstractViewTransition
 {
     private Node targetNode;
+    private Duration duration;
 
-    public FadeOutTransition(Node targetNode)
+    public FadeOutTransition(Node targetNode, Duration duration)
     {
         this.targetNode = targetNode;
+        this.duration = duration;
     }
 
     public Animation getAnimation()
     {
-        FadeTransition fadeOut = new FadeTransition(Duration.millis(300), targetNode);
+        FadeTransition fadeOut = new FadeTransition(duration, targetNode);
         fadeOut.setFromValue(1.0);
         fadeOut.setToValue(0);
         return fadeOut;
