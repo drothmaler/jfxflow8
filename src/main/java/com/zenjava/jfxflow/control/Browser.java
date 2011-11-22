@@ -2,11 +2,9 @@ package com.zenjava.jfxflow.control;
 
 import com.sun.javafx.css.StyleManager;
 import com.zenjava.jfxflow.actvity.*;
-import com.zenjava.jfxflow.navigation.DefaultNavigationManager;
-import com.zenjava.jfxflow.navigation.NavigationManager;
-import com.zenjava.jfxflow.navigation.Place;
-import com.zenjava.jfxflow.navigation.PlaceResolver;
+import com.zenjava.jfxflow.navigation.*;
 import com.zenjava.jfxflow.transition.*;
+import com.zenjava.jfxflow.worker.DefaultErrorHandler;
 import javafx.animation.Animation;
 import javafx.animation.SequentialTransition;
 import javafx.beans.property.ObjectProperty;
@@ -26,7 +24,7 @@ import javafx.scene.control.Control;
 
 import java.lang.reflect.Field;
 
-public class Browser extends Control implements HasNode, HasWorkers, IsRefreshable
+public class Browser extends Control implements HasNode, HasWorkers, Refreshable
 {
     // work around for bug: http://javafx-jira.kenai.com/browse/RT-16647
     static
@@ -64,6 +62,7 @@ public class Browser extends Control implements HasNode, HasWorkers, IsRefreshab
         this.footer = new SimpleObjectProperty<Node>();
 
         this.header.set(new DefaultBrowserHeader(this));
+        this.placeResolvers.add(new RegexPlaceResolver(DefaultErrorHandler.ERROR_PLACE_NAME, new ErrorPage()));
 
         // manage current place
 
@@ -74,8 +73,9 @@ public class Browser extends Control implements HasNode, HasWorkers, IsRefreshab
                 HasNode newPage = null;
                 if (newPlace != null)
                 {
-                    for (PlaceResolver resolver : placeResolvers)
+                    for (int i = placeResolvers.size() - 1; i >= 0; i--)
                     {
+                        PlaceResolver resolver = placeResolvers.get(i);
                         newPage = resolver.resolvePlace(newPlace);
                         if (newPage != null)
                         {
@@ -213,9 +213,9 @@ public class Browser extends Control implements HasNode, HasWorkers, IsRefreshab
     public void refresh()
     {
         HasNode currentPage = this.currentPage.get();
-        if (currentPage instanceof IsRefreshable)
+        if (currentPage instanceof Refreshable)
         {
-            ((IsRefreshable)currentPage).refresh();
+            ((Refreshable)currentPage).refresh();
         }
     }
 

@@ -1,11 +1,14 @@
 package com.zenjava.jfxflow.navigation;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class Place
 {
-    private String name;
+    private StringProperty name;
     private Map<String, Object> parameters;
 
     public Place(String name)
@@ -15,7 +18,7 @@ public class Place
 
     public Place(String name, Map<String, Object> parameters)
     {
-        this.name = name;
+        this.name = new SimpleStringProperty(name);
         this.parameters = new HashMap<String, Object>();
         if (parameters != null)
         {
@@ -23,9 +26,19 @@ public class Place
         }
     }
 
+    public StringProperty nameProperty()
+    {
+        return this.name;
+    }
+
     public String getName()
     {
-        return name;
+        return this.name.get();
+    }
+
+    public void setName(String name)
+    {
+        this.name.set(name);
     }
 
     public Map<String, Object> getParameters()

@@ -1,0 +1,31 @@
+.error-page {
+    -fx-skin: "com.zenjava.jfxflow.control.ErrorPageSkin";
+}
+
+.error-header {
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
+}
+
+.error-info {
+    -fx-font-weight: normal;
+}
+
+.error-detail {
+    -fx-border-color: #ffa;
+    -fx-border-radius: 10;
+    -fx-background-color: #ffe;
+    -fx-background-radius: 10;
+    -fx-padding: 10;
+}
+
+.error-message {
+    -fx-font-weight: bold;
+    -fx-background-color: #ffe;
+}
+
+.error-stack-trace {
+    -fx-text-fill: #ddd;
+    -fx-background-color: #ffe;
+}
+

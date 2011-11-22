@@ -4,6 +4,8 @@ import com.zenjava.jfxflow.control.Browser;
 import com.zenjava.jfxflow.control.DefaultBrowserHeader;
 import com.zenjava.jfxflow.navigation.Place;
 import com.zenjava.jfxflow.navigation.RegexPlaceResolver;
+import com.zenjava.jfxflow.worker.DefaultErrorHandler;
+import com.zenjava.jfxflow.worker.ErrorHandler;
 import javafx.application.Application;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
@@ -28,9 +30,11 @@ public class TestApplication extends Application
         header.getRightDockBar().getChildren().addAll(new Button("Admin"));
         browser.setHeader(header);
 
+        ErrorHandler errorHandler = new DefaultErrorHandler(browser.getNavigationManager());
+
         Page1Activity page1Activity = new Page1Activity(browser.getNavigationManager());
         browser.getPlaceResolvers().add(new RegexPlaceResolver("page1", page1Activity));
-        Page2Activity page2Activity = new Page2Activity(browser.getNavigationManager());
+        Page2Activity page2Activity = new Page2Activity(browser.getNavigationManager(), errorHandler);
         browser.getPlaceResolvers().add(new RegexPlaceResolver("page2", page2Activity));
         browser.getNavigationManager().goTo(new Place("page1"));
 

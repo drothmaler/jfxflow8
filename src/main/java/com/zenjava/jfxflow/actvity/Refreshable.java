@@ -1,6 +1,6 @@
 package com.zenjava.jfxflow.actvity;
 
-public interface IsRefreshable
+public interface Refreshable
 {
     void refresh();
 }
