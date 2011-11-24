@@ -4,7 +4,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Node;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
@@ -27,6 +26,13 @@ public class FxmlLoader
     }
 
     @SuppressWarnings("unchecked")
+    public <Type extends HasNode> Type load(String fxmlFile, ResourceBundle resourceBundle)
+            throws FxmlLoadException
+    {
+        return (Type) load(fxmlFile, resourceBundle, null);
+    }
+
+    @SuppressWarnings("unchecked")
     public <Type extends HasNode> Type load(String fxmlFile, ResourceBundle resources, Map<String, Object> variables)
             throws FxmlLoadException
     {
@@ -37,8 +43,7 @@ public class FxmlLoader
             FXMLLoader loader = new FXMLLoader();
             loader.setBuilderFactory(new JavaFXBuilderFactory());
 
-            File file = new File(fxmlFile);
-            loader.setLocation(file.toURI().toURL());
+            loader.setLocation(getClass().getResource(fxmlFile));
 
             if (resources != null)
             {

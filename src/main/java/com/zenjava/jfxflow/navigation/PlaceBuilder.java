@@ -1,7 +1,14 @@
 package com.zenjava.jfxflow.navigation;
 
-public class PlaceBuilder
+import javafx.util.Builder;
+
+public class PlaceBuilder implements Builder<Place>
 {
+    public static PlaceBuilder create()
+    {
+        return new PlaceBuilder();
+    }
+
     private Place place;
 
     public PlaceBuilder()

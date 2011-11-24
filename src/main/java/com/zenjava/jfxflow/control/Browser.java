@@ -51,10 +51,15 @@ public class Browser extends Control implements HasNode, HasWorkers, Refreshable
 
     public Browser()
     {
-        this(new DefaultNavigationManager());
+        this(new DefaultNavigationManager(), null);
     }
 
     public Browser(NavigationManager navigationManager)
+    {
+        this(navigationManager, null);
+    }
+
+    public Browser(NavigationManager navigationManager, String title)
     {
         getStyleClass().add("browser");
 
@@ -70,8 +75,9 @@ public class Browser extends Control implements HasNode, HasWorkers, Refreshable
         this.dialogs = FXCollections.observableArrayList();
         this.supportedPlace = new SimpleBooleanProperty();
 
-        this.header.set(new DefaultBrowserHeader(this));
-        this.placeResolvers.add(new RegexPlaceResolver(DefaultErrorHandler.ERROR_PLACE_NAME, new ErrorPage()));
+        this.header.set(new DefaultBrowserHeader(this, title));
+        this.placeResolvers.add(new RegexPlaceResolver(
+                DefaultErrorHandler.ERROR_PLACE_NAME, new ErrorPage()));
 
         // manage current place
 
