@@ -13,12 +13,11 @@ import javafx.collections.ListChangeListener;
 import javafx.concurrent.Worker;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.control.Skin;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-public class BrowserSkin implements Skin<Browser>
+public class BrowserSkin //implements Skin<Browser>
 {
     private Browser browser;
     private StackPane rootPane;

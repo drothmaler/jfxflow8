@@ -11,7 +11,7 @@
         <version>7</version>
     </parent>
 
-    <groupId>com.zenjava.jfxflow</groupId>
+    <groupId>com.zenjava</groupId>
     <artifactId>jfxflow</artifactId>
     <version>1.0-SNAPSHOT</version>
 
@@ -61,7 +61,6 @@
 
     </dependencies>
 
-   <!--
    <build>
         <plugins>
             <plugin>
@@ -79,6 +78,5 @@
             </plugin>
         </plugins>
     </build>
-    -->
 
 </project>

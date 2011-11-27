@@ -8,14 +8,15 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.scene.control.Control;
+import javafx.scene.layout.BorderPane;
 
-public class ErrorPage extends Control implements HasNode<ErrorPage>, Activatable
+public class ErrorPage extends BorderPane implements HasNode<ErrorPage>, Activatable
 {
     // work around for bug: http://javafx-jira.kenai.com/browse/RT-16647
     static
     {
-        StyleManager.getInstance().addUserAgentStylesheet("styles/jfxflow-error-page.css");
+        StyleManager.getInstance().addUserAgentStylesheet(
+                ErrorPage.class.getResource("jfxflow-error-page.css").toExternalForm());
     }
 
     @Param private ObjectProperty<Throwable> error;
@@ -27,6 +28,7 @@ public class ErrorPage extends Control implements HasNode<ErrorPage>, Activatabl
         getStyleClass().add("error-page");
         this.error = new SimpleObjectProperty<Throwable>();
         this.active = new SimpleBooleanProperty();
+        setCenter(new ErrorPageSkin(this).getNode());
     }
 
     public ErrorPage getNode()
@@ -66,6 +68,6 @@ public class ErrorPage extends Control implements HasNode<ErrorPage>, Activatabl
 
     protected String getUserAgentStylesheet()
     {
-        return "styles/jfxflow-error-page.css";
+        return ErrorPage.class.getResource("jfxflow-error-page.css").toExternalForm();
     }
 }

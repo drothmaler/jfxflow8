@@ -17,7 +17,8 @@ public class Dialog
     // needed since Popups are not skinnable in the normal way
     static
     {
-        StyleManager.getInstance().addUserAgentStylesheet("styles/jfxflow-dialog.css");
+        StyleManager.getInstance().addUserAgentStylesheet(
+                Dialog.class.getResource("jfxflow-dialog.css").toExternalForm());
     }
 
     private ReadOnlyObjectWrapper<DialogOwner> owner;

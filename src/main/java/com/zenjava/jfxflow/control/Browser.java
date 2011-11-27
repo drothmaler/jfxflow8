@@ -24,17 +24,18 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
-import javafx.scene.control.Control;
+import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
 
 import java.lang.reflect.Field;
 
-public class Browser extends Control implements HasNode, HasWorkers, Refreshable, DialogOwner
+public class Browser extends BorderPane implements HasNode, HasWorkers, Refreshable, DialogOwner
 {
     // work around for bug: http://javafx-jira.kenai.com/browse/RT-16647
     static
     {
-        StyleManager.getInstance().addUserAgentStylesheet("styles/jfxflow-browser.css");
+        StyleManager.getInstance().addUserAgentStylesheet(
+                Browser.class.getResource("jfxflow-browser.css").toExternalForm());
     }
 
     private ObjectProperty<NavigationManager> navigationManager;
@@ -57,6 +58,11 @@ public class Browser extends Control implements HasNode, HasWorkers, Refreshable
     public Browser(NavigationManager navigationManager)
     {
         this(navigationManager, null);
+    }
+
+    public Browser(String title)
+    {
+        this(new DefaultNavigationManager(), title);
     }
 
     public Browser(NavigationManager navigationManager, String title)
@@ -166,6 +172,8 @@ public class Browser extends Control implements HasNode, HasWorkers, Refreshable
         });
 
         setNavigationManager(navigationManager);
+
+        setCenter(new BrowserSkin(this).getNode());
     }
 
     public Node getNode()
@@ -274,7 +282,7 @@ public class Browser extends Control implements HasNode, HasWorkers, Refreshable
 
     protected String getUserAgentStylesheet()
     {
-        return "styles/jfxflow-browser.css";
+        return Browser.class.getResource("jfxflow-browser.css").toExternalForm();
     }
 
     protected void setParameters(HasNode page, Place place)

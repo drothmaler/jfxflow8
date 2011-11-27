@@ -4,7 +4,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.control.Skin;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -15,7 +14,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 
-public class ErrorPageSkin implements Skin<ErrorPage>
+public class ErrorPageSkin //implements Skin<ErrorPage>
 {
     protected ErrorPage errorPage;
     protected VBox root;
@@ -93,8 +92,8 @@ public class ErrorPageSkin implements Skin<ErrorPage>
         }
         else
         {
-            messageField.setText(null);
-            stackTraceArea.setText(null);
+            messageField.setText("");
+            stackTraceArea.setText("");
         }
     }
 }
