@@ -28,7 +28,7 @@
 
 .browser .browser-header .button {
     -fx-border-width: 1;
-    -fx-border-insets: 0;
+    -fx-border-color: transparent;
     -fx-background-color: transparent;
     -fx-cursor: hand;
     -fx-padding: 4;

@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Popup;
+import javafx.stage.Window;
 
 public class Dialog
 {
@@ -93,7 +94,7 @@ public class Dialog
     {
         this.title.set(title);
     }
-    
+
     public ObjectProperty<Node> contentProperty()
     {
         return content;
@@ -125,7 +126,10 @@ public class Dialog
         if (owner != null)
         {
             this.owner.set(owner);
-            popup.show(node.getScene().getWindow());
+            final Window window = node.getScene().getWindow();
+            popup.show(window);
+            popup.setX(window.getX() + (window.getWidth() / 2) - (popup.getWidth() / 2));
+            popup.setY(window.getY() + (window.getHeight() / 2) - (popup.getHeight() / 2));
         }
         else
         {
