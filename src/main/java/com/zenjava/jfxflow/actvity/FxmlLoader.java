@@ -58,9 +58,9 @@ public class FxmlLoader
             Node view = (Node) loader.load(fxmlStream);
 
             Type controller = (Type) loader.getController();
-            if (controller instanceof AbstractActivity)
+            if (controller instanceof HasWritableNode)
             {
-                ((AbstractActivity) controller).setNode(view);
+                ((HasWritableNode) controller).setNode(view);
             }
             return controller;
         }
