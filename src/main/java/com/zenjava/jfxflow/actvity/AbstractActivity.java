@@ -11,7 +11,7 @@ import javafx.concurrent.Worker;
 import javafx.scene.Node;
 
 public abstract class AbstractActivity<NodeType extends Node>
-        implements HasNode<NodeType>, Activatable, HasWorkers, Refreshable
+        implements HasWritableNode<NodeType>, Activatable, HasWorkers, Refreshable
 {
     private NodeType node;
     private BooleanProperty active;
@@ -43,7 +43,7 @@ public abstract class AbstractActivity<NodeType extends Node>
         return node;
     }
 
-    protected void setNode(NodeType node)
+    public void setNode(NodeType node)
     {
         this.node = node;
     }
