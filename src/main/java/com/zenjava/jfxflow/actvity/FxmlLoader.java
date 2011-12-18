@@ -12,28 +12,28 @@ import java.util.ResourceBundle;
 public class FxmlLoader
 {
     @SuppressWarnings("unchecked")
-    public <Type extends HasNode> Type load(String fxmlFile)
+    public <Type extends Activity> Type load(String fxmlFile)
             throws FxmlLoadException
     {
         return (Type) load(fxmlFile, null, null);
     }
 
     @SuppressWarnings("unchecked")
-    public <Type extends HasNode> Type load(String fxmlFile, String resourceBundle)
+    public <Type extends Activity> Type load(String fxmlFile, String resourceBundle)
             throws FxmlLoadException
     {
         return (Type) load(fxmlFile, ResourceBundle.getBundle(resourceBundle), null);
     }
 
     @SuppressWarnings("unchecked")
-    public <Type extends HasNode> Type load(String fxmlFile, ResourceBundle resourceBundle)
+    public <Type extends Activity> Type load(String fxmlFile, ResourceBundle resourceBundle)
             throws FxmlLoadException
     {
         return (Type) load(fxmlFile, resourceBundle, null);
     }
 
     @SuppressWarnings("unchecked")
-    public <Type extends HasNode> Type load(String fxmlFile, ResourceBundle resources, Map<String, Object> variables)
+    public <Type extends Activity> Type load(String fxmlFile, ResourceBundle resources, Map<String, Object> variables)
             throws FxmlLoadException
     {
         InputStream fxmlStream = null;
@@ -55,12 +55,12 @@ public class FxmlLoader
                 loader.getNamespace().putAll(variables);
             }
 
-            Node view = (Node) loader.load(fxmlStream);
+            Node rootNode = (Node) loader.load(fxmlStream);
 
             Type controller = (Type) loader.getController();
-            if (controller instanceof HasWritableNode)
+            if (controller instanceof InjectedView)
             {
-                ((HasWritableNode) controller).setNode(view);
+                ((InjectedView) controller).setView(new SimpleView(rootNode));
             }
             return controller;
         }

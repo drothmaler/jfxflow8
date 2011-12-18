@@ -19,7 +19,7 @@ public class Dialog
     static
     {
         StyleManager.getInstance().addUserAgentStylesheet(
-                Dialog.class.getResource("jfxflow-dialog.css").toExternalForm());
+                Dialog.class.getResource("/styles/jfxflow-dialog.css").toExternalForm());
     }
 
     private ReadOnlyObjectWrapper<DialogOwner> owner;

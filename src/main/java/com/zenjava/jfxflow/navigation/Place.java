@@ -48,6 +48,6 @@ public class Place
 
     public String toString()
     {
-        return String.format("Place[%s]", name);
+        return String.format("Place[%s]", getName());
     }
 }

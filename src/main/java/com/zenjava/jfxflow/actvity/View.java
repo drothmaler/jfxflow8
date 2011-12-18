@@ -2,7 +2,7 @@ package com.zenjava.jfxflow.actvity;
 
 import javafx.scene.Node;
 
-public interface HasNode<NodeType extends Node>
+public interface View<NodeType extends Node>
 {
-    NodeType getNode();
+    NodeType toNode();
 }

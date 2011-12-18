@@ -1,7 +1,8 @@
-package com.zenjava.jfxflow.worker;
+package com.zenjava.jfxflow.error;
 
 import com.zenjava.jfxflow.navigation.NavigationManager;
 import com.zenjava.jfxflow.navigation.PlaceBuilder;
+import com.zenjava.jfxflow.worker.UnhandledWorkerException;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 

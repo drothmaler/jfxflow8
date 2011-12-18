@@ -1,16 +1,16 @@
 package com.zenjava.jfxflow.navigation;
 
-import com.zenjava.jfxflow.actvity.HasNode;
+import com.zenjava.jfxflow.actvity.Activity;
 
 import java.util.regex.Pattern;
 
 /**
  * Provides an ActivityMapping strategy that tries to match a regular expression against Place names.
  */
-public class RegexPlaceResolver implements PlaceResolver
+public class RegexPlaceResolver extends AbstractPlaceResolver
 {
     private String expression;
-    private HasNode node;
+    private Activity activity;
     private Pattern pattern;
 
     /**
@@ -18,12 +18,12 @@ public class RegexPlaceResolver implements PlaceResolver
      *
      * @param expression the regular expression to use for this mapping. This can be any valid Java regular expression
      * and will be matched against Place names in the isMatch() method.
-     * @param node the Node (owner) that the expression maps to.
+     * @param activity the Activity that matching Places will resolve to.
      */
-    public RegexPlaceResolver(String expression, HasNode node)
+    public RegexPlaceResolver(String expression, Activity activity)
     {
         this.expression = expression;
-        this.node = node;
+        this.activity = activity;
         pattern = Pattern.compile(expression);
     }
 
@@ -33,11 +33,12 @@ public class RegexPlaceResolver implements PlaceResolver
      * name, then this method will return true.
      *
      * @param place the Place to match to this mapping.
-     * @return true if the name of the specified Place is matched by this mappings regular expression.
+     * @return the activity for this resolver if the name of the specified Place is matched by this mappings regular
+     * expression.
      */
-    public HasNode resolvePlace(Place place)
+    public Activity findActivity(Place place)
     {
-        return pattern.matcher(place.getName()).matches() ? node : null;
+        return pattern.matcher(place.getName()).matches() ? activity : null;
     }
 
     /**
@@ -55,8 +56,8 @@ public class RegexPlaceResolver implements PlaceResolver
      *
      * @return the Node that this mapping is for.
      */
-    public HasNode getNode()
+    public Activity getActivity()
     {
-        return node;
+        return activity;
     }
 }

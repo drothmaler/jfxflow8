@@ -2,10 +2,10 @@ package com.zenjava.jfxflow;
 
 import com.zenjava.jfxflow.control.Browser;
 import com.zenjava.jfxflow.control.DefaultBrowserHeader;
+import com.zenjava.jfxflow.error.DefaultErrorHandler;
+import com.zenjava.jfxflow.error.ErrorHandler;
 import com.zenjava.jfxflow.navigation.Place;
 import com.zenjava.jfxflow.navigation.RegexPlaceResolver;
-import com.zenjava.jfxflow.worker.DefaultErrorHandler;
-import com.zenjava.jfxflow.worker.ErrorHandler;
 import javafx.application.Application;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
@@ -34,8 +34,13 @@ public class TestApplication extends Application
 
         Page1Activity page1Activity = new Page1Activity(browser.getNavigationManager());
         browser.getPlaceResolvers().add(new RegexPlaceResolver("page1", page1Activity));
+
         Page2Activity page2Activity = new Page2Activity(browser.getNavigationManager(), errorHandler);
         browser.getPlaceResolvers().add(new RegexPlaceResolver("page2", page2Activity));
+
+        TabbedParentActivity tabbedParentActivity = new TabbedParentActivity();
+        browser.getPlaceResolvers().add(new RegexPlaceResolver("tabbed", tabbedParentActivity));
+
         browser.getNavigationManager().goTo(new Place("page1"));
 
         Scene scene = new Scene(browser, 800, 600);

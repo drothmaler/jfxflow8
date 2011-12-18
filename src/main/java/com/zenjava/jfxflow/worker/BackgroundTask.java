@@ -1,5 +1,6 @@
 package com.zenjava.jfxflow.worker;
 
+import com.zenjava.jfxflow.error.ErrorHandler;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;

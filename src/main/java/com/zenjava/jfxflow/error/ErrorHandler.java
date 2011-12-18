@@ -1,4 +1,4 @@
-package com.zenjava.jfxflow.worker;
+package com.zenjava.jfxflow.error;
 
 public interface ErrorHandler
 {

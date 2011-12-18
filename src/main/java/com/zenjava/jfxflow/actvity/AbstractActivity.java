@@ -1,6 +1,7 @@
 package com.zenjava.jfxflow.actvity;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -8,18 +9,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.concurrent.Worker;
-import javafx.scene.Node;
 
-public abstract class AbstractActivity<NodeType extends Node>
-        implements HasWritableNode<NodeType>, Activatable, HasWorkers, Refreshable
+public abstract class AbstractActivity<ViewType extends View>
+        implements InjectedView<ViewType>, Activatable, HasWorkers, Releasable
 {
-    private NodeType node;
+    private ViewType view;
     private BooleanProperty active;
+    private BooleanProperty released;
     private ObservableList<Worker> workers;
 
     protected AbstractActivity()
     {
         this.active = new SimpleBooleanProperty();
+        this.released = new SimpleBooleanProperty();
         this.active.addListener(new ChangeListener<Boolean>()
         {
             public void changed(ObservableValue<? extends Boolean> source, Boolean oldValue, Boolean newValue)
@@ -38,14 +40,14 @@ public abstract class AbstractActivity<NodeType extends Node>
         this.workers = FXCollections.observableArrayList();
     }
 
-    public NodeType getNode()
+    public ViewType getView()
     {
-        return node;
+        return view;
     }
 
-    public void setNode(NodeType node)
+    public void setView(ViewType view)
     {
-        this.node = node;
+        this.view = view;
     }
 
     public void setActive(boolean active)
@@ -63,14 +65,25 @@ public abstract class AbstractActivity<NodeType extends Node>
         return this.active;
     }
 
+    public void release()
+    {
+        setActive(false);
+        released.set(true);
+    }
+
+    public ReadOnlyBooleanProperty releasedProperty()
+    {
+        return released;
+    }
+
+    public boolean isReleased()
+    {
+        return released.get();
+    }
+
     public ObservableList<Worker> getWorkers()
     {
         return workers;
-    }
-
-    public void refresh()
-    {
-        activated();
     }
 
     protected void activated()

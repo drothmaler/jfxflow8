@@ -50,17 +50,17 @@
 
 .browser .browser-header .back-button {
     -fx-content-display: graphic-only;
-    -fx-graphic: url("../../../../images/nav-back.png");
+    -fx-graphic: url("../images/nav-back.png");
 }
 
 .browser .browser-header .forward-button {
     -fx-content-display: graphic-only;
-    -fx-graphic: url("../../../../images/nav-forward.png");
+    -fx-graphic: url("../images/nav-forward.png");
 }
 
 .browser .browser-header .refresh-button {
     -fx-content-display: graphic-only;
-    -fx-graphic: url("../../../../images/nav-refresh.png");
+    -fx-graphic: url("../images/nav-refresh.png");
 }
 
 .browser .invalid-place-page {
