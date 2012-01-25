@@ -11,7 +11,7 @@ import javafx.event.EventHandler;
 import javafx.scene.layout.StackPane;
 
 public abstract class AbstractParentActivity<ViewType extends View>
-        extends AbstractActivity<ViewType>
+        extends AbstractActivity<ViewType> implements HasTransition
 {
     private ObjectProperty<Activity> currentActivity;
     private ObjectProperty<Animation> currentTransition;

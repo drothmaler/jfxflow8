@@ -163,6 +163,7 @@ public class ParentActivity<ViewType extends ParentView>
                 ((Activatable) newActivity).activeProperty().bind(activeProperty());
             }
 
+            currentTransition.unbind();
             Animation transition = transitionFactory.get().createTransition(
                     getView().getChildArea(), oldActivity, newActivity);
             currentTransition.set(transition);
@@ -175,10 +176,20 @@ public class ParentActivity<ViewType extends ParentView>
                     {
                         originalOnFinished.handle(event);
                     }
-                    currentTransition.set(null);
+
+                    if (currentActivity instanceof HasTransition)
+                    {
+                        currentTransition.bind(((HasTransition) currentActivity).currentTransitionProperty());
+                    }
+                    else
+                    {
+                        currentTransition.bind(null);
+                    }
                 }
             });
             transition.play();
+
+
         }
     }
 }
