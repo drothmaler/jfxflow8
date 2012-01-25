@@ -177,13 +177,13 @@ public class ParentActivity<ViewType extends ParentView>
                         originalOnFinished.handle(event);
                     }
 
-                    if (currentActivity instanceof HasTransition)
+                    if (currentActivity.get() instanceof HasTransition)
                     {
-                        currentTransition.bind(((HasTransition) currentActivity).currentTransitionProperty());
+                        currentTransition.bind(((HasTransition) currentActivity.get()).currentTransitionProperty());
                     }
                     else
                     {
-                        currentTransition.bind(null);
+                        currentTransition.set(null);
                     }
                 }
             });
