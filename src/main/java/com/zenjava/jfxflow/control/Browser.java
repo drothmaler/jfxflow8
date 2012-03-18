@@ -165,11 +165,8 @@ public class Browser extends StackPane implements DialogOwner
             }
         });
 
-        BorderPane rootPaneLayout = new BorderPane();
-
         this.header = new SimpleObjectProperty<Node>();
         this.header.set(new DefaultBrowserHeader(this, title));
-        rootPaneLayout.topProperty().bind(header);
 
         this.contentPageActivity = new ParentActivity(transitionFactory);
         SimpleParentView contentPageView = new SimpleParentView();
@@ -177,12 +174,10 @@ public class Browser extends StackPane implements DialogOwner
         this.contentPageActivity.setView(contentPageView);
         this.contentPageActivity.getPlaceResolvers().add(new RegexPlaceResolver(
                 DefaultErrorHandler.ERROR_PLACE_NAME, new DefaultErrorActivity()));
-        rootPaneLayout.setCenter(contentPageView);
 
         this.footer = new SimpleObjectProperty<Node>();
-        rootPaneLayout.bottomProperty().bind(footer);
 
-        getChildren().add(rootPaneLayout);
+        getChildren().add(buildView());
 
         // dialog glass pane
 
@@ -238,5 +233,14 @@ public class Browser extends StackPane implements DialogOwner
 
         setNavigationManager(navigationManager);
         contentPageActivity.setActive(true);
+    }
+
+    protected Node buildView()
+    {
+        BorderPane rootPaneLayout = new BorderPane();
+        rootPaneLayout.topProperty().bind(header);
+        rootPaneLayout.setCenter(contentPageActivity.getView().toNode());
+        rootPaneLayout.bottomProperty().bind(footer);
+        return rootPaneLayout;
     }
 }
