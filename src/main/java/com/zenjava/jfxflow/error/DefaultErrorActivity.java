@@ -31,7 +31,7 @@ public class DefaultErrorActivity extends SimpleActivity
 
     public DefaultErrorActivity()
     {
-        this.error = new SimpleObjectProperty<Throwable>();
+        this.error = new SimpleObjectProperty<>();
 
         VBox root = new VBox(10);
         root.getStyleClass().add("error-page");
@@ -60,26 +60,22 @@ public class DefaultErrorActivity extends SimpleActivity
         VBox.setVgrow(detailPane, Priority.ALWAYS);
         root.getChildren().add(detailPane);
 
-        error.addListener(new ChangeListener<Throwable>()
-        {
-            public void changed(ObservableValue<? extends Throwable> source, Throwable oldValue, Throwable newValue)
+        error.addListener((source, oldValue, newValue) -> {
+            if (error != null)
             {
-                if (error != null)
-                {
-                    messageField.setText(newValue.getMessage());
-                    Writer writer = new StringWriter();
-                    PrintWriter printWriter = new PrintWriter(writer);
-                    newValue.printStackTrace(printWriter);
-                    stackTraceArea.setText(writer.toString());
-                }
-                else
-                {
-                    messageField.setText("");
-                    stackTraceArea.setText("");
-                }
+                messageField.setText(newValue.getMessage());
+                Writer writer = new StringWriter();
+                PrintWriter printWriter = new PrintWriter(writer);
+                newValue.printStackTrace(printWriter);
+                stackTraceArea.setText(writer.toString());
+            }
+            else
+            {
+                messageField.setText("");
+                stackTraceArea.setText("");
             }
         });
         
-        setView(new SimpleView(root));
+        setView(new SimpleView<>(root));
     }
 }

@@ -19,7 +19,7 @@ public class DefaultErrorHandler implements ErrorHandler
 
     public DefaultErrorHandler(NavigationManager navigationManager)
     {
-        this.navigationManager = new SimpleObjectProperty<NavigationManager>(navigationManager);
+        this.navigationManager = new SimpleObjectProperty<>(navigationManager);
     }
 
     public ObjectProperty<NavigationManager> navigationManagerProperty()

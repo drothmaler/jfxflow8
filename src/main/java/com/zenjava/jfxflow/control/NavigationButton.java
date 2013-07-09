@@ -54,30 +54,19 @@ public abstract class NavigationButton extends Button
         super(label, graphic);
         getStyleClass().add("navigation-button");
 
-        this.navigationManager = new SimpleObjectProperty<NavigationManager>();
-        this.navigationManager.addListener(new ChangeListener<NavigationManager>()
-        {
-            public void changed(ObservableValue<? extends NavigationManager> source,
-                                NavigationManager oldNavigationManager,
-                                NavigationManager newNavigationManager)
-            {
-                navigationManagerUpdated(oldNavigationManager, newNavigationManager);
-            }
-        });
+        this.navigationManager = new SimpleObjectProperty<>();
+        this.navigationManager.addListener((source, oldNavigationManager, newNavigationManager) ->
+                navigationManagerUpdated(oldNavigationManager, newNavigationManager));
 
-        setOnAction(new EventHandler<ActionEvent>()
-        {
-            public void handle(ActionEvent event)
+        setOnAction(event -> {
+            NavigationManager manager = NavigationButton.this.navigationManager.get();
+            if (manager != null)
             {
-                NavigationManager manager = NavigationButton.this.navigationManager.get();
-                if (manager != null)
-                {
-                    doAction();
-                }
-                else
-                {
-                    throw new IllegalStateException("A NavigationManager must be set before using this NavigationButton");
-                }
+                doAction();
+            }
+            else
+            {
+                throw new IllegalStateException("A NavigationManager must be set before using this NavigationButton");
             }
         });
 

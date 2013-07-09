@@ -108,13 +108,7 @@ public class DefaultBrowserHeader extends StackPane
     {
         Button refreshButton = new Button("Refresh");
         refreshButton.getStyleClass().add("refresh-button");
-        refreshButton.setOnAction(new EventHandler<ActionEvent>()
-        {
-            public void handle(ActionEvent event)
-            {
-                browser.refresh();
-            }
-        });
+        refreshButton.setOnAction(event -> browser.refresh());
         return refreshButton;
     }
 

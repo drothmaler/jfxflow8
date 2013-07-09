@@ -19,9 +19,9 @@ public abstract class AbstractParentActivity<ViewType extends View>
 
     public AbstractParentActivity()
     {
-        this.currentActivity = new SimpleObjectProperty<Activity>();
-        this.currentTransition = new SimpleObjectProperty<Animation>();
-        this.workerListBinding = new ListBinding<Worker>(getWorkers());
+        this.currentActivity = new SimpleObjectProperty<>();
+        this.currentTransition = new SimpleObjectProperty<>();
+        this.workerListBinding = new ListBinding<>(getWorkers());
     }
 
     public Activity getCurrentActivity()

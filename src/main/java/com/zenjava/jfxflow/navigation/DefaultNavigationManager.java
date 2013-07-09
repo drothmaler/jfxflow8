@@ -18,7 +18,7 @@ public class DefaultNavigationManager implements NavigationManager
 
     public DefaultNavigationManager()
     {
-        this.currentPlace = new SimpleObjectProperty<Place>();
+        this.currentPlace = new SimpleObjectProperty<>();
         this.backHistory = FXCollections.observableArrayList();
         this.forwardHistory = FXCollections.observableArrayList();
     }

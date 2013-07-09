@@ -85,7 +85,7 @@ public class PlaceHyperlink extends NavigationHyperlink
     {
         super(label, graphic, navigationManager);
         getStyleClass().add("place-hyperlink");
-        this.place = new SimpleObjectProperty<Place>(place);
+        this.place = new SimpleObjectProperty<>(place);
     }
 
     public ObjectProperty<Place> placeProperty()

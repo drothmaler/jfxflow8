@@ -31,17 +31,13 @@ public class Page1Activity extends AbstractActivity<SimpleView<VBox>>
                 "Go to a bad place", navigationManager, new Place("badplace")));
 
         final Button showDialogButton = new Button("Show Dialog");
-        showDialogButton.setOnAction(new EventHandler<ActionEvent>()
-        {
-            public void handle(ActionEvent event)
-            {
-                Dialog dialog = new Dialog("Test Dialog");
-                dialog.setContent(new Label("This is a test dialog"));
-                dialog.show(showDialogButton);
-            }
+        showDialogButton.setOnAction(event -> {
+            Dialog dialog = new Dialog("Test Dialog");
+            dialog.setContent(new Label("This is a test dialog"));
+            dialog.show(showDialogButton);
         });
         rootPane.getChildren().add(showDialogButton);
 
-        setView(new SimpleView<VBox>(rootPane));
+        setView(new SimpleView<>(rootPane));
     }
 }

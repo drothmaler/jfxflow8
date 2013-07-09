@@ -22,18 +22,14 @@ public abstract class AbstractActivity<ViewType extends View>
     {
         this.active = new SimpleBooleanProperty();
         this.released = new SimpleBooleanProperty();
-        this.active.addListener(new ChangeListener<Boolean>()
-        {
-            public void changed(ObservableValue<? extends Boolean> source, Boolean oldValue, Boolean newValue)
+        this.active.addListener((source, oldValue, newValue) -> {
+            if (newValue)
             {
-                if (newValue)
-                {
-                    activated();
-                }
-                else
-                {
-                    deactivated();
-                }
+                activated();
+            }
+            else
+            {
+                deactivated();
             }
         });
 
@@ -102,18 +98,14 @@ public abstract class AbstractActivity<ViewType extends View>
 
     protected void watchWorker(final Worker worker)
     {
-        worker.runningProperty().addListener(new ChangeListener<Boolean>()
-        {
-            public void changed(ObservableValue<? extends Boolean> source, Boolean olValue, Boolean newValue)
+        worker.runningProperty().addListener((source, olValue, newValue) -> {
+            if (newValue)
             {
-                if (newValue)
-                {
-                    workers.add(worker);
-                }
-                else
-                {
-                    workers.remove(worker);
-                }
+                workers.add(worker);
+            }
+            else
+            {
+                workers.remove(worker);
             }
         });
     }

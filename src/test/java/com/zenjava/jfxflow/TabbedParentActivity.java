@@ -38,33 +38,15 @@ public class TabbedParentActivity extends ParentActivity<SimpleParentView>
         HBox buttonBar = new HBox(10);
 
         Button tab1Button = new Button("Tab 1");
-        tab1Button.setOnAction(new EventHandler<ActionEvent>()
-        {
-            public void handle(ActionEvent event)
-            {
-                setCurrentPlace(new Place("tab1"));
-            }
-        });
+        tab1Button.setOnAction(event -> setCurrentPlace(new Place("tab1")));
         buttonBar.getChildren().add(tab1Button);
 
         Button tab2Button = new Button("Tab 2");
-        tab2Button.setOnAction(new EventHandler<ActionEvent>()
-        {
-            public void handle(ActionEvent event)
-            {
-                setCurrentPlace(new Place("tab2"));
-            }
-        });
+        tab2Button.setOnAction(event -> setCurrentPlace(new Place("tab2")));
         buttonBar.getChildren().add(tab2Button);
 
         Button badTab = new Button("Bad Tab");
-        badTab.setOnAction(new EventHandler<ActionEvent>()
-        {
-            public void handle(ActionEvent event)
-            {
-                setCurrentPlace(new Place("badtab"));
-            }
-        });
+        badTab.setOnAction(event -> setCurrentPlace(new Place("badtab")));
         buttonBar.getChildren().add(badTab);
 
         topArea.getChildren().add(buttonBar);

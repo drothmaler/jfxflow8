@@ -19,7 +19,7 @@ public class Place
     public Place(String name, Map<String, Object> parameters)
     {
         this.name = new SimpleStringProperty(name);
-        this.parameters = new HashMap<String, Object>();
+        this.parameters = new HashMap<>();
         if (parameters != null)
         {
             this.parameters.putAll(parameters);

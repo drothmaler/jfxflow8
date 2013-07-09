@@ -85,7 +85,7 @@ public class PlaceButton extends NavigationButton
     {
         super(label, graphic, navigationManager);
         getStyleClass().add("place-button");
-        this.place = new SimpleObjectProperty<Place>(place);
+        this.place = new SimpleObjectProperty<>(place);
     }
 
     public ObjectProperty<Place> placeProperty()

@@ -150,22 +150,16 @@ public class Browser extends StackPane implements DialogOwner
     {
         getStyleClass().add("browser");
 
-        this.navigationManager = new SimpleObjectProperty<NavigationManager>();
-        this.navigationManager.addListener(new ChangeListener<NavigationManager>()
-        {
-            public void changed(ObservableValue<? extends NavigationManager> source,
-                                NavigationManager oldNavigationManager,
-                                NavigationManager newNavigationManager)
+        this.navigationManager = new SimpleObjectProperty<>();
+        this.navigationManager.addListener((source, oldNavigationManager, newNavigationManager) -> {
+            contentPageActivity.currentPlaceProperty().unbind();
+            if (newNavigationManager != null)
             {
-                contentPageActivity.currentPlaceProperty().unbind();
-                if (newNavigationManager != null)
-                {
-                    contentPageActivity.currentPlaceProperty().bind(newNavigationManager.currentPlaceProperty());
-                }
+                contentPageActivity.currentPlaceProperty().bind(newNavigationManager.currentPlaceProperty());
             }
         });
 
-        this.header = new SimpleObjectProperty<Node>();
+        this.header = new SimpleObjectProperty<>();
         this.header.set(new DefaultBrowserHeader(this, title));
 
         this.contentPageActivity = new ParentActivity(transitionFactory);
@@ -175,28 +169,24 @@ public class Browser extends StackPane implements DialogOwner
         this.contentPageActivity.getPlaceResolvers().add(new RegexPlaceResolver(
                 DefaultErrorHandler.ERROR_PLACE_NAME, new DefaultErrorActivity()));
 
-        this.footer = new SimpleObjectProperty<Node>();
+        this.footer = new SimpleObjectProperty<>();
 
         getChildren().add(buildView());
 
         // dialog glass pane
 
         this.dialogs = FXCollections.observableArrayList();
-        this.dialogGlassPane = new SimpleObjectProperty<Node>();
-        this.dialogGlassPane.addListener(new ChangeListener<Node>()
-        {
-            public void changed(ObservableValue<? extends Node> source, Node oldGlassPane, Node newGlassPane)
+        this.dialogGlassPane = new SimpleObjectProperty<>();
+        this.dialogGlassPane.addListener((source, oldGlassPane, newGlassPane) -> {
+            if (oldGlassPane != null)
             {
-                if (oldGlassPane != null)
-                {
-                    getChildren().remove(oldGlassPane);
-                    oldGlassPane.visibleProperty().unbind();
-                }
-                if (newGlassPane != null)
-                {
-                    newGlassPane.visibleProperty().bind(new ListSizeBinding(dialogs, 0).not());
-                    getChildren().add(newGlassPane);
-                }
+                getChildren().remove(oldGlassPane);
+                oldGlassPane.visibleProperty().unbind();
+            }
+            if (newGlassPane != null)
+            {
+                newGlassPane.visibleProperty().bind(new ListSizeBinding(dialogs, 0).not());
+                getChildren().add(newGlassPane);
             }
         });
         
@@ -207,23 +197,19 @@ public class Browser extends StackPane implements DialogOwner
 
         // busy glass pane
 
-        this.busyGlassPane = new SimpleObjectProperty<Node>();
-        this.busyGlassPane.addListener(new ChangeListener<Node>()
-        {
-            public void changed(ObservableValue<? extends Node> source, Node oldGlassPane, Node newGlassPane)
+        this.busyGlassPane = new SimpleObjectProperty<>();
+        this.busyGlassPane.addListener((source, oldGlassPane, newGlassPane) -> {
+            if (oldGlassPane != null)
             {
-                if (oldGlassPane != null)
-                {
-                    getChildren().remove(oldGlassPane);
-                    oldGlassPane.visibleProperty().unbind();
-                }
-                if (newGlassPane != null)
-                {
-                    newGlassPane.visibleProperty().bind(
-                            contentPageActivity.currentTransitionProperty().isNotNull().or(
-                                    new ListSizeBinding(contentPageActivity.getWorkers(), 0).not()));
-                    getChildren().add(newGlassPane);
-                }
+                getChildren().remove(oldGlassPane);
+                oldGlassPane.visibleProperty().unbind();
+            }
+            if (newGlassPane != null)
+            {
+                newGlassPane.visibleProperty().bind(
+                        contentPageActivity.currentTransitionProperty().isNotNull().or(
+                                new ListSizeBinding(contentPageActivity.getWorkers(), 0).not()));
+                getChildren().add(newGlassPane);
             }
         });
         StackPane defaultBusyGlassPane = new StackPane();

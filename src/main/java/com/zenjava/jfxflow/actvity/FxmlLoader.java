@@ -55,9 +55,9 @@ public class FxmlLoader
                 loader.getNamespace().putAll(variables);
             }
 
-            Node rootNode = (Node) loader.load(fxmlStream);
+            Node rootNode = loader.load(fxmlStream);
 
-            Type controller = (Type) loader.getController();
+            Type controller = loader.getController();
             if (controller instanceof InjectedView)
             {
                 View view;

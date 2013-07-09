@@ -52,23 +52,19 @@ public class DefaultTransitionFactory implements TransitionFactory
 
         final ViewTransition finalExit = exit;
         final ViewTransition finalEntry = entry;
-        transition.setOnFinished(new EventHandler<ActionEvent>()
-        {
-            public void handle(ActionEvent event)
+        transition.setOnFinished(event -> {
+            if (fromActivity != null)
             {
-                if (fromActivity != null)
-                {
-                    container.getChildren().remove(fromActivity.getView().toNode());
-                }
+                container.getChildren().remove(fromActivity.getView().toNode());
+            }
 
-                if (finalEntry != null)
-                {
-                    finalEntry.cleanupAfterAnimation();
-                }
-                if (finalExit != null)
-                {
-                    finalExit.cleanupAfterAnimation();
-                }
+            if (finalEntry != null)
+            {
+                finalEntry.cleanupAfterAnimation();
+            }
+            if (finalExit != null)
+            {
+                finalExit.cleanupAfterAnimation();
             }
         });
 

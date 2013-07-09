@@ -38,16 +38,10 @@ public class Page2Activity extends AbstractActivity<SimpleView<VBox>>
         rootPane.getChildren().add(messageLabel);
 
         Button errorButton = new Button("Make an error");
-        errorButton.setOnAction(new EventHandler<ActionEvent>()
-        {
-            public void handle(ActionEvent event)
-            {
-                makeAnError();
-            }
-        });
+        errorButton.setOnAction(event -> makeAnError());
         rootPane.getChildren().add(errorButton);
 
-        setView(new SimpleView<VBox>(rootPane));
+        setView(new SimpleView<>(rootPane));
     }
 
     protected void activated()

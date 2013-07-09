@@ -18,20 +18,16 @@ public abstract class BackgroundTask<ResultType> extends Task<ResultType>
 
     protected BackgroundTask(ErrorHandler errorHandler)
     {
-        this.errorHandler = new SimpleObjectProperty<ErrorHandler>(errorHandler);
+        this.errorHandler = new SimpleObjectProperty<>(errorHandler);
 
-        stateProperty().addListener(new ChangeListener<State>()
-        {
-            public void changed(ObservableValue<? extends State> source, State oldState, State newState)
+        stateProperty().addListener((source, oldState, newState) -> {
+            if (newState.equals(State.SUCCEEDED))
             {
-                if (newState.equals(State.SUCCEEDED))
-                {
-                    onSuccess(getValue());
-                }
-                else if (newState.equals(State.FAILED))
-                {
-                    onError(getException());
-                }
+                onSuccess(getValue());
+            }
+            else if (newState.equals(State.FAILED))
+            {
+                onError(getException());
             }
         });
     }

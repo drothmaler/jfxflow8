@@ -35,12 +35,12 @@ public class ParentActivity<ViewType extends ParentView>
 
     public ParentActivity(TransitionFactory transitionFactory)
     {
-        this.currentPlace = new SimpleObjectProperty<Place>();
+        this.currentPlace = new SimpleObjectProperty<>();
         this.placeResolvers = FXCollections.observableArrayList();
-        this.currentActivity = new SimpleObjectProperty<Activity>();
-        this.transitionFactory = new SimpleObjectProperty<TransitionFactory>(
+        this.currentActivity = new SimpleObjectProperty<>();
+        this.transitionFactory = new SimpleObjectProperty<>(
                 transitionFactory != null ? transitionFactory : new DefaultTransitionFactory());
-        this.currentTransition = new SimpleObjectProperty<Animation>();
+        this.currentTransition = new SimpleObjectProperty<>();
 
         currentPlace.addListener(new CurrentPlaceListener());
         currentActivity.addListener(new CurrentActivityListener());
@@ -142,7 +142,7 @@ public class ParentActivity<ViewType extends ParentView>
 
         private CurrentActivityListener()
         {
-            this.workerListBinding = new ListBinding<Worker>(getWorkers());
+            this.workerListBinding = new ListBinding<>(getWorkers());
         }
 
         public void changed(ObservableValue<? extends Activity> source, Activity oldActivity, Activity newActivity)

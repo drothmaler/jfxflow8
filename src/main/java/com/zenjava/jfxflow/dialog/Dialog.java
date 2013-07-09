@@ -35,34 +35,24 @@ public class Dialog
 
     public Dialog(String title)
     {
-        this.owner = new ReadOnlyObjectWrapper<DialogOwner>();
+        this.owner = new ReadOnlyObjectWrapper<>();
         this.popup = new Popup();
         this.title = new SimpleStringProperty(title);
-        this.content = new SimpleObjectProperty<Node>();
+        this.content = new SimpleObjectProperty<>();
 
-        this.content.addListener(new ChangeListener<Node>()
-        {
-            public void changed(ObservableValue<? extends Node> source, Node oldNode, Node newNode)
-            {
-                contentArea.setCenter(newNode);
-            }
-        });
+        this.content.addListener((source, oldNode, newNode) -> contentArea.setCenter(newNode));
 
-        this.popup.showingProperty().addListener(new ChangeListener<Boolean>()
-        {
-            public void changed(ObservableValue<? extends Boolean> source, Boolean oldValue, Boolean newValue)
+        this.popup.showingProperty().addListener((source, oldValue, newValue) -> {
+            DialogOwner owner1 = Dialog.this.owner.get();
+            if (owner1 != null)
             {
-                DialogOwner owner = Dialog.this.owner.get();
-                if (owner != null)
+                if (newValue)
                 {
-                    if (newValue)
-                    {
-                        owner.addDialog(Dialog.this);
-                    }
-                    else
-                    {
-                        owner.removeDialog(Dialog.this);
-                    }
+                    owner1.addDialog(Dialog.this);
+                }
+                else
+                {
+                    owner1.removeDialog(Dialog.this);
                 }
             }
         });
@@ -162,13 +152,7 @@ public class Dialog
         closeIcon.getStyleClass().add("close-icon");
         closeButton.setGraphic(closeIcon);
         closeButton.getStyleClass().add("close-button");
-        closeButton.setOnAction(new EventHandler<ActionEvent>()
-        {
-            public void handle(ActionEvent event)
-            {
-                hide();
-            }
-        });
+        closeButton.setOnAction(event -> hide());
         header.setRight(closeButton);
 
         root.setTop(header);
