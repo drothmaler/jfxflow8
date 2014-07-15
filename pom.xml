@@ -32,15 +32,14 @@
         <developerConnection>scm:git:https://github.com/drothmaler/jfxflow8</developerConnection>
         <url>https://github.com/drothmaler/jfxflow8</url>
     </scm>
-
+    
     <dependencies>
 
         <!-- JUnit -->
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.10</version>
+            <version>4.11</version>
             <scope>test</scope>
         </dependency>
 
