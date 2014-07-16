@@ -8,9 +8,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class FxmlLoader
 {
+    private static final Logger LOGGER = Logger.getLogger(FxmlLoader.class.getName());
+
     @SuppressWarnings("unchecked")
     public <Type extends Activity> Type load(String fxmlFile)
             throws FxmlLoadException
@@ -89,8 +93,7 @@ public class FxmlLoader
                 }
                 catch (IOException e)
                 {
-                    System.err.println("WARNING: error closing FXML stream: " + e);
-                    e.printStackTrace(System.err);
+                    LOGGER.log(Level.SEVERE, "WARNING: error closing FXML stream", e);
                 }
             }
         }
