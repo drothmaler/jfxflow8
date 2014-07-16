@@ -1,5 +1,7 @@
 package com.zenjava.jfxflow.navigation;
 
+import com.google.common.truth.Expect;
+import org.junit.Rule;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -8,74 +10,70 @@ import static org.junit.Assert.*;
 
 public class TestDefaultNavigationManager
 {
+
+    @Rule
+    public Expect expect = Expect.create();
+
     @Test
     public void testNavigation()
     {
         DefaultNavigationManager navigationManager = new DefaultNavigationManager();
 
-        assertNull("Current place should start as null", navigationManager.getCurrentPlace());
-        assertTrue("Back history should be empty at start", navigationManager.getBackHistory().size() == 0);
-        assertTrue("Forward history should be empty at start", navigationManager.getForwardHistory().size() == 0);
+        expect.that(navigationManager.getCurrentPlace()).named("Current place at start").isNull();
+        expect.that(navigationManager.getBackHistory()).named("Back history at start").isEmpty();
+        expect.that(navigationManager.getForwardHistory()).named("Forward history at start").isEmpty();
 
         // add place1
 
         Place place1 = new Place("place1");
         navigationManager.goTo(place1);
-        assertEquals("Current place not as expected", place1, navigationManager.getCurrentPlace());
-        assertTrue("Back history should be empty", navigationManager.getBackHistory().size() == 0);
-        assertTrue("Forward history should be empty", navigationManager.getForwardHistory().size() == 0);
+        expect.that(navigationManager.getCurrentPlace()).named("Current place").isEqualTo(place1);
+        expect.that(navigationManager.getBackHistory()).named("Back history").isEmpty();
+        expect.that(navigationManager.getForwardHistory()).named("Forward history").isEmpty();
 
         // add place2
 
         Place place2 = new Place("place2");
         navigationManager.goTo(place2);
-        assertEquals("Current place not as expected", place2, navigationManager.getCurrentPlace());
-        assertEquals("Back history should have a place in it", 1, navigationManager.getBackHistory().size());
-        assertEquals("Back history has incorrect elements", Arrays.asList(place1), navigationManager.getBackHistory());
-        assertTrue("Forward history should be empty", navigationManager.getForwardHistory().size() == 0);
+        expect.that(navigationManager.getCurrentPlace()).named("Current place").isEqualTo(place2);
+        expect.that(navigationManager.getBackHistory()).named("Back history").containsSequence(Arrays.asList(place1));
+        expect.that(navigationManager.getForwardHistory()).named("Forward history").isEmpty();
 
         // add place3
 
         Place place3 = new Place("place3");
         navigationManager.goTo(place3);
-        assertEquals("Current place not as expected", place3, navigationManager.getCurrentPlace());
-        assertEquals("Back history should have 2 places in it", 2, navigationManager.getBackHistory().size());
-        assertEquals("Back history has incorrect elements", Arrays.asList(place1, place2), navigationManager.getBackHistory());
-        assertTrue("Forward history should be empty", navigationManager.getForwardHistory().size() == 0);
+        expect.that(navigationManager.getCurrentPlace()).named("Current place").isEqualTo(place3);
+        expect.that(navigationManager.getBackHistory()).named("Back history").containsSequence(Arrays.asList(place1, place2));
+        expect.that(navigationManager.getForwardHistory()).named("Forward history").isEmpty();
 
         // go back
 
         navigationManager.goBack();
-        assertEquals("Current place not as expected", place2, navigationManager.getCurrentPlace());
-        assertEquals("Back history should have 1 place in it", 1, navigationManager.getBackHistory().size());
-        assertEquals("Back history has incorrect elements", Arrays.asList(place1), navigationManager.getBackHistory());
-        assertEquals("Forward history should have 1 place in it", 1, navigationManager.getForwardHistory().size());
-        assertEquals("Forward history has incorrect elements", Arrays.asList(place3), navigationManager.getForwardHistory());
+        expect.that(navigationManager.getCurrentPlace()).named("Current place").isEqualTo(place2);
+        expect.that(navigationManager.getBackHistory()).named("Back history").containsSequence(Arrays.asList(place1));
+        expect.that(navigationManager.getForwardHistory()).named("Forward history").containsSequence(Arrays.asList(place3));
 
         // go back (again)
 
         navigationManager.goBack();
-        assertEquals("Current place not as expected", place1, navigationManager.getCurrentPlace());
-        assertTrue("Back history should be empty", navigationManager.getBackHistory().size() == 0);
-        assertEquals("Forward history should have 2 places in it", 2, navigationManager.getForwardHistory().size());
-        assertEquals("Forward history has incorrect elements", Arrays.asList(place2, place3), navigationManager.getForwardHistory());
+        expect.that(navigationManager.getCurrentPlace()).named("Current place").isEqualTo(place1);
+        expect.that(navigationManager.getBackHistory()).named("Back history").isEmpty();
+        expect.that(navigationManager.getForwardHistory()).named("Forward history").containsSequence(Arrays.asList(place2, place3));
 
         // go forward
 
         navigationManager.goForward();
-        assertEquals("Current place not as expected", place2, navigationManager.getCurrentPlace());
-        assertEquals("Back history should have 1 places in it", 1, navigationManager.getBackHistory().size());
-        assertEquals("Back history has incorrect elements", Arrays.asList(place1), navigationManager.getBackHistory());
-        assertEquals("Forward history should have 1 place in it", 1, navigationManager.getForwardHistory().size());
-        assertEquals("Forward history has incorrect elements", Arrays.asList(place3), navigationManager.getForwardHistory());
+        expect.that(navigationManager.getCurrentPlace()).named("Current place").isEqualTo(place2);
+        expect.that(navigationManager.getBackHistory()).named("Back history").containsSequence(Arrays.asList(place1));
+        expect.that(navigationManager.getForwardHistory()).named("Forward history").containsSequence(Arrays.asList(place3));
 
         // go forward (again)
 
         navigationManager.goForward();
-        assertEquals("Current place not as expected", place3, navigationManager.getCurrentPlace());
-        assertEquals("Back history should have 2 places in it", 2, navigationManager.getBackHistory().size());
-        assertEquals("Back history has incorrect elements", Arrays.asList(place1, place2), navigationManager.getBackHistory());
-        assertTrue("Forward history should be empty", navigationManager.getForwardHistory().size() == 0);
+        expect.that(navigationManager.getCurrentPlace()).named("Current place").isEqualTo(place3);
+        expect.that(navigationManager.getBackHistory()).named("Back history").containsSequence(Arrays.asList(place1, place2));
+        expect.that(navigationManager.getForwardHistory()).named("Forward history").isEmpty();
 
         // go back x 2 and then go to a new place (to check that forward history is cleared)
 
@@ -83,9 +81,8 @@ public class TestDefaultNavigationManager
         navigationManager.goBack();
         navigationManager.goBack();
         navigationManager.goTo(place4);
-        assertEquals("Current place not as expected", place4, navigationManager.getCurrentPlace());
-        assertEquals("Back history should have 1 place in it", 1, navigationManager.getBackHistory().size());
-        assertEquals("Back history has incorrect elements", Arrays.asList(place1), navigationManager.getBackHistory());
-        assertTrue("Forward history should be empty", navigationManager.getForwardHistory().size() == 0);
+        expect.that(navigationManager.getCurrentPlace()).named("Current place").isEqualTo(place4);
+        expect.that(navigationManager.getBackHistory()).named("Back history").containsSequence(Arrays.asList(place1));
+        expect.that(navigationManager.getForwardHistory()).named("Forward history").isEmpty();
     }
 }
