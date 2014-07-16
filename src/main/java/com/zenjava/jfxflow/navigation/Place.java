@@ -8,8 +8,8 @@ import java.util.Map;
 
 public class Place
 {
-    private StringProperty name;
-    private Map<String, Object> parameters;
+    private final StringProperty name;
+    private final Map<String, Object> parameters = new HashMap<>();
 
     public Place(String name)
     {
@@ -19,7 +19,6 @@ public class Place
     public Place(String name, Map<String, Object> parameters)
     {
         this.name = new SimpleStringProperty(name);
-        this.parameters = new HashMap<>();
         if (parameters != null)
         {
             this.parameters.putAll(parameters);

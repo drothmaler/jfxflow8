@@ -11,8 +11,8 @@ import javafx.collections.ObservableList;
  */
 public class ListSizeBinding extends BooleanBinding
 {
-    private ObservableList list;
-    private int size;
+    private final ObservableList list;
+    private final int size;
 
     /**
      * Constructs a binding on the size of the specified list, comparing it to the size specified. When the size of the

@@ -12,7 +12,7 @@ public class TestDefaultNavigationManager
 {
 
     @Rule
-    public Expect expect = Expect.create();
+    public final Expect expect = Expect.create();
 
     @Test
     public void testNavigation()

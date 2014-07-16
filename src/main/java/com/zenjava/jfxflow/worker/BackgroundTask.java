@@ -9,7 +9,7 @@ import javafx.concurrent.Task;
 
 public abstract class BackgroundTask<ResultType> extends Task<ResultType>
 {
-    private ObjectProperty<ErrorHandler> errorHandler;
+    private final ObjectProperty<ErrorHandler> errorHandler;
 
     protected BackgroundTask()
     {

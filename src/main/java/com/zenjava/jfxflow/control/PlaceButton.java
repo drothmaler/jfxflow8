@@ -9,7 +9,7 @@ import javafx.scene.Node;
 // todo use Control + skin
 public class PlaceButton extends NavigationButton
 {
-    private ObjectProperty<Place> place;
+    private final ObjectProperty<Place> place;
 
     public PlaceButton()
     {

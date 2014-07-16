@@ -7,8 +7,8 @@ import javafx.collections.ObservableList;
 
 public class BooleanListBinding extends BooleanBinding
 {
-    private BooleanOperator operator;
-    private ObservableList<ObservableBooleanValue> booleanValues;
+    private final BooleanOperator operator;
+    private final ObservableList<ObservableBooleanValue> booleanValues;
 
     public BooleanListBinding(BooleanOperator operator)
     {

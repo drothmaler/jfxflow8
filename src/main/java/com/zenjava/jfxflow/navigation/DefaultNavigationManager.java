@@ -12,16 +12,9 @@ import javafx.collections.ObservableList;
  */
 public class DefaultNavigationManager implements NavigationManager
 {
-    private ObjectProperty<Place> currentPlace;
-    private ObservableList<Place> backHistory;
-    private ObservableList<Place> forwardHistory;
-
-    public DefaultNavigationManager()
-    {
-        this.currentPlace = new SimpleObjectProperty<>();
-        this.backHistory = FXCollections.observableArrayList();
-        this.forwardHistory = FXCollections.observableArrayList();
-    }
+    private final ObjectProperty<Place> currentPlace = new SimpleObjectProperty<>();
+    private final ObservableList<Place> backHistory = FXCollections.observableArrayList();
+    private final ObservableList<Place> forwardHistory = FXCollections.observableArrayList();
 
     public void goTo(Place place)
     {

@@ -13,9 +13,9 @@ import javafx.scene.layout.StackPane;
 public abstract class AbstractParentActivity<ViewType extends View>
         extends AbstractActivity<ViewType> implements HasTransition
 {
-    private ObjectProperty<Activity> currentActivity;
-    private ObjectProperty<Animation> currentTransition;
-    private ListBinding<Worker> workerListBinding;
+    private final ObjectProperty<Activity> currentActivity;
+    private final ObjectProperty<Animation> currentTransition;
+    private final ListBinding<Worker> workerListBinding;
 
     public AbstractParentActivity()
     {

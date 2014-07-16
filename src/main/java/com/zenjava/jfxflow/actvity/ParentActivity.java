@@ -22,11 +22,11 @@ import javafx.scene.layout.VBox;
 public class ParentActivity<ViewType extends ParentView>
         extends AbstractActivity<ViewType>
 {
-    @Param("place") private ObjectProperty<Place> currentPlace;
-    private ObservableList<PlaceResolver> placeResolvers;
-    private ObjectProperty<Activity> currentActivity;
-    private ObjectProperty<TransitionFactory> transitionFactory;
-    private ObjectProperty<Animation> currentTransition;
+    @Param("place") private final ObjectProperty<Place> currentPlace = new SimpleObjectProperty<>();
+    private final ObservableList<PlaceResolver> placeResolvers = FXCollections.observableArrayList();
+    private final ObjectProperty<Activity> currentActivity = new SimpleObjectProperty<>();
+    private final ObjectProperty<TransitionFactory> transitionFactory;
+    private final ObjectProperty<Animation> currentTransition = new SimpleObjectProperty<>();
 
     public ParentActivity()
     {
@@ -35,12 +35,8 @@ public class ParentActivity<ViewType extends ParentView>
 
     public ParentActivity(TransitionFactory transitionFactory)
     {
-        this.currentPlace = new SimpleObjectProperty<>();
-        this.placeResolvers = FXCollections.observableArrayList();
-        this.currentActivity = new SimpleObjectProperty<>();
         this.transitionFactory = new SimpleObjectProperty<>(
                 transitionFactory != null ? transitionFactory : new DefaultTransitionFactory());
-        this.currentTransition = new SimpleObjectProperty<>();
 
         currentPlace.addListener(new CurrentPlaceListener());
         currentActivity.addListener(new CurrentActivityListener());
@@ -138,7 +134,7 @@ public class ParentActivity<ViewType extends ParentView>
 
     private class CurrentActivityListener implements ChangeListener<Activity>
     {
-        private ListBinding<Worker> workerListBinding;
+        private final ListBinding<Worker> workerListBinding;
 
         private CurrentActivityListener()
         {

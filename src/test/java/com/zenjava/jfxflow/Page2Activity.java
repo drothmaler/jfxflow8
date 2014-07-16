@@ -22,8 +22,8 @@ public class Page2Activity extends AbstractActivity<SimpleView<VBox>>
 {
     @Param private String param1;
 
-    private Label messageLabel;
-    private ErrorHandler errorHandler;
+    private final Label messageLabel;
+    private final ErrorHandler errorHandler;
 
     public Page2Activity(final NavigationManager navigationManager, ErrorHandler errorHandler)
     {

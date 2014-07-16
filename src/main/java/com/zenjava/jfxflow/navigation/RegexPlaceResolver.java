@@ -9,9 +9,9 @@ import java.util.regex.Pattern;
  */
 public class RegexPlaceResolver extends AbstractPlaceResolver
 {
-    private String expression;
-    private Activity activity;
-    private Pattern pattern;
+    private final String expression;
+    private final Activity activity;
+    private final Pattern pattern;
 
     /**
      * Constructs a new mapping between the specified regular expression and the specified Activity.

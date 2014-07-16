@@ -8,8 +8,8 @@ import javafx.util.Duration;
 
 public class FadeInTransition extends AbstractViewTransition
 {
-    private Node targetNode;
-    private Duration duration;
+    private final Node targetNode;
+    private final Duration duration;
 
     public FadeInTransition(Node targetNode, Duration duration)
     {

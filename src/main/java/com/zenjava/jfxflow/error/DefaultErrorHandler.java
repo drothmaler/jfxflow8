@@ -10,7 +10,7 @@ public class DefaultErrorHandler implements ErrorHandler
 {
     public static final String ERROR_PLACE_NAME = "error";
 
-    private ObjectProperty<NavigationManager> navigationManager;
+    private final ObjectProperty<NavigationManager> navigationManager;
 
     public DefaultErrorHandler()
     {

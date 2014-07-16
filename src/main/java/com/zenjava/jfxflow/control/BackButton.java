@@ -45,7 +45,6 @@ public class BackButton extends NavigationButton
         this(label, graphic, null);
     }
 
-
     public BackButton(String label, Node graphic, final NavigationManager navigationManager)
     {
         super(label, graphic, navigationManager);

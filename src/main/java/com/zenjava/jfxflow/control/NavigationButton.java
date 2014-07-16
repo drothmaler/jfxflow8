@@ -12,7 +12,7 @@ import javafx.scene.control.Button;
 
 public abstract class NavigationButton extends Button
 {
-    private ObjectProperty<NavigationManager> navigationManager;
+    private final ObjectProperty<NavigationManager> navigationManager;
 
     public NavigationButton()
     {

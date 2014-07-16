@@ -13,10 +13,11 @@ import javafx.concurrent.Worker;
 public abstract class AbstractActivity<ViewType extends View>
         implements InjectedView<ViewType>, Activatable, HasWorkers, Releasable
 {
+    private final BooleanProperty active;
+    private final BooleanProperty released;
+    private final ObservableList<Worker> workers;
+
     private ViewType view;
-    private BooleanProperty active;
-    private BooleanProperty released;
-    private ObservableList<Worker> workers;
 
     protected AbstractActivity()
     {

@@ -22,10 +22,11 @@ public class Dialog
                 Dialog.class.getResource("/styles/jfxflow-dialog.css").toExternalForm());
     }
 
-    private ReadOnlyObjectWrapper<DialogOwner> owner;
-    private Popup popup;
-    private StringProperty title;
-    private ObjectProperty<Node> content;
+    private final ReadOnlyObjectWrapper<DialogOwner> owner = new ReadOnlyObjectWrapper<>();
+    private final Popup popup = new Popup();
+    private final StringProperty title;
+    private final ObjectProperty<Node> content = new SimpleObjectProperty<>();
+
     private BorderPane contentArea;
 
     public Dialog()
@@ -35,10 +36,7 @@ public class Dialog
 
     public Dialog(String title)
     {
-        this.owner = new ReadOnlyObjectWrapper<>();
-        this.popup = new Popup();
         this.title = new SimpleStringProperty(title);
-        this.content = new SimpleObjectProperty<>();
 
         this.content.addListener((source, oldNode, newNode) -> contentArea.setCenter(newNode));
 

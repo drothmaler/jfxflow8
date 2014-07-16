@@ -5,11 +5,10 @@ import javafx.scene.layout.StackPane;
 
 public class SimpleParentView extends BorderPane implements ParentView<BorderPane>
 {
-    private StackPane childArea;
+    private final StackPane childArea = new StackPane();
 
     public SimpleParentView()
     {
-        childArea = new StackPane();
         childArea.getStyleClass().add("child-area");
         setCenter(childArea);
     }

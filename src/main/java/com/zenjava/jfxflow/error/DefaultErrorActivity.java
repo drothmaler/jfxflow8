@@ -27,12 +27,11 @@ public class DefaultErrorActivity extends SimpleActivity
                 DefaultErrorActivity.class.getResource("/styles/jfxflow-error-page.css").toExternalForm());
     }
 
-    @Param private ObjectProperty<Throwable> error;
+    @Param
+    private final ObjectProperty<Throwable> error = new SimpleObjectProperty<>();
 
     public DefaultErrorActivity()
     {
-        this.error = new SimpleObjectProperty<>();
-
         VBox root = new VBox(10);
         root.getStyleClass().add("error-page");
 

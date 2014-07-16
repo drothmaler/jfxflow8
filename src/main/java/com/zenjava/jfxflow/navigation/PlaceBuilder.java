@@ -9,7 +9,7 @@ public class PlaceBuilder implements Builder<Place>
         return new PlaceBuilder();
     }
 
-    private Place place;
+    private final Place place;
 
     public PlaceBuilder()
     {

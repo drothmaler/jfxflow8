@@ -2,6 +2,7 @@ package com.zenjava.jfxflow.control;
 
 import com.sun.javafx.css.StyleManager;
 import com.zenjava.jfxflow.actvity.ParentActivity;
+import com.zenjava.jfxflow.actvity.ParentView;
 import com.zenjava.jfxflow.actvity.SimpleParentView;
 import com.zenjava.jfxflow.dialog.Dialog;
 import com.zenjava.jfxflow.dialog.DialogOwner;
@@ -32,13 +33,14 @@ public class Browser extends StackPane implements DialogOwner
                 Browser.class.getResource("/styles/jfxflow-browser.css").toExternalForm());
     }
 
-    private ObjectProperty<NavigationManager> navigationManager;
-    private ParentActivity contentPageActivity;
-    private ObjectProperty<Node> busyGlassPane;
-    private ObjectProperty<Node> dialogGlassPane;
-    private ObjectProperty<Node> header;
-    private ObjectProperty<Node> footer;
-    private ObservableList<Dialog> dialogs;
+    private final ObjectProperty<NavigationManager> navigationManager = new SimpleObjectProperty<>();
+    private final ObjectProperty<Node> busyGlassPane = new SimpleObjectProperty<>();
+    private final ObjectProperty<Node> dialogGlassPane = new SimpleObjectProperty<>();
+    private final ObjectProperty<Node> header = new SimpleObjectProperty<>();
+    private final ObjectProperty<Node> footer = new SimpleObjectProperty<>();
+    private final ObservableList<Dialog> dialogs = FXCollections.observableArrayList();
+
+    private ParentActivity<ParentView> contentPageActivity;
 
     public Browser()
     {
@@ -150,7 +152,6 @@ public class Browser extends StackPane implements DialogOwner
     {
         getStyleClass().add("browser");
 
-        this.navigationManager = new SimpleObjectProperty<>();
         this.navigationManager.addListener((source, oldNavigationManager, newNavigationManager) -> {
             contentPageActivity.currentPlaceProperty().unbind();
             if (newNavigationManager != null)
@@ -159,24 +160,19 @@ public class Browser extends StackPane implements DialogOwner
             }
         });
 
-        this.header = new SimpleObjectProperty<>();
         this.header.set(new DefaultBrowserHeader(this, title));
 
-        this.contentPageActivity = new ParentActivity(transitionFactory);
+        this.contentPageActivity = new ParentActivity<>(transitionFactory);
         SimpleParentView contentPageView = new SimpleParentView();
         contentPageView.getStyleClass().add("browser-content");
         this.contentPageActivity.setView(contentPageView);
         this.contentPageActivity.getPlaceResolvers().add(new RegexPlaceResolver(
                 DefaultErrorHandler.ERROR_PLACE_NAME, new DefaultErrorActivity()));
 
-        this.footer = new SimpleObjectProperty<>();
-
         getChildren().add(buildView());
 
         // dialog glass pane
 
-        this.dialogs = FXCollections.observableArrayList();
-        this.dialogGlassPane = new SimpleObjectProperty<>();
         this.dialogGlassPane.addListener((source, oldGlassPane, newGlassPane) -> {
             if (oldGlassPane != null)
             {
@@ -197,7 +193,6 @@ public class Browser extends StackPane implements DialogOwner
 
         // busy glass pane
 
-        this.busyGlassPane = new SimpleObjectProperty<>();
         this.busyGlassPane.addListener((source, oldGlassPane, newGlassPane) -> {
             if (oldGlassPane != null)
             {

@@ -12,7 +12,7 @@ import javafx.scene.control.Hyperlink;
 
 public abstract class NavigationHyperlink extends Hyperlink
 {
-    private ObjectProperty<NavigationManager> navigationManager;
+    private final ObjectProperty<NavigationManager> navigationManager;
 
     public NavigationHyperlink()
     {

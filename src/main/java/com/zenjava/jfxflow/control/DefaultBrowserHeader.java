@@ -12,14 +12,14 @@ import javafx.scene.layout.*;
 
 public class DefaultBrowserHeader extends StackPane
 {
-    protected Browser browser;
-    protected BackButton backButton;
-    protected ForwardButton forwardButton;
-    protected Button refreshButton;
-    protected StringProperty title;
-    protected Pane leftDockBar;
-    protected Pane titleBar;
-    protected Pane rightDockBar;
+    protected final Browser browser;
+    protected final BackButton backButton;
+    protected final ForwardButton forwardButton;
+    protected final Button refreshButton;
+    protected final StringProperty title;
+    protected final Pane leftDockBar;
+    protected final Pane titleBar;
+    protected final Pane rightDockBar;
 
     public DefaultBrowserHeader(Browser browser)
     {

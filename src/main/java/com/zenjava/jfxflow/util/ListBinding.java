@@ -6,7 +6,7 @@ import javafx.collections.ObservableList;
 // todo this can be replaced with list binding in JFX 2.1
 public class ListBinding<E> implements ListChangeListener<E>
 {
-    private ObservableList<E> list;
+    private final ObservableList<E> list;
     private ObservableList<E> boundTo;
 
     public ListBinding(ObservableList<E> list)

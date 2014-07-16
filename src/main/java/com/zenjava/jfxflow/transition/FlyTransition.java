@@ -56,12 +56,12 @@ public class FlyTransition extends AbstractViewTransition
                 horizontalEndPosition, verticalEndPosition);
     }
 
-    private Node targetNode;
-    private Duration duration;
-    private HorizontalPosition horizontalStartPosition;
-    private VerticalPosition verticalStartPosition;
-    private HorizontalPosition horizontalEndPosition;
-    private VerticalPosition verticalEndPosition;
+    private final Node targetNode;
+    private final Duration duration;
+    private final HorizontalPosition horizontalStartPosition;
+    private final VerticalPosition verticalStartPosition;
+    private final HorizontalPosition horizontalEndPosition;
+    private final VerticalPosition verticalEndPosition;
 
     private double startY;
     private double startX;
