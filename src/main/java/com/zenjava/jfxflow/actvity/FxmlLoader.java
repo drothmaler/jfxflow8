@@ -3,6 +3,7 @@ package com.zenjava.jfxflow.actvity;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Node;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,6 +15,12 @@ import java.util.logging.Logger;
 public class FxmlLoader
 {
     private static final Logger LOGGER = Logger.getLogger(FxmlLoader.class.getName());
+
+    private Callback<Class<?>, Object> controllerFactory;
+
+    public void setControllerFactory(Callback<Class<?>, Object> controllerFactory) {
+        this.controllerFactory = controllerFactory;
+    }
 
     @SuppressWarnings("unchecked")
     public <Type extends Activity> Type load(String fxmlFile)
@@ -48,6 +55,11 @@ public class FxmlLoader
             loader.setBuilderFactory(new JavaFXBuilderFactory());
 
             loader.setLocation(getClass().getResource(fxmlFile));
+
+            if (this.controllerFactory != null)
+            {
+                loader.setControllerFactory(this.controllerFactory);
+            }
 
             if (resources != null)
             {
