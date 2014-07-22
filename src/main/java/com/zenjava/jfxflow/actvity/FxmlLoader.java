@@ -70,15 +70,9 @@ public class FxmlLoader
             Type controller = loader.getController();
             if (controller instanceof InjectedView)
             {
-                View view;
-                if (rootNode instanceof View)
-                {
-                    ((InjectedView) controller).setView((View) rootNode);
-                }
-                else
-                {
-                    ((InjectedView) controller).setView(new SimpleView(rootNode));
-                }
+                final InjectedView injectedView = (InjectedView) controller;
+                final View view = rootNode instanceof View ? (View) rootNode : new SimpleView(rootNode);
+                injectedView.setView(view);
             }
             return controller;
         }
