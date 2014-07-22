@@ -4,6 +4,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 // todo this can be replaced with list binding in JFX 2.1
+@Deprecated
 public class ListBinding<E> implements ListChangeListener<E>
 {
     private final ObservableList<E> list;
