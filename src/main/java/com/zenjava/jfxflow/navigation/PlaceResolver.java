@@ -7,6 +7,7 @@ import com.zenjava.jfxflow.actvity.Activity;
  * Provides a mapping between a Place and a Node (via the HasNode interface). The exact strategy used for mapping the
  * Place to the Node is up to the implementing class.
  */
+@FunctionalInterface
 public interface PlaceResolver
 {
     /**

@@ -4,6 +4,7 @@ import com.zenjava.jfxflow.actvity.Activity;
 import javafx.animation.Animation;
 import javafx.scene.layout.StackPane;
 
+@FunctionalInterface
 public interface TransitionFactory
 {
     Animation createTransition(StackPane contentArea, Activity fromActivity, Activity toActivity);
