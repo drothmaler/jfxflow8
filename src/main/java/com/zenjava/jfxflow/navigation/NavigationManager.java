@@ -50,7 +50,10 @@ public interface NavigationManager
      *
      * @return the current place.
      */
-    Place getCurrentPlace();
+    default Place getCurrentPlace()
+    {
+        return currentPlaceProperty().get();
+    }
 
     /**
      * Sets the current place to the place specified, overwriting the existing current place. This method is provided
@@ -59,7 +62,10 @@ public interface NavigationManager
      *
      * @param place the new current place.
      */
-    void setCurrentPlace(Place place);
+    default void setCurrentPlace(Place place)
+    {
+        currentPlaceProperty().set(place);
+    }
 
     /**
      * Retrieves the observable property for the current place. This can be used to monitor the current place with

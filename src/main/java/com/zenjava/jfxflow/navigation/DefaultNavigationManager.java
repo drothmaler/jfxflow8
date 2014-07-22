@@ -57,16 +57,6 @@ public class DefaultNavigationManager implements NavigationManager
         }
     }
 
-    public Place getCurrentPlace()
-    {
-        return this.currentPlace.get();
-    }
-
-    public void setCurrentPlace(Place place)
-    {
-        this.currentPlace.set(place);
-    }
-
     public ObjectProperty<Place> currentPlaceProperty()
     {
         return this.currentPlace;

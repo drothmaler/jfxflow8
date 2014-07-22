@@ -7,5 +7,8 @@ public interface HasTransition
 {
     ReadOnlyObjectProperty<Animation> currentTransitionProperty();
 
-    Animation getCurrentTransition();
+    default Animation getCurrentTransition()
+    {
+        return currentTransitionProperty().get();
+    }
 }

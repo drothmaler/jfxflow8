@@ -45,16 +45,6 @@ public abstract class AbstractActivity<ViewType extends View>
         this.view = view;
     }
 
-    public void setActive(boolean active)
-    {
-        this.active.set(active);
-    }
-
-    public boolean isActive()
-    {
-        return this.active.get();
-    }
-
     public BooleanProperty activeProperty()
     {
         return this.active;
@@ -69,11 +59,6 @@ public abstract class AbstractActivity<ViewType extends View>
     public ReadOnlyBooleanProperty releasedProperty()
     {
         return released;
-    }
-
-    public boolean isReleased()
-    {
-        return released.get();
     }
 
     public ObservableList<Worker> getWorkers()

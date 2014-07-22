@@ -8,5 +8,8 @@ public interface Releasable
 
     ReadOnlyBooleanProperty releasedProperty();
 
-    boolean isReleased();
+    default boolean isReleased()
+    {
+        return releasedProperty().get();
+    }
 }

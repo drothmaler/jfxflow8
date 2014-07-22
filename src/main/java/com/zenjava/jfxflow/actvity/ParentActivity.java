@@ -20,7 +20,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
 public class ParentActivity<ViewType extends ParentView>
-        extends AbstractActivity<ViewType>
+        extends AbstractActivity<ViewType> implements HasTransition
 {
     @Param("place") private final ObjectProperty<Place> currentPlace = new SimpleObjectProperty<>();
     private final ObservableList<PlaceResolver> placeResolvers = FXCollections.observableArrayList();
@@ -80,11 +80,6 @@ public class ParentActivity<ViewType extends ParentView>
     public ReadOnlyObjectProperty<Animation> currentTransitionProperty()
     {
         return currentTransition;
-    }
-
-    public Animation getCurrentTransition()
-    {
-        return currentTransition.get();
     }
 
     protected Activity createUnsupportedPlaceActivity(Place place)

@@ -39,11 +39,6 @@ public abstract class AbstractParentActivity<ViewType extends View>
         return currentTransition;
     }
 
-    public Animation getCurrentTransition()
-    {
-        return currentTransition.get();
-    }
-
     public void showActivity(Activity newActivity, Animation transition)
     {
         workerListBinding.unbind();
