@@ -6,8 +6,6 @@ import com.zenjava.jfxflow.actvity.SimpleActivity;
 import com.zenjava.jfxflow.actvity.SimpleView;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;

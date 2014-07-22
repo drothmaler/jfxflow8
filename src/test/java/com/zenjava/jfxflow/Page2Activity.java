@@ -9,8 +9,6 @@ import com.zenjava.jfxflow.navigation.NavigationManager;
 import com.zenjava.jfxflow.navigation.Place;
 import com.zenjava.jfxflow.transition.*;
 import com.zenjava.jfxflow.worker.BackgroundTask;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

@@ -2,10 +2,6 @@ package com.zenjava.jfxflow.dialog;
 
 import com.sun.javafx.css.StyleManager;
 import javafx.beans.property.*;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

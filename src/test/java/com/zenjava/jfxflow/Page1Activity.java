@@ -7,8 +7,6 @@ import com.zenjava.jfxflow.dialog.Dialog;
 import com.zenjava.jfxflow.navigation.NavigationManager;
 import com.zenjava.jfxflow.navigation.Place;
 import com.zenjava.jfxflow.navigation.PlaceBuilder;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

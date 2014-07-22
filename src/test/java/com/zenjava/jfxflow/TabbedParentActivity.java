@@ -12,8 +12,6 @@ import com.zenjava.jfxflow.transition.HorizontalPosition;
 import com.zenjava.jfxflow.transition.ViewTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.Transition;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
