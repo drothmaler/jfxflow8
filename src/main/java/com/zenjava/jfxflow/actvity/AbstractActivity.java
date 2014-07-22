@@ -1,10 +1,6 @@
 package com.zenjava.jfxflow.actvity;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.ReadOnlyBooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.beans.property.*;
 import javafx.concurrent.Task;
 import javafx.concurrent.Worker;
 
@@ -13,7 +9,7 @@ public abstract class AbstractActivity<ViewType extends View>
 {
     private final BooleanProperty active;
     private final BooleanProperty released;
-    private final ObservableList<Worker> workers;
+    private final ListProperty<Worker> workers;
 
     private ViewType view;
 
@@ -32,7 +28,7 @@ public abstract class AbstractActivity<ViewType extends View>
             }
         });
 
-        this.workers = FXCollections.observableArrayList();
+        this.workers = new SimpleListProperty<>();
     }
 
     @Override
@@ -67,7 +63,7 @@ public abstract class AbstractActivity<ViewType extends View>
     }
 
     @Override
-    public ObservableList<Worker> getWorkers()
+    public ListProperty<Worker> workersProperty()
     {
         return workers;
     }

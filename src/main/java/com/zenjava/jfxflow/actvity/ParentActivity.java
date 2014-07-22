@@ -4,7 +4,6 @@ import com.zenjava.jfxflow.navigation.Place;
 import com.zenjava.jfxflow.navigation.PlaceResolver;
 import com.zenjava.jfxflow.transition.DefaultTransitionFactory;
 import com.zenjava.jfxflow.transition.TransitionFactory;
-import com.zenjava.jfxflow.util.ListBinding;
 import javafx.animation.Animation;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
@@ -13,7 +12,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
@@ -131,17 +129,13 @@ public class ParentActivity<ViewType extends ParentView>
 
     private class CurrentActivityListener implements ChangeListener<Activity>
     {
-        private final ListBinding<Worker> workerListBinding;
-
-        private CurrentActivityListener()
-        {
-            this.workerListBinding = new ListBinding<>(getWorkers());
+        private CurrentActivityListener() {
         }
 
         @Override
         public void changed(ObservableValue<? extends Activity> source, Activity oldActivity, Activity newActivity)
         {
-            workerListBinding.unbind();
+            workersProperty().unbind();
             if (oldActivity instanceof Activatable)
             {
                 ((Activatable) oldActivity).activeProperty().unbind();
@@ -150,7 +144,7 @@ public class ParentActivity<ViewType extends ParentView>
 
             if (newActivity instanceof HasWorkers)
             {
-                workerListBinding.bind(((HasWorkers) newActivity).getWorkers());
+                workersProperty().bind(((HasWorkers) newActivity).workersProperty());
             }
             if (newActivity instanceof Activatable)
             {

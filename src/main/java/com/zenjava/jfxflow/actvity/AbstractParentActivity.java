@@ -1,11 +1,9 @@
 package com.zenjava.jfxflow.actvity;
 
-import com.zenjava.jfxflow.util.ListBinding;
 import javafx.animation.Animation;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.layout.StackPane;
@@ -15,13 +13,11 @@ public abstract class AbstractParentActivity<ViewType extends View>
 {
     private final ObjectProperty<Activity> currentActivity;
     private final ObjectProperty<Animation> currentTransition;
-    private final ListBinding<Worker> workerListBinding;
 
     public AbstractParentActivity()
     {
         this.currentActivity = new SimpleObjectProperty<>();
         this.currentTransition = new SimpleObjectProperty<>();
-        this.workerListBinding = new ListBinding<>(getWorkers());
     }
 
     public Activity getCurrentActivity()
@@ -42,7 +38,7 @@ public abstract class AbstractParentActivity<ViewType extends View>
 
     public void showActivity(Activity newActivity, Animation transition)
     {
-        workerListBinding.unbind();
+        workersProperty().unbind();
         final Activity oldActivity = currentActivity.get();
         if (oldActivity instanceof Activatable)
         {
@@ -54,7 +50,7 @@ public abstract class AbstractParentActivity<ViewType extends View>
 
         if (newActivity instanceof HasWorkers)
         {
-            workerListBinding.bind(((HasWorkers) newActivity).getWorkers());
+            workersProperty().bind(((HasWorkers) newActivity).workersProperty());
         }
         if (newActivity instanceof Activatable)
         {
