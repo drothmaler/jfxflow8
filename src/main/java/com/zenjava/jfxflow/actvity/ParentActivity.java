@@ -77,6 +77,7 @@ public class ParentActivity<ViewType extends ParentView>
         this.transitionFactory.set(transitionFactory);
     }
 
+    @Override
     public ReadOnlyObjectProperty<Animation> currentTransitionProperty()
     {
         return currentTransition;
@@ -104,6 +105,7 @@ public class ParentActivity<ViewType extends ParentView>
 
     private class CurrentPlaceListener implements ChangeListener<Place>
     {
+        @Override
         public void changed(ObservableValue<? extends Place> source, Place oldPlace, Place newPlace)
         {
             if (newPlace != null)
@@ -136,6 +138,7 @@ public class ParentActivity<ViewType extends ParentView>
             this.workerListBinding = new ListBinding<>(getWorkers());
         }
 
+        @Override
         public void changed(ObservableValue<? extends Activity> source, Activity oldActivity, Activity newActivity)
         {
             workerListBinding.unbind();
@@ -161,6 +164,7 @@ public class ParentActivity<ViewType extends ParentView>
             final EventHandler<ActionEvent> originalOnFinished = transition.getOnFinished();
             transition.setOnFinished(new EventHandler<ActionEvent>()
             {
+                @Override
                 public void handle(ActionEvent event)
                 {
                     if (originalOnFinished != null)

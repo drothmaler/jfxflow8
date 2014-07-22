@@ -16,6 +16,7 @@ public class FadeOutTransition extends AbstractViewTransition
         this.duration = duration;
     }
 
+    @Override
     public Animation getAnimation()
     {
         FadeTransition fadeOut = new FadeTransition(duration, targetNode);
@@ -24,6 +25,7 @@ public class FadeOutTransition extends AbstractViewTransition
         return fadeOut;
     }
 
+    @Override
     public void cleanupAfterAnimation()
     {
         targetNode.setOpacity(1);

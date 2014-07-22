@@ -73,16 +73,19 @@ public class TabbedParentActivity extends ParentActivity<SimpleParentView>
 
     private class SwipingTransitionFactory extends DefaultTransitionFactory
     {
+        @Override
         protected Transition createMainTransition(Activity fromActivity, Activity toActivity)
         {
             return new ParallelTransition();
         }
 
+        @Override
         protected ViewTransition getDefaultEntryTransition(Node node)
         {
             return FlyTransition.createFlyIn(node, Duration.millis(300), HorizontalPosition.right);
         }
 
+        @Override
         protected ViewTransition getDefaultExitTransition(Node node)
         {
             return FlyTransition.createFlyOut(node, Duration.millis(300), HorizontalPosition.left);

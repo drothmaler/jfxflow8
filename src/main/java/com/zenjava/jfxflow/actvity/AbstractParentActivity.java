@@ -34,6 +34,7 @@ public abstract class AbstractParentActivity<ViewType extends View>
         return this.currentActivity;
     }
 
+    @Override
     public ReadOnlyObjectProperty<Animation> currentTransitionProperty()
     {
         return currentTransition;
@@ -65,6 +66,7 @@ public abstract class AbstractParentActivity<ViewType extends View>
             final EventHandler<ActionEvent> originalOnFinished = transition.getOnFinished();
             transition.setOnFinished(new EventHandler<ActionEvent>()
             {
+                @Override
                 public void handle(ActionEvent event)
                 {
                     if (originalOnFinished != null)

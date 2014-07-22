@@ -83,6 +83,7 @@ public class FlyTransition extends AbstractViewTransition
         this.verticalEndPosition = verticalEndPosition;
     }
 
+    @Override
     public void setupBeforeAnimation(Bounds bounds)
     {
         startX = getX(bounds, horizontalStartPosition);
@@ -93,6 +94,7 @@ public class FlyTransition extends AbstractViewTransition
         targetNode.setTranslateY(startY);
     }
 
+    @Override
     public Animation getAnimation()
     {
         TranslateTransition translation = new TranslateTransition(duration, targetNode);
@@ -103,6 +105,7 @@ public class FlyTransition extends AbstractViewTransition
         return translation;
     }
 
+    @Override
     public void cleanupAfterAnimation()
     {
         targetNode.setTranslateX(0);

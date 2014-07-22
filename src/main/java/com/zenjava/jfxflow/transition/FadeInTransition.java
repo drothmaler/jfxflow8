@@ -17,11 +17,13 @@ public class FadeInTransition extends AbstractViewTransition
         this.duration = duration;
     }
 
+    @Override
     public void setupBeforeAnimation(Bounds bounds)
     {
         targetNode.setOpacity(0);
     }
 
+    @Override
     public Animation getAnimation()
     {
         FadeTransition fadeIn = new FadeTransition(duration, targetNode);

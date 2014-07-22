@@ -42,17 +42,20 @@ public class Page2Activity extends AbstractActivity<SimpleView<VBox>>
         setView(new SimpleView<>(rootPane));
     }
 
+    @Override
     protected void activated()
     {
         messageLabel.setText("Loading...");
         executeTask(new BackgroundTask<String>(errorHandler)
         {
+            @Override
             protected String call() throws Exception
             {
                 Thread.sleep(1500);
                 return "Fully loaded";
             }
 
+            @Override
             protected void onSuccess(String message)
             {
                 messageLabel.setText(message + " (param1 = " + param1 + ")");
@@ -64,6 +67,7 @@ public class Page2Activity extends AbstractActivity<SimpleView<VBox>>
     {
         executeTask(new BackgroundTask<String>(errorHandler)
         {
+            @Override
             protected String call() throws Exception
             {
                 throw new RuntimeException("A test error");
@@ -71,16 +75,19 @@ public class Page2Activity extends AbstractActivity<SimpleView<VBox>>
         });
     }
 
+    @Override
     public boolean isSequentialTransition()
     {
         return true;
     }
 
+    @Override
     public ViewTransition getEntryTransition()
     {
         return FlyTransition.createFlyIn(getView().toNode(), Duration.millis(1000), VerticalPosition.top);
     }
 
+    @Override
     public ViewTransition getExitTransition()
     {
         return FlyTransition.createFlyOut(getView().toNode(), Duration.millis(1000), VerticalPosition.top);

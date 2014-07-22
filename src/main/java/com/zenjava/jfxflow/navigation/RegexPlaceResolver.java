@@ -36,6 +36,7 @@ public class RegexPlaceResolver extends AbstractPlaceResolver
      * @return the activity for this resolver if the name of the specified Place is matched by this mappings regular
      * expression.
      */
+    @Override
     public Activity findActivity(Place place)
     {
         return pattern.matcher(place.getName()).matches() ? activity : null;

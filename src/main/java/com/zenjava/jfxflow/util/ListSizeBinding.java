@@ -34,6 +34,7 @@ public class ListSizeBinding extends BooleanBinding
      *
      * @return true if the current size of the bound-to list equals the target size for this binding, false otherwise.
      */
+    @Override
     protected boolean computeValue()
     {
         return list.size() == size;

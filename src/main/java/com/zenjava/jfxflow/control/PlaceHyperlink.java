@@ -103,6 +103,7 @@ public class PlaceHyperlink extends NavigationHyperlink
         this.place.set(place);
     }
 
+    @Override
     protected void doAction()
     {
         getNavigationManager().goTo(place.get());

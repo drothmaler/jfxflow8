@@ -51,6 +51,7 @@ public class BackButton extends NavigationButton
         getStyleClass().add("back-button");
     }
 
+    @Override
     protected void navigationManagerUpdated(NavigationManager oldNavigationManager, NavigationManager newNavigationManager)
     {
         disableProperty().unbind();
@@ -60,6 +61,7 @@ public class BackButton extends NavigationButton
         }
     }
 
+    @Override
     protected void doAction()
     {
         getNavigationManager().goBack();

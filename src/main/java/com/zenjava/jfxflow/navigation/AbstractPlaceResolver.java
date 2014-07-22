@@ -9,6 +9,7 @@ import java.lang.reflect.Field;
 
 public abstract class AbstractPlaceResolver implements PlaceResolver
 {
+    @Override
     public Activity resolvePlace(Place place)
     {
         Activity activity = findActivity(place);

@@ -35,32 +35,38 @@ public abstract class AbstractActivity<ViewType extends View>
         this.workers = FXCollections.observableArrayList();
     }
 
+    @Override
     public ViewType getView()
     {
         return view;
     }
 
+    @Override
     public void setView(ViewType view)
     {
         this.view = view;
     }
 
+    @Override
     public BooleanProperty activeProperty()
     {
         return this.active;
     }
 
+    @Override
     public void release()
     {
         setActive(false);
         released.set(true);
     }
 
+    @Override
     public ReadOnlyBooleanProperty releasedProperty()
     {
         return released;
     }
 
+    @Override
     public ObservableList<Worker> getWorkers()
     {
         return workers;

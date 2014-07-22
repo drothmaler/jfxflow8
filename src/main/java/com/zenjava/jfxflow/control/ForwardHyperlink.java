@@ -48,6 +48,7 @@ public class ForwardHyperlink extends NavigationHyperlink
         getStyleClass().add("forward-hyperlink");
     }
 
+    @Override
     protected void navigationManagerUpdated(NavigationManager oldNavigationManager, NavigationManager newNavigationManager)
     {
         disableProperty().unbind();
@@ -57,6 +58,7 @@ public class ForwardHyperlink extends NavigationHyperlink
         }
     }
 
+    @Override
     protected void doAction()
     {
         getNavigationManager().goForward();

@@ -103,6 +103,7 @@ public class PlaceButton extends NavigationButton
         this.place.set(place);
     }
 
+    @Override
     protected void doAction()
     {
         getNavigationManager().goTo(place.get());

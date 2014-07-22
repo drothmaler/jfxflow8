@@ -16,6 +16,7 @@ public class DefaultNavigationManager implements NavigationManager
     private final ObservableList<Place> backHistory = FXCollections.observableArrayList();
     private final ObservableList<Place> forwardHistory = FXCollections.observableArrayList();
 
+    @Override
     public void goTo(Place place)
     {
         this.forwardHistory.clear();
@@ -27,6 +28,7 @@ public class DefaultNavigationManager implements NavigationManager
         this.currentPlace.set(place);
     }
 
+    @Override
     public void goBack()
     {
         if (backHistory.size() > 0)
@@ -42,6 +44,7 @@ public class DefaultNavigationManager implements NavigationManager
         }
     }
 
+    @Override
     public void goForward()
     {
         if (forwardHistory.size() > 0)
@@ -57,16 +60,19 @@ public class DefaultNavigationManager implements NavigationManager
         }
     }
 
+    @Override
     public ObjectProperty<Place> currentPlaceProperty()
     {
         return this.currentPlace;
     }
 
+    @Override
     public ObservableList<Place> getBackHistory()
     {
         return this.backHistory;
     }
 
+    @Override
     public ObservableList<Place> getForwardHistory()
     {
         return this.forwardHistory;

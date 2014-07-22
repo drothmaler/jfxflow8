@@ -11,6 +11,7 @@ import javafx.util.Duration;
 
 public class DefaultTransitionFactory implements TransitionFactory
 {
+    @Override
     public Animation createTransition(final StackPane container,
                                       final Activity fromActivity,
                                       Activity toActivity)

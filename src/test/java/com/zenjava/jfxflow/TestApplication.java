@@ -20,6 +20,7 @@ public class TestApplication extends Application
         Application.launch(TestApplication.class, args);
     }
 
+    @Override
     public void start(Stage stage) throws Exception
     {
         Browser browser = new Browser();

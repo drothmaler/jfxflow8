@@ -14,6 +14,7 @@ public class ListBinding<E> implements ListChangeListener<E>
         this.list = list;
     }
 
+    @Override
     public void onChanged(Change<? extends E> change)
     {
         list.setAll(boundTo);

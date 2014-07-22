@@ -11,6 +11,7 @@ public class SimpleView<NodeType extends Node> implements View<NodeType>
         this.node = node;
     }
 
+    @Override
     public NodeType toNode()
     {
         return node;

@@ -126,11 +126,13 @@ public class Browser extends StackPane implements DialogOwner
         contentPageActivity.setActive(true);
     }
 
+    @Override
     public void addDialog(Dialog dialog)
     {
         dialogs.add(dialog);
     }
 
+    @Override
     public void removeDialog(Dialog dialog)
     {
         dialogs.remove(dialog);

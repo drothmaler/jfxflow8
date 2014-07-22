@@ -52,6 +52,7 @@ public class BackHyperlink extends NavigationHyperlink
         getStyleClass().add("back-hyperlink");
     }
 
+    @Override
     protected void navigationManagerUpdated(NavigationManager oldNavigationManager, NavigationManager newNavigationManager)
     {
         disableProperty().unbind();
@@ -61,6 +62,7 @@ public class BackHyperlink extends NavigationHyperlink
         }
     }
 
+    @Override
     protected void doAction()
     {
         getNavigationManager().goBack();

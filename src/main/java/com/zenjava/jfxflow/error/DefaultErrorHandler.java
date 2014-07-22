@@ -37,6 +37,7 @@ public class DefaultErrorHandler implements ErrorHandler
         this.navigationManager.set(navigationManager);
     }
 
+    @Override
     public void handleError(Throwable error)
     {
         NavigationManager navigationManager = this.navigationManager.get();

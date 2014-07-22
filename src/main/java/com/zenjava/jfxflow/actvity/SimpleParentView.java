@@ -13,11 +13,13 @@ public class SimpleParentView extends BorderPane implements ParentView<BorderPan
         setCenter(childArea);
     }
 
+    @Override
     public BorderPane toNode()
     {
         return this;
     }
 
+    @Override
     public StackPane getChildArea()
     {
         return childArea;

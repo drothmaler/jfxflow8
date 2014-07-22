@@ -22,6 +22,7 @@ public class BooleanListBinding extends BooleanBinding
         return booleanValues;
     }
 
+    @Override
     protected boolean computeValue()
     {
         switch (operator)

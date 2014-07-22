@@ -48,6 +48,7 @@ public class ForwardButton extends NavigationButton
         getStyleClass().add("forward-button");
     }
 
+    @Override
     protected void navigationManagerUpdated(NavigationManager oldNavigationManager, NavigationManager newNavigationManager)
     {
         disableProperty().unbind();
@@ -57,6 +58,7 @@ public class ForwardButton extends NavigationButton
         }
     }
 
+    @Override
     protected void doAction()
     {
         getNavigationManager().goForward();
