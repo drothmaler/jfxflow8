@@ -5,16 +5,12 @@ import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Node;
 import javafx.util.Callback;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class FxmlLoader
 {
-    private static final Logger LOGGER = Logger.getLogger(FxmlLoader.class.getName());
 
     private Callback<Class<?>, Object> controllerFactory;
 
@@ -47,10 +43,8 @@ public class FxmlLoader
     public <Type extends Activity> Type load(String fxmlFile, ResourceBundle resources, Map<String, Object> variables)
             throws FxmlLoadException
     {
-        InputStream fxmlStream = null;
-        try
+        try (InputStream fxmlStream = getClass().getResourceAsStream(fxmlFile))
         {
-            fxmlStream = getClass().getResourceAsStream(fxmlFile);
             FXMLLoader loader = new FXMLLoader();
             loader.setBuilderFactory(new JavaFXBuilderFactory());
 
@@ -94,20 +88,6 @@ public class FxmlLoader
             // so using checked exceptions for this is not necessary.
             throw new FxmlLoadException(String.format(
                     "Unable to load FXML from '%s': %s", fxmlFile, e.getMessage()), e);
-        }
-        finally
-        {
-            if (fxmlStream != null)
-            {
-                try
-                {
-                    fxmlStream.close();
-                }
-                catch (IOException e)
-                {
-                    LOGGER.log(Level.SEVERE, "WARNING: error closing FXML stream", e);
-                }
-            }
         }
     }
 }
