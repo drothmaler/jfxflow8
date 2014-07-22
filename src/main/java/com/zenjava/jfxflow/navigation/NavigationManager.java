@@ -1,5 +1,6 @@
 package com.zenjava.jfxflow.navigation;
 
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.collections.ObservableList;
 
@@ -86,7 +87,12 @@ public interface NavigationManager
      *
      * @return the observable 'back' history list for this navigation manager.
      */
-    ObservableList<Place> getBackHistory();
+    ListProperty<Place> backHistoryProperty();
+
+    default ObservableList<Place> getBackHistory()
+    {
+        return backHistoryProperty().get();
+    }
 
     /**
      * Retrieves the observable 'forward' history list for this navigation manager. This contains all the places that
@@ -98,5 +104,10 @@ public interface NavigationManager
      *
      * @return the observable 'forward' history list for this navigation manager.
      */
-    ObservableList<Place> getForwardHistory();
+    ListProperty<Place> forwardHistoryProperty();
+
+    default ObservableList<Place> getForwardHistory()
+    {
+        return forwardHistoryProperty().get();
+    }
 }

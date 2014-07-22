@@ -1,6 +1,8 @@
 package com.zenjava.jfxflow.navigation;
 
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,8 +15,8 @@ import javafx.collections.ObservableList;
 public class DefaultNavigationManager implements NavigationManager
 {
     private final ObjectProperty<Place> currentPlace = new SimpleObjectProperty<>();
-    private final ObservableList<Place> backHistory = FXCollections.observableArrayList();
-    private final ObservableList<Place> forwardHistory = FXCollections.observableArrayList();
+    private final ListProperty<Place> backHistory = new SimpleListProperty<>(FXCollections.observableArrayList());
+    private final ListProperty<Place> forwardHistory = new SimpleListProperty<>(FXCollections.observableArrayList());
 
     @Override
     public void goTo(Place place)
@@ -67,13 +69,13 @@ public class DefaultNavigationManager implements NavigationManager
     }
 
     @Override
-    public ObservableList<Place> getBackHistory()
+    public ListProperty<Place> backHistoryProperty()
     {
         return this.backHistory;
     }
 
     @Override
-    public ObservableList<Place> getForwardHistory()
+    public ListProperty<Place> forwardHistoryProperty()
     {
         return this.forwardHistory;
     }

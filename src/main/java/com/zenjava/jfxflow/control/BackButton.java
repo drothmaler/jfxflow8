@@ -1,7 +1,6 @@
 package com.zenjava.jfxflow.control;
 
 import com.zenjava.jfxflow.navigation.NavigationManager;
-import com.zenjava.jfxflow.util.ListSizeBinding;
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.Node;
 
@@ -57,7 +56,7 @@ public class BackButton extends NavigationButton
         disableProperty().unbind();
         if (newNavigationManager != null)
         {
-            disableProperty().bind(new ListSizeBinding(newNavigationManager.getBackHistory(), 0));
+            disableProperty().bind(newNavigationManager.backHistoryProperty().emptyProperty());
         }
     }
 

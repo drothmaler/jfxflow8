@@ -1,7 +1,6 @@
 package com.zenjava.jfxflow.control;
 
 import com.zenjava.jfxflow.navigation.NavigationManager;
-import com.zenjava.jfxflow.util.ListSizeBinding;
 import javafx.scene.Node;
 
 // todo use Control + skin
@@ -54,7 +53,7 @@ public class ForwardButton extends NavigationButton
         disableProperty().unbind();
         if (newNavigationManager != null)
         {
-            disableProperty().bind(new ListSizeBinding(newNavigationManager.getForwardHistory(), 0));
+            disableProperty().bind(newNavigationManager.forwardHistoryProperty().emptyProperty());
         }
     }
 

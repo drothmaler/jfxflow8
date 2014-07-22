@@ -13,8 +13,9 @@ import com.zenjava.jfxflow.navigation.NavigationManager;
 import com.zenjava.jfxflow.navigation.PlaceResolver;
 import com.zenjava.jfxflow.navigation.RegexPlaceResolver;
 import com.zenjava.jfxflow.transition.TransitionFactory;
-import com.zenjava.jfxflow.util.ListSizeBinding;
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -36,7 +37,7 @@ public class Browser extends StackPane implements DialogOwner
     private final ObjectProperty<Node> dialogGlassPane = new SimpleObjectProperty<>();
     private final ObjectProperty<Node> header = new SimpleObjectProperty<>();
     private final ObjectProperty<Node> footer = new SimpleObjectProperty<>();
-    private final ObservableList<Dialog> dialogs = FXCollections.observableArrayList();
+    private final ListProperty<Dialog> dialogs = new SimpleListProperty<>(FXCollections.observableArrayList());
 
     private ParentActivity<ParentView> contentPageActivity;
 
@@ -181,7 +182,7 @@ public class Browser extends StackPane implements DialogOwner
             }
             if (newGlassPane != null)
             {
-                newGlassPane.visibleProperty().bind(new ListSizeBinding(dialogs, 0).not());
+                newGlassPane.visibleProperty().bind(dialogs.emptyProperty().not());
                 getChildren().add(newGlassPane);
             }
         });
@@ -203,7 +204,7 @@ public class Browser extends StackPane implements DialogOwner
             {
                 newGlassPane.visibleProperty().bind(
                         contentPageActivity.currentTransitionProperty().isNotNull().or(
-                                new ListSizeBinding(contentPageActivity.getWorkers(), 0).not()));
+                                contentPageActivity.workersProperty().emptyProperty().not()));
                 getChildren().add(newGlassPane);
             }
         });
